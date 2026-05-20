@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 화투 카드 아트 스타일 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 화투 카드 아트 스타일 가이드</h1>
+<blockquote>
+<p><a href="02-asset-spec.md">02-asset-spec.md</a> §1 의 화투 40장 작업을 위한 상세 스타일 가이드. 톤·색·필치·식물 묘사 디테일.</p>
+</blockquote>
+<hr>
+<h2>0. 작업 전제</h2>
+<h3>0-1. 화투 = 한국화 (韓國畵)</h3>
+<p>본 게임의 화투는 <strong>한국식</strong>. 일본 하나후다 (花札) 와 구분 필요:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>일본 하나후다</th>
+<th><strong>K-Sutda 화투 (한국식)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>색감</td>
+<td>채도 높음, 강한 원색</td>
+<td>차분, 한지·먹·금 위주</td>
+</tr>
+<tr>
+<td>필치</td>
+<td>평면적, 그래픽</td>
+<td>한국 전통 민화 + 모던</td>
+</tr>
+<tr>
+<td>식물 묘사</td>
+<td>일본식 (벚꽃 작고 가늘)</td>
+<td>한국식 (송학 굵직, 단풍 풍성)</td>
+</tr>
+<tr>
+<td>인물·동물</td>
+<td>일본식 학·사슴 (가는 라인)</td>
+<td>한국 토착 학·사슴 (단단함)</td>
+</tr>
+</tbody></table>
+<p><strong>참고 자료</strong>: 단청, 책가도, 화조도, 조선 민화</p>
+<h3>0-2. 게임 내 카드 크기</h3>
+<ul>
+<li>화면 표시: <strong>220 × 320 px</strong> (모바일 ×2 retina 440×640)</li>
+<li>실제 그릴 때: <strong>600 × 900 px</strong> 권장 (다운스케일이 더 깔끔)</li>
+<li>안전 영역: 가장자리 <strong>12px margin</strong> (잘림 방지)</li>
+</ul>
+<h3>0-3. UI 통합 영역</h3>
+<pre><code>┌──────────────────┐
+│ 1월              │ ← 좌상단: 월 숫자 (12px, 흰색 글자, 자동 overlay)
+│                  │
+│      ┌─┐         │
+│      │ │         │
+│  메인 일러스트   │ ← 중앙: 식물·동물 일러스트 (이 영역에 집중)
+│      │ │         │
+│      └─┘         │
+│              광  │ ← 우하단: type 한글 (12px, 자동 overlay)
+└──────────────────┘
+</code></pre>
+<p>→ 좌상단 / 우하단 영역은 비워두거나 옅게 처리. UI 가 자동 overlay.</p>
+<hr>
+<h2>1. 컬러 팔레트 (월별)</h2>
+<p>각 월의 식물 + 계절감을 반영한 핵심 색. 카드 상단의 액센트 바 색으로 사용 (<code>Card.gd._draw_front</code> 의 accent_color).</p>
+<table>
+<thead>
+<tr>
+<th>월</th>
+<th>식물</th>
+<th>액센트 색 (HEX)</th>
+<th>분위기</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1월</td>
+<td>송학 (소나무·학)</td>
+<td>#2E6B47 짙은 솔잎 녹</td>
+<td>새해, 정월</td>
+</tr>
+<tr>
+<td>2월</td>
+<td>매조 (매화)</td>
+<td>#C72E4F 매화 핑크</td>
+<td>이른 봄</td>
+</tr>
+<tr>
+<td>3월</td>
+<td>벚꽃</td>
+<td>#F2A6BD 벚꽃 분홍</td>
+<td>봄</td>
+</tr>
+<tr>
+<td>4월</td>
+<td>흑싸리 (꾀꼬리)</td>
+<td>#2E3E5C 짙은 청남</td>
+<td>새벽</td>
+</tr>
+<tr>
+<td>5월</td>
+<td>난초</td>
+<td>#F5E68A 연한 노랑</td>
+<td>늦봄</td>
+</tr>
+<tr>
+<td>6월</td>
+<td>모란·나비</td>
+<td>#9C2E5C 진홍 모란</td>
+<td>여름</td>
+</tr>
+<tr>
+<td>7월</td>
+<td>홍싸리·멧돼지</td>
+<td>#B5462E 붉은 황토</td>
+<td>한여름</td>
+</tr>
+<tr>
+<td>8월</td>
+<td>공산·달·기러기</td>
+<td>#2E3556 짙은 밤색</td>
+<td>가을 보름</td>
+</tr>
+<tr>
+<td>9월</td>
+<td>국화</td>
+<td>#E8A52E 황금 국화</td>
+<td>가을</td>
+</tr>
+<tr>
+<td>10월</td>
+<td>단풍·사슴</td>
+<td>#A03A1F 단풍 적색</td>
+<td>늦가을</td>
+</tr>
+</tbody></table>
+<p><strong>규칙</strong>:</p>
+<ul>
+<li>액센트 바는 카드 상단 16px 영역</li>
+<li>하단 16px 는 type 색 (광=금 / 띠=주홍 / 열=청 / 피=회색) — <code>Card.gd._type_color()</code> 참조</li>
+</ul>
+<hr>
+<h2>2. Type 별 디자인 패턴</h2>
+<p>화투는 한 월에 4 type. 각 type 의 의미·시각 다름.</p>
+<h3>2-1. 광 (光) — 총 3장 (1월 / 3월 / 8월)</h3>
+<p><strong>의미</strong>: 최강패. 광땡 (3월광 + 8월광) = jokbo 100.</p>
+<p><strong>디자인 원칙</strong>:</p>
+<ul>
+<li>가장 화려하고 정성스러운 일러스트</li>
+<li><strong>금색 글로우 보더</strong> (<code>is_gwang_special</code> 인 1·3·8월 광은 자동 4px 금색 보더)</li>
+<li>일러스트 자체에도 금색 액센트 (학의 부리, 달, 보름달 광원 등)</li>
+<li>한 마디로 &quot;이 카드만 다른 카드 보다 비주얼적으로 압도적&quot;</li>
+</ul>
+<p><strong>예시 일러스트</strong>:</p>
+<ul>
+<li><strong>1월 송학광</strong>: 푸른 솔잎 + 학 1마리 + 떠오르는 해 (붉은 해 + 금색 광원)</li>
+<li><strong>3월 벚꽃광</strong>: 만개한 벚꽃 + 검은 만막 (장막) + 달</li>
+<li><strong>8월 공산광</strong>: 공산 (검은 산) + 보름달 (큰 금색 원) + 기러기 3마리</li>
+</ul>
+<h3>2-2. 띠 (帶) — 각 월 1장</h3>
+<p><strong>의미</strong>: 중간 가치. 띠 (가로 띠) 가 있는 카드.</p>
+<p><strong>디자인 원칙</strong>:</p>
+<ul>
+<li>메인 일러스트 위에 <strong>붉은 띠 또는 명문 띠</strong> 가로로 깔림</li>
+<li>1·2·3월 띠는 붉은 띠 (홍단), 4월 띠는 청, 등 월별 다름 (한국 화투 규정 참조)</li>
+<li>띠는 정확한 위치 (카드 상단~중단 사이) 가로 폭 80%</li>
+</ul>
+<p><strong>예시</strong>: 2월 매조띠 — 매화 + 새 + 가로 명문 띠</p>
+<h3>2-3. 열 (列) — 각 월 1장</h3>
+<p><strong>의미</strong>: 중간 가치. 동물 또는 특수 객체.</p>
+<p><strong>디자인 원칙</strong>:</p>
+<ul>
+<li>동물 (학·꾀꼬리·나비·기러기·사슴 등) 또는 인물</li>
+<li>한국 토착 동물 표현 (예: 한국 학 — 단정학)</li>
+<li>색상: 동물 위주 + 식물은 배경</li>
+</ul>
+<h3>2-4. 피 (皮) — 각 월 1~2장 (월별 다름)</h3>
+<p><strong>의미</strong>: 가장 흔한 카드. 점수에 큰 기여 없음.</p>
+<p><strong>디자인 원칙</strong>:</p>
+<ul>
+<li>식물만 (동물·띠 없음)</li>
+<li>가장 단순한 일러스트</li>
+<li>같은 월의 다른 type 과 시각 통일성 (식물 묘사 일관)</li>
+</ul>
+<hr>
+<h2>3. 월별 일러스트 상세 가이드</h2>
+<p>각 월의 핵심 비주얼 모티프. 디자이너가 첫 시안 작업 시 참고.</p>
+<h3>1월 — 송학 (松鶴)</h3>
+<pre><code>모티프: 소나무 + 학 + 떠오르는 해
+색감: 짙은 녹 + 흰색 (학) + 붉은 점 (학 머리)
+특징: 굵고 단단한 솔잎 (한국 적송 — 일본 흑송과 다름)
+한국적 디테일: 학은 한국 단정학 — 흰 몸 + 검은 날개 끝
+</code></pre>
+<h3>2월 — 매조 (梅鳥)</h3>
+<pre><code>모티프: 매화 + 매조 (참새 또는 휘파람새)
+색감: 분홍 매화 + 진한 가지 + 회색 새
+특징: 매화 꽃잎은 5장, 끝 둥글게 (일본 매화는 끝이 뾰족)
+</code></pre>
+<h3>3월 — 벚꽃 + 만막</h3>
+<pre><code>모티프: 활짝 핀 벚꽃 + 만막 (검은 막)
+색감: 분홍 (벚꽃) + 짙은 검정 (만막) + 광패는 금색 보름달
+특징: 만막은 일본 사쿠라 막 같은 평면적 처리 ❌ → 한국식 비단 막 (음영 강조)
+광패 강조: 보름달 큰 금색 원 + 광원 글로우
+</code></pre>
+<h3>4월 — 흑싸리 (黑싸리)</h3>
+<pre><code>모티프: 등나무 (검은 가지) + 꾀꼬리
+색감: 짙은 청남 + 노란 꾀꼬리
+특징: 한국 화투에서 4월은 어두운 톤 — 약패의 분위기
+독사 (1월+4월) 공유 → 1월 송학과 시각적 대비 (밝음 vs 어두움)
+</code></pre>
+<h3>5월 — 난초</h3>
+<pre><code>모티프: 난초 + (열 카드에) 다리 / 새
+색감: 연한 노랑 + 회녹색 잎
+특징: 한국 동양란 (잎이 길고 가늘) — 일본 lan 과 비슷하지만 더 단정
+</code></pre>
+<h3>6월 — 모란 + 나비</h3>
+<pre><code>모티프: 활짝 핀 모란 + 나비
+색감: 진홍 모란 + 흰/검 나비
+특징: 모란은 한국 민화의 단골 — 큼직하게, 풍성하게
+</code></pre>
+<h3>7월 — 홍싸리 + 멧돼지</h3>
+<pre><code>모티프: 홍싸리 (붉은 등나무) + 멧돼지
+색감: 붉은 갈색 + 짙은 멧돼지
+특징: 멧돼지는 한국 야생 멧돼지 — 굵고 단단한 체형
+</code></pre>
+<h3>8월 — 공산·달·기러기</h3>
+<pre><code>모티프: 공산 (검은 산 실루엣) + 보름달 + 기러기 3마리
+색감: 짙은 밤 (남청) + 금색 달 + 흰 기러기
+특징: 광패 — 가을밤의 정취. 달이 카드의 중심
+한국적 디테일: 공산은 한국식 비현실적 산 (한국 산수화 톤)
+광패 강조: 달은 카드의 1/3 차지하는 큰 금색 원
+</code></pre>
+<h3>9월 — 국화</h3>
+<pre><code>모티프: 만개한 국화 + (열 카드에) 술잔
+색감: 황금 국화 + 짙은 잎
+특징: 한국 가을 국화 — 풍성한 꽃잎 (일본 키쿠와 다름)
+9땡 + 구삥 공유 카드
+</code></pre>
+<h3>10월 — 단풍·사슴</h3>
+<pre><code>모티프: 단풍나무 + 사슴
+색감: 붉은 단풍 + 갈색 사슴
+특징: 한국 노루·사슴 — 단단한 체격, 황금빛
+장땡 + 장삥 공유 → 핵심 카드 중 하나
+</code></pre>
+<hr>
+<h2>4. 카드 뒷면 디자인</h2>
+<h3>4-1. 현재 코드 (placeholder)</h3>
+<p><code>Card.gd._draw_back</code>:</p>
+<ul>
+<li>짙은 녹색 (#1A4D33) 베이스</li>
+<li>격자 패턴 (10px 간격, 옅은 선)</li>
+<li>중앙 원형 마크 (작은 녹색 원)</li>
+<li>짙은 보더</li>
+</ul>
+<h3>4-2. 디자이너 작업 요청</h3>
+<p><strong>컨셉</strong>: 한국 전통 문양 (구름·매화·학 중 1)</p>
+<p><strong>옵션 A — 구름</strong></p>
+<ul>
+<li>짙은 녹 (#0D2619 BG_INK) 또는 짙은 자주 베이스</li>
+<li>한국 전통 운문 (雲紋) — 단청 책가도의 구름</li>
+<li>중앙에 작은 K-Sutda 로고 (옵션)</li>
+</ul>
+<p><strong>옵션 B — 매화</strong></p>
+<ul>
+<li>짙은 베이스 + 옅은 매화 가지 패턴</li>
+<li>가지는 모서리에서 중앙으로 뻗는 형태</li>
+<li>5장 매화 꽃 — 한국식 둥근 꽃잎</li>
+</ul>
+<p><strong>옵션 C — 학 (단순화)</strong></p>
+<ul>
+<li>짙은 베이스 + 흰 학 실루엣 (중앙 또는 모서리)</li>
+<li>미니멀, 모던 한국풍</li>
+</ul>
+<p><strong>스펙</strong>:</p>
+<ul>
+<li>220×320 px (카드와 동일)</li>
+<li>PNG 단일 파일 (변형 1종)</li>
+<li>광패 보더 (금색 4px) 는 코드가 자동 적용 (뒷면엔 적용 안 됨 — 게임 진행 중 광패 인식 노출 위함)</li>
+</ul>
+<hr>
+<h2>5. 일러스트 톤·필치</h2>
+<h3>5-1. 권장 톤</h3>
+<ul>
+<li><strong>한국 민화 + 약간 모던</strong> 균형</li>
+<li>색감 차분 (한지·먹·자연 색)</li>
+<li>그라데이션 OK (하늘·달 광원 등) 단, 과하지 않게</li>
+<li>라인: 굵은 먹선 + 부드러운 채색</li>
+</ul>
+<h3>5-2. 피해야 할 톤</h3>
+<ul>
+<li>❌ 픽셀 아트 (발라트로 톤)</li>
+<li>❌ 일본 우키요에 그대로 모방</li>
+<li>❌ 카툰·만화 톤 (귀여움)</li>
+<li>❌ 사진 합성 / 디지털 페인팅 너무 사실적</li>
+<li>❌ 형광 컬러</li>
+<li>❌ 일본 화투 카드 직접 트레이싱</li>
+</ul>
+<h3>5-3. 권장 작업 도구</h3>
+<ul>
+<li><strong>Adobe Photoshop / Procreate</strong> — 디지털 페인팅</li>
+<li><strong>Adobe Illustrator</strong> — 벡터 (확장성 ↑, 단 한국화 톤 어려움)</li>
+<li><strong>Clip Studio Paint</strong> — 만화 / 일러스트 (한국 일러스트레이터 다수 사용)</li>
+</ul>
+<p>PSD / PROCREATE / AI 원본 파일 함께 납품 권장.</p>
+<hr>
+<h2>6. 광땡 강조 — 특수 처리</h2>
+<p>3월광 + 8월광 = <strong>광땡</strong> (jokbo 100, 게임 내 최강).</p>
+<h3>6-1. 코드 자동 처리</h3>
+<p><code>Card.gd</code> 에서 <code>is_gwang_special</code> (1·3·8월 광) 검사 후:</p>
+<ul>
+<li>보더 색 → 금색 (#F3C72E)</li>
+<li>보더 두께 → 2px → <strong>4px</strong></li>
+</ul>
+<h3>6-2. 디자이너 추가 권장</h3>
+<p>광패 일러스트 자체에도 차별화:</p>
+<ul>
+<li><strong>3월 벚꽃광</strong>: 보름달 추가 + 만막에 금색 자수 패턴</li>
+<li><strong>8월 공산광</strong>: 보름달이 카드 1/3 크기 (다른 카드 달보다 1.5배)</li>
+<li><strong>1월 송학광</strong>: 떠오르는 해 + 학 부리에 금색</li>
+</ul>
+<p>이 차이로 사용자가 &quot;광패다!&quot; 즉각 인지.</p>
+<hr>
+<h2>7. 작업 순서 (Tier 별)</h2>
+<h3>Tier 1 (먼저)</h3>
+<ol>
+<li><strong>1월 송학광</strong> 샘플 1장 (개발자 톤 합의용)</li>
+<li><strong>3월 벚꽃광</strong> 샘플 1장 (광땡 핵심)</li>
+<li>→ 톤 합의 → 양산 진행</li>
+</ol>
+<h3>Tier 2</h3>
+<ol start="4">
+<li>8월 공산광 (광패 3장 완성)</li>
+<li>광패 이외 1·3·8월 각 type (3 × 3 = 9장)</li>
+</ol>
+<h3>Tier 3</h3>
+<ol start="6">
+<li>1, 2, 9, 10월 — 특수 족보 (알리·구삥·장삥 등) 관련 카드</li>
+<li>10월 단풍·사슴 (장땡)</li>
+</ol>
+<h3>Tier 4</h3>
+<ol start="8">
+<li>나머지 (2·4·5·6·7월) 일반 카드</li>
+</ol>
+<h3>Tier 5</h3>
+<ol start="9">
+<li>카드 뒷면 (3 옵션 중 1 확정 후 양산)</li>
+</ol>
+<hr>
+<h2>8. QA 체크리스트 (디자이너 self-check)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 220×320 px (또는 600×900 원본)</li>
+<li><input disabled="" type="checkbox"> PNG 투명 배경</li>
+<li><input disabled="" type="checkbox"> 좌상단 12px / 우하단 12px 안전 영역 (UI overlay 자리)</li>
+<li><input disabled="" type="checkbox"> 액센트 색 (월별) 사용 — 카드 상단 16px</li>
+<li><input disabled="" type="checkbox"> type 색 (광/띠/열/피) — 카드 하단 16px</li>
+<li><input disabled="" type="checkbox"> 광패면 금색 글로우 / 보름달 / 햇무리 등 추가 강조</li>
+<li><input disabled="" type="checkbox"> 한국 토착 식물·동물 (일본 톤 ❌)</li>
+<li><input disabled="" type="checkbox"> 차분한 색감 (형광 ❌)</li>
+<li><input disabled="" type="checkbox"> 라이선스 명시 (work-for-hire 또는 본인 창작)</li>
+</ul>
+<hr>
+<h2>9. 라이선스 / 저작권</h2>
+<ul>
+<li>한국 전통 화투 자체는 public domain (수백 년 됨)</li>
+<li>특정 출판사 (손오공 / 한게임 등) 의 카드 디자인은 저작권 보유 — <strong>직접 트레이싱 금지</strong></li>
+<li>모든 일러스트는 본인 새로 그리기 (참고 OK, 모방 ❌)</li>
+<li>납품 시 origin 명시 (예: &quot;본인 창작, 한국 전통 화투 참고&quot;)</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>05-card-art-style.md</code>
+</div>
+</body>
+</html>

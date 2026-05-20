@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 한국 문화 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 한국 문화 가이드</h1>
+<blockquote>
+<p>화투 / 노름판 / 한국 도박 문화에 대한 디자이너 / 작곡가 / 카피라이터 컬처럴 레퍼런스. 한국 정서 + 시각·청각 비주얼 자료.</p>
+</blockquote>
+<hr>
+<h2>0. 왜 컬처럴 가이드인가</h2>
+<p>K-Sutda 의 핵심 차별화는 <strong>한국 도박판의 정서·시각 재현</strong>. 디자이너가 일본 화투 / 카지노 / 발라트로 톤을 가져오면 게임 정체성 약화.</p>
+<p>본 가이드는 <strong>한국 노름판 = 단순 게임이 아닌 한국 사회의 한 단면</strong> 임을 디자이너가 이해하도록 함. 시각·음향 결정에 영향.</p>
+<hr>
+<h2>1. 화투 (花鬪) 문화 배경</h2>
+<h3>1-1. 역사</h3>
+<ul>
+<li><strong>기원</strong>: 일본 하나후다 (花札) 가 19세기 후반 한국에 전파</li>
+<li><strong>한국화</strong>: 한국 식물·동물·정서로 점진 변형 — 현재 한국 화투는 일본 하나후다와 시각·게임 룰 모두 다름</li>
+<li><strong>시기</strong>: 일제강점기 (1910~1945) 동안 유행 → 해방 후 한국 토착화 가속</li>
+<li><strong>사회적 위치</strong>: 도박 도구 + 가족 / 마을 놀이 양면 (설날 친척 모임 화투 등)</li>
+</ul>
+<h3>1-2. 한국 화투의 정서</h3>
+<ul>
+<li><strong>한국적</strong>: 가족 모임 / 마을 평상 / 작은 판</li>
+<li><strong>이면</strong>: 도박 중독, 가산 탕진, 가족 갈등 — 한국 영화 &quot;마패&quot; 등에서 묘사</li>
+<li><strong>이중성</strong>: 우리가 가져갈 톤 — &quot;가벼운 놀이&quot; 가 아닌 &quot;인생을 거는 한 판&quot;</li>
+</ul>
+<h3>1-3. 일본 화투 vs 한국 화투</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>일본 (花札)</th>
+<th>한국 (화투)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>색감</td>
+<td>채도 높음, 화려</td>
+<td>차분, 짙은 톤</td>
+</tr>
+<tr>
+<td>식물 묘사</td>
+<td>우키요에 평면, 가는 라인</td>
+<td>한국 민화 + 묵직한 라인</td>
+</tr>
+<tr>
+<td>게임 룰</td>
+<td>코이코이 / 하나후다 점수</td>
+<td>섯다 / 고스톱 (한국 고유 변형)</td>
+</tr>
+<tr>
+<td>사회 인식</td>
+<td>가족 놀이 (정서 가벼움)</td>
+<td>도박 어두운 면 강함</td>
+</tr>
+</tbody></table>
+<p>→ K-Sutda 는 <strong>한국 화투 + 어두운 정서</strong> 톤.</p>
+<hr>
+<h2>2. 섯다 (Sutda) 게임의 본질</h2>
+<h3>2-1. 섯다 = 2장의 심리전</h3>
+<ul>
+<li><strong>단순성</strong>: 룰 단순 (카드 2장 + 족보 + 베팅)</li>
+<li><strong>복잡성</strong>: 심리전 + 베팅 압박 + 블러프 + 상대 패턴 학습</li>
+<li><strong>한 판의 무게</strong>: 한 판 = 짧은 시간, 큰 베팅 → 인생의 압축</li>
+</ul>
+<h3>2-2. 한국 영화 / 드라마의 섯다</h3>
+<table>
+<thead>
+<tr>
+<th>작품</th>
+<th>섯다 묘사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>마패</strong> (2006)</td>
+<td>한국 도박판 본격 묘사. 캐릭터 / 룰 / 정서 레퍼런스 풍부</td>
+</tr>
+<tr>
+<td><strong>마패: 신의 손</strong> (2014)</td>
+<td>후속 — 신예 마패 시점</td>
+</tr>
+<tr>
+<td><strong>꽁트</strong> (드라마)</td>
+<td>평범한 가족 화투, 코미디 톤 (우리 톤 아님)</td>
+</tr>
+<tr>
+<td><strong>광해</strong> (2012)</td>
+<td>조선시대 도박판 (역사적)</td>
+</tr>
+</tbody></table>
+<p><strong>디자이너 시청 권장</strong>: &quot;마패&quot; (2006) — 단계 보스 캐릭터, 도박판 분위기, 한국 도박 슬랭 모두 풍부.</p>
+<h3>2-3. 섯다의 한국적 단어</h3>
+<table>
+<thead>
+<tr>
+<th>단어</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>광 (光)</strong></td>
+<td>빛. 광 카드 (3장: 1·3·8월)</td>
+</tr>
+<tr>
+<td><strong>광땡</strong></td>
+<td>3월광 + 8월광 = 최강 족보</td>
+</tr>
+<tr>
+<td><strong>장땡</strong></td>
+<td>10월 두 장 = 두 번째 강패</td>
+</tr>
+<tr>
+<td><strong>알리 / 독사 / 구삥 / 장삥</strong></td>
+<td>특수 족보 (1+2 / 1+4 / 9+1 / 10+1)</td>
+</tr>
+<tr>
+<td><strong>끗</strong></td>
+<td>점수 (1끗~9끗)</td>
+</tr>
+<tr>
+<td><strong>망통</strong></td>
+<td>0끗 (최악)</td>
+</tr>
+<tr>
+<td><strong>다이</strong></td>
+<td>폴드 (한국식 표현)</td>
+</tr>
+<tr>
+<td><strong>콜</strong></td>
+<td>동일 (외래어)</td>
+</tr>
+<tr>
+<td><strong>레이즈</strong></td>
+<td>동일 (외래어)</td>
+</tr>
+<tr>
+<td><strong>올인</strong></td>
+<td>동일 (외래어)</td>
+</tr>
+<tr>
+<td><strong>쩐주</strong></td>
+<td>큰 돈을 댄 사람</td>
+</tr>
+<tr>
+<td><strong>마패</strong></td>
+<td>도박 고수 (영화 제목)</td>
+</tr>
+<tr>
+<td><strong>쩐 / 명성치</strong></td>
+<td>게임 내 화폐</td>
+</tr>
+<tr>
+<td><strong>광 한 번</strong></td>
+<td>&quot;광패 한 번 보겠다&quot; — 인생을 건 한 판</td>
+</tr>
+<tr>
+<td><strong>뻥</strong></td>
+<td>블러프 (한국식)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 한국 노름판 비주얼 레퍼런스</h2>
+<h3>3-1. 공간</h3>
+<table>
+<thead>
+<tr>
+<th>공간</th>
+<th>분위기</th>
+<th>비주얼</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>동네 평상</strong></td>
+<td>가벼움, 시골</td>
+<td>나무 평상, 막걸리, 담뱃대, 가벼운 화투</td>
+</tr>
+<tr>
+<td><strong>시장 좌판</strong></td>
+<td>활기, 도시</td>
+<td>시장 등불, 천 더미, 야간</td>
+</tr>
+<tr>
+<td><strong>지방 도박장</strong></td>
+<td>어두움, 본격</td>
+<td>싸구려 네온, 위스키, 돈 무더기</td>
+</tr>
+<tr>
+<td><strong>사찰</strong></td>
+<td>신비, 명상</td>
+<td>향, 염주, 노을 진 절</td>
+</tr>
+<tr>
+<td><strong>고급 다실</strong></td>
+<td>격조, 최고</td>
+<td>한지 매트, 정갈한 다구, 백자, 묵향</td>
+</tr>
+</tbody></table>
+<p>각 단계 보스 (03-characters) 배경에 매칭.</p>
+<h3>3-2. 소품</h3>
+<ul>
+<li><strong>화투 카드</strong> — 두꺼운 종이, 모서리 약간 닳은 느낌</li>
+<li><strong>막걸리 / 소주 / 위스키</strong> — 단계별 차등</li>
+<li><strong>담뱃대 (한국 전통) / 담배</strong> — 한국 도박판 단골</li>
+<li><strong>돈 (지폐) → 명성치 (가상)</strong> — 우리는 가상 화폐만</li>
+<li><strong>다구 (茶具)</strong> — 고급 단계</li>
+<li><strong>부적 / 염주</strong> — 사찰 / 운 빌기</li>
+</ul>
+<h3>3-3. 의상</h3>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>의상</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 (동네 형)</td>
+<td>흰 셔츠 + 멜빵바지 / 평상복</td>
+</tr>
+<tr>
+<td>2 (시장 상인)</td>
+<td>앞치마 / 시장 옷차림</td>
+</tr>
+<tr>
+<td>3 (신참 마패)</td>
+<td>양복 셔츠 (풀어헤침)</td>
+</tr>
+<tr>
+<td>4 (군 출신)</td>
+<td>카키 자켓 / 군 출신 다부진</td>
+</tr>
+<tr>
+<td>5 (스님)</td>
+<td>회색 승복</td>
+</tr>
+<tr>
+<td>6 (미녀 사기꾼)</td>
+<td>짙은 한복 / 정장 한복</td>
+</tr>
+<tr>
+<td>7 (탈춤 영감)</td>
+<td>색동 한복 + 양반탈</td>
+</tr>
+<tr>
+<td>8 (전설)</td>
+<td>검은색 정장 한복</td>
+</tr>
+</tbody></table>
+<p>→ 단계 진행 = 의상 격조 증가 (평범 → 신비 → 전설).</p>
+<h3>3-4. 색감</h3>
+<ul>
+<li>짙은 먹색 / 짙은 녹 (도박판 베이스)</li>
+<li>한지 베이지 (카드 / 매트)</li>
+<li>금색 액센트 (광패 / 강조)</li>
+<li>주홍 (위험 / 띠)</li>
+<li>청록 (스님 / 성공)</li>
+<li>어두운 자주 / 진남 (밤)</li>
+</ul>
+<p>→ 모두 Palette.gd 에 반영됨.</p>
+<hr>
+<h2>4. 한국 도박판 매너 / 룰</h2>
+<h3>4-1. 매너 (한국 정서)</h3>
+<ul>
+<li><strong>선 (先) 결정</strong> — 첫 베팅 누가 먼저 (보통 직전 승자)</li>
+<li><strong>다이의 무게</strong> — &quot;다이&quot; 는 단순 &quot;포기&quot; 가 아닌 <strong>&quot;이번 판은 보내겠소&quot;</strong> 의 격조</li>
+<li><strong>승자의 침묵</strong> — 큰 승리에도 말 적게 (&quot;운이 좋군&quot; 정도)</li>
+<li><strong>패자의 인정</strong> — 패배 시 조용히 카드 내려놓음 (&quot;...허허, 시대가 바뀌었군&quot;)</li>
+<li><strong>속내 감추기</strong> — 표정·말투 절제 (포커페이스 한국식 = 무표정 + 침묵)</li>
+</ul>
+<h3>4-2. 도박 슬랭 (대사 작성 참고)</h3>
+<table>
+<thead>
+<tr>
+<th>한국 슬랭</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;광 한 번&quot;</td>
+<td>인생의 한 번 / 큰 도전</td>
+</tr>
+<tr>
+<td>&quot;쩐주가 나오나&quot;</td>
+<td>큰 돈을 댈 사람 있나 / 베팅 압박</td>
+</tr>
+<tr>
+<td>&quot;다이&quot;</td>
+<td>폴드 (단호히)</td>
+</tr>
+<tr>
+<td>&quot;받겠소&quot;</td>
+<td>콜 (격조 있게)</td>
+</tr>
+<tr>
+<td>&quot;한 판 더&quot;</td>
+<td>One more round</td>
+</tr>
+<tr>
+<td>&quot;오늘은 안 풀리네&quot;</td>
+<td>운이 없네</td>
+</tr>
+<tr>
+<td>&quot;이번 판은 내 거다&quot;</td>
+<td>이번엔 내가 이긴다</td>
+</tr>
+<tr>
+<td>&quot;장난해?&quot;</td>
+<td>패배 시 분노 / 의심</td>
+</tr>
+<tr>
+<td>&quot;허허, 잘 보셨네!&quot;</td>
+<td>블러프 들킨 광대 (탈춤 영감)</td>
+</tr>
+<tr>
+<td>&quot;...수고 많았소&quot;</td>
+<td>패배 후 격조 있는 인정 (남궁천)</td>
+</tr>
+</tbody></table>
+<p>→ 03-characters 대사 작성 시 이 표 참조.</p>
+<h3>4-3. 도박판의 어두운 면</h3>
+<ul>
+<li><strong>가산 탕진</strong>: 화투로 집 / 가족 / 인생 잃은 사람들</li>
+<li><strong>중독</strong>: 도박 멈출 수 없음의 비극</li>
+<li><strong>사기 (마패)</strong>: 속임수 / 짜고 치기 / 카드 표시</li>
+<li><strong>빚 / 폭력</strong>: 도박 빚으로 인한 사회 문제</li>
+</ul>
+<p>→ K-Sutda 는 <strong>시각적 무게감</strong> 으로 이 정서 전달. 직접 묘사 ❌ (사행성 / 모방 회피).</p>
+<hr>
+<h2>5. 한국 미술 / 디자인 참고</h2>
+<h3>5-1. 민화</h3>
+<ul>
+<li><strong>책가도</strong>: 책·꽃·과일 그림. 단정한 구도, 다색 사용</li>
+<li><strong>화조도</strong>: 꽃·새 그림. 자연 묘사 + 상징</li>
+<li><strong>민화 호랑이</strong>: 단순 라인 + 강한 표정</li>
+<li><strong>십장생도</strong>: 장수 상징 10가지 동식물</li>
+</ul>
+<p>→ 화투 카드 일러스트 (05-card-art-style) 참고.</p>
+<h3>5-2. 단청 (丹靑)</h3>
+<ul>
+<li>한국 전통 건물 (사찰 / 궁궐) 채색 패턴</li>
+<li>짙은 청록 / 주홍 / 황금 조합</li>
+<li>기하학 + 자연 모티프</li>
+</ul>
+<p>→ 카드 뒷면 / 배경 / UI 패턴 참고.</p>
+<h3>5-3. 글씨체 (서예)</h3>
+<table>
+<thead>
+<tr>
+<th>서체</th>
+<th>분위기</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>궁체 (宮體)</strong></td>
+<td>단정, 격조 (조선 왕실)</td>
+</tr>
+<tr>
+<td><strong>민체</strong></td>
+<td>자유, 개성</td>
+</tr>
+<tr>
+<td><strong>명조체</strong></td>
+<td>굵직, 무게감 (메인 헤더)</td>
+</tr>
+<tr>
+<td><strong>고딕체</strong></td>
+<td>모던, 가독성 (본문)</td>
+</tr>
+</tbody></table>
+<p>→ 로고 / 큰 텍스트에 명조 / 궁체 톤 권장.</p>
+<h3>5-4. 한지 텍스처</h3>
+<ul>
+<li>거친 결 + 부드러운 톤 다양 + 약간의 얼룩</li>
+<li>UI 패널 / 카드 뒷면 / 배경 매트 텍스처 활용</li>
+</ul>
+<hr>
+<h2>6. 한국 전통 음악 모티프</h2>
+<h3>6-1. 악기 (06-music-direction 보강)</h3>
+<table>
+<thead>
+<tr>
+<th>악기</th>
+<th>특징</th>
+<th>우리 게임 사용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>가야금</strong></td>
+<td>12현, 부드럽고 깊은 음색</td>
+<td>bgm_menu / bgm_game 메인 멜로디</td>
+</tr>
+<tr>
+<td><strong>거문고</strong></td>
+<td>6현, 가야금보다 어둡고 강함</td>
+<td>bgm_boss 옵션</td>
+</tr>
+<tr>
+<td><strong>대금</strong></td>
+<td>대나무 피리, 깊고 공명</td>
+<td>bgm 베이스 / 분위기</td>
+</tr>
+<tr>
+<td><strong>단소</strong></td>
+<td>작은 피리, 청량</td>
+<td>SE (bluff_success 트릴)</td>
+</tr>
+<tr>
+<td><strong>장구</strong></td>
+<td>양면 북, 한국 4/4 비트</td>
+<td>bgm_game 비트</td>
+</tr>
+<tr>
+<td><strong>북</strong></td>
+<td>큰 북, 강한 비트</td>
+<td>bgm_boss 클라이맥스</td>
+</tr>
+<tr>
+<td><strong>꽹과리</strong></td>
+<td>작은 금속 타악, 강렬</td>
+<td>bgm_boss 인트로</td>
+</tr>
+<tr>
+<td><strong>징</strong></td>
+<td>큰 금속 타악, 깊은 잔향</td>
+<td>단계 클리어 / 큰 임팩트</td>
+</tr>
+<tr>
+<td><strong>풍경 (風磬)</strong></td>
+<td>처마 작은 종, 잔잔</td>
+<td>마패 발동 / 광패</td>
+</tr>
+</tbody></table>
+<h3>6-2. 음계</h3>
+<ul>
+<li><strong>한국 전통 음계 (정악)</strong>: 평조 / 계면조 — 5음 (pentatonic)</li>
+<li>일본 5음과 다름 — 음정 간격 차이로 한국적 정서 구분</li>
+<li>단조 (Minor) 가 자연스러움</li>
+</ul>
+<h3>6-3. 참고 작품</h3>
+<ul>
+<li><strong>김덕수 사물놀이</strong> — 4 타악기 합주</li>
+<li><strong>이날치 + 앰비규어스 댄스 컴퍼니</strong> — &quot;범 내려온다&quot; (한국 전통 + 모던 융합)</li>
+<li><strong>이상철 (드라마 OST)</strong> — &quot;각시탈&quot; / &quot;마패&quot; 사운드트랙</li>
+<li><strong>국립국악원 공식 음원</strong> — 정악 / 민속악 다수 공개</li>
+</ul>
+<hr>
+<h2>7. 한국 사회의 한 단면</h2>
+<h3>7-1. K-Sutda 의 메타 메시지 (옵션)</h3>
+<p>K-Sutda 는 단순 카드 게임이지만, <strong>한국 도박 문화의 어두운 면도 게임 내 시각적으로 반영</strong>:</p>
+<ul>
+<li><strong>명성치 한도 (-150)</strong> — 가산 탕진의 비유. 너무 깊이 가면 끝.</li>
+<li><strong>블러프 시스템</strong> — 한국 도박판의 &quot;뻥&quot; / 사기 / 속임수</li>
+<li><strong>단계 7 탈춤 영감</strong> — 가면 뒤 정체불명 (한국 가면 광대 = 사회 풍자)</li>
+<li><strong>단계 8 남궁천</strong> — 전설의 마패 = 한국 도박판의 신화</li>
+</ul>
+<p>→ 단순 코믹 톤 ❌ → <strong>진중함 + 한국적 정서</strong> 유지.</p>
+<h3>7-2. 윤리적 메시지</h3>
+<ul>
+<li>게임 내 도박 미화 ❌</li>
+<li>명성치 = 가상 단위, 실제 환금성 없음 (모든 화면 disclaimer)</li>
+<li>게임오버 시 &quot;...내 차례는 여기까지인가&quot; 와 같은 <strong>체념의 격조</strong> — 도박 패배 = 인생 끝이 아닌 한 판의 끝</li>
+</ul>
+<hr>
+<h2>8. 디자이너 비주얼 레퍼런스 (참조 리스트)</h2>
+<h3>8-1. 영화</h3>
+<ul>
+<li><strong>마패</strong> (2006) — 한국 도박판 본격 (강력 추천)</li>
+<li><strong>광해, 왕이 된 남자</strong> (2012) — 조선시대 도박장</li>
+<li><strong>신과 함께</strong> (2017) — 한국 사후 세계, 한국적 시각</li>
+<li><strong>곡성</strong> (2016) — 한국 무속·어두운 정서</li>
+</ul>
+<h3>8-2. 드라마</h3>
+<ul>
+<li><strong>킹덤</strong> (Netflix) — 조선시대 비주얼</li>
+<li><strong>각시탈</strong> (KBS) — 한국 가면극, 단계 7 탈춤 영감 참고</li>
+<li><strong>미스터 션샤인</strong> (tvN) — 구한말 의상·소품</li>
+</ul>
+<h3>8-3. 미술</h3>
+<ul>
+<li><strong>간송미술관 소장 민화</strong> (온라인 일부 공개)</li>
+<li><strong>국립중앙박물관 디지털 컬렉션</strong></li>
+<li><strong>고궁박물관 (단청 / 의상 자료)</strong></li>
+</ul>
+<h3>8-4. 디자인 (모던 한국)</h3>
+<ul>
+<li><strong>현대카드 디자인</strong> — 모던 한국 (서체 / 컬러)</li>
+<li><strong>무신사 / 29CM</strong> (한국 모던 의상 톤)</li>
+<li><strong>카카오 디자인</strong> (한국 모바일 UI 톤)</li>
+</ul>
+<p>→ K-Sutda 는 <strong>전통 (60%) + 모던 (40%)</strong> 균형.</p>
+<hr>
+<h2>9. 디자이너 ↔ 한국 문화 컨설팅</h2>
+<h3>9-1. 외국 디자이너 협업 시</h3>
+<ul>
+<li>한국 화투 ≠ 일본 하나후다 — 반복 강조</li>
+<li>한국 의상 (한복) 일본 기모노와 구분 — 색·소매·옷고름</li>
+<li>한국 식물 (소나무 / 매화 / 단풍) 일본 식물과 묘사 다름</li>
+<li>한국 도박 슬랭 직역 ❌ — 톤 살리기</li>
+</ul>
+<h3>9-2. 한국 디자이너 협업 시</h3>
+<ul>
+<li>자연스럽게 한국 정서 이해 — 디테일만 합의</li>
+<li>한국 영화·드라마 레퍼런스 적극 공유</li>
+<li>어두운 정서 (도박판) 톤 유지 — 가벼운 카툰 톤 회피</li>
+</ul>
+<h3>9-3. 외부 자문 (옵션)</h3>
+<ul>
+<li>한국 화투 / 도박 문화 학자 자문 (옵션, 한국학)</li>
+<li>한국 전통 음악가 자문 (작곡가 외주 시)</li>
+<li>한국 의상·소품 자문 (캐릭터 디자인)</li>
+</ul>
+<hr>
+<h2>10. 결론 — K-Sutda 의 한국적 정체성</h2>
+<pre><code>K-Sutda 는 한국 화투의 무게감을 잃지 않으면서
+발라트로의 빌딩 재미를 결합한 게임입니다.
+
+디자이너의 모든 결정은 다음 질문으로 검증:
+1. &quot;이건 한국적인가, 일본적인가?&quot;
+2. &quot;이건 진중한가, 가벼운가?&quot;
+3. &quot;이건 도박판의 정서를 담는가?&quot;
+4. &quot;이건 한국 사용자가 공감할 수 있는가?&quot;
+
+답이 &quot;한국적, 진중, 도박판 정서, 한국 공감&quot; 이면 진행.
+하나라도 의심이면 재검토.
+</code></pre>
+<hr>
+<h2>11. 라이선스 / 저작권 — 한국 문화 자료</h2>
+<ul>
+<li>한국 화투 자체 = public domain (수백 년)</li>
+<li>한국 전통 음악 (악기 / 음계) = 공유 자원, 특정 작곡 / 편곡은 저작권 보호</li>
+<li>한국 영화 / 드라마 = 저작권 보호 — 레퍼런스만, 직접 사용 ❌</li>
+<li>한국 민화 / 단청 = 대부분 public domain (조선 시대 작품) — 박물관 디지털 자료 라이선스 확인</li>
+</ul>
+<p>납품 시 모든 참고 자료 출처 명시.</p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>14-cultural-guide.md</code>
+</div>
+</body>
+</html>

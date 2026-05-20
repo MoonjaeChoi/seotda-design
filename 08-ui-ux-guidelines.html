@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — UI/UX 가이드라인</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — UI/UX 가이드라인</h1>
+<blockquote>
+<p>인터랙션 패턴 / 상태 표현 / 피드백 / 마이크로카피 일관성 가이드. 디자이너가 시안 만들 때 매번 참고.</p>
+</blockquote>
+<hr>
+<h2>0. 핵심 원칙</h2>
+<h3>0-1. 사용자 의사결정 무게감</h3>
+<p>K-Sutda 의 본질은 <strong>카드 1장씩 보고 선택</strong>. UI는 그 결단을 도와주는 도구이지, 화려한 장식이 아님.</p>
+<ul>
+<li><strong>명확성 우선</strong> — 베팅 금액·명성치 잔액·1차/2차 단계 즉시 인지 가능</li>
+<li><strong>결정 단계 차단</strong> — 클릭 후 0.5초 내 시각·청각 피드백 필수</li>
+<li><strong>과한 모션 회피</strong> — 점수 폭발 등 임팩트는 정해진 순간만, 그 외엔 차분</li>
+</ul>
+<h3>0-2. 한국 도박판 톤</h3>
+<ul>
+<li>차분한 진중함 + 빠른 반응</li>
+<li>발라트로 같은 톡톡 튀는 톤 ❌ → 무게감 + 정밀</li>
+<li>마이크로카피도 한국적: &quot;한 판 더&quot; / &quot;다이&quot; / &quot;운이 좋았군&quot;</li>
+</ul>
+<hr>
+<h2>1. 버튼 인터랙션</h2>
+<h3>1-1. 표준 상태 (4가지)</h3>
+<p>모든 버튼은 4 상태를 시각으로 명확히 구분:</p>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+<th>모션 (M-11 참조)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>default</strong></td>
+<td>한지 베이지 베이스 + 먹색 텍스트</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>hover</strong></td>
+<td>살짝 밝아짐 + 보더 진해짐</td>
+<td>scale 1.0 → 1.03 (0.1s)</td>
+</tr>
+<tr>
+<td><strong>pressed</strong></td>
+<td>색 어두워짐 + 텍스트 살짝 작아짐</td>
+<td>scale → 0.97 → 1.0 (0.15s)</td>
+</tr>
+<tr>
+<td><strong>disabled</strong></td>
+<td>alpha 0.5 + 보더 회색</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3>1-2. 버튼 종류별 가이드</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>색</th>
+<th>사용처</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Primary</strong></td>
+<td>베이지 / 먹 텍스트</td>
+<td>&quot;새 런 시작&quot; / &quot;콜&quot;</td>
+</tr>
+<tr>
+<td><strong>Danger</strong></td>
+<td>주홍 보더 / 주홍 텍스트</td>
+<td>&quot;다이&quot; / &quot;삭제&quot;</td>
+</tr>
+<tr>
+<td><strong>Success</strong></td>
+<td>금색 보더 / 금 텍스트</td>
+<td>&quot;1차 레이즈&quot; (Sprint 3.13 톤)</td>
+</tr>
+<tr>
+<td><strong>Secondary</strong></td>
+<td>회색 보더 / 회색 텍스트</td>
+<td>&quot;취소&quot; / &quot;메인 메뉴로&quot;</td>
+</tr>
+<tr>
+<td><strong>Ghost</strong></td>
+<td>보더만 + 투명 배경</td>
+<td>&quot;새로고침&quot;</td>
+</tr>
+</tbody></table>
+<h3>1-3. 1차 vs 2차 베팅 버튼 (Sprint 3.13 — 확정)</h3>
+<pre><code>1차 단계:
+  ┌────────┐ ┌──────────┐ ┌────────┐
+  │콜(1차5)│ │1차레이즈+5│ │다이(-5)│  ← 모두 주홍 톤
+  └────────┘ └──────────┘ └────────┘
+
+2차 단계:
+  ┌────┐ ┌──────┐ ┌────┐ ┌────┐
+  │ 콜 │ │레이즈│ │올인│ │폴드│  ← 금색 톤
+  └────┘ └──────┘ └────┘ └────┘
+</code></pre>
+<p>→ 사용자가 단계 인지 부담 ↓.</p>
+<h3>1-4. 클릭 피드백 (필수)</h3>
+<ul>
+<li><strong>시각</strong>: scale pulse (1.0 → 0.97 → 1.0)</li>
+<li><strong>청각</strong>: <code>button_click</code> SE</li>
+<li><strong>상태 변경</strong>: 즉시 (disabled / loading 등)</li>
+</ul>
+<hr>
+<h2>2. 입력 / 폼</h2>
+<h3>2-1. 입력 필드 (LineEdit)</h3>
+<p>현재 위치: MainMenu 닉네임 입력</p>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>default</strong></td>
+<td>한지 베이지 배경 + 옅은 보더</td>
+</tr>
+<tr>
+<td><strong>focus</strong></td>
+<td>보더 금색 + 살짝 글로우</td>
+</tr>
+<tr>
+<td><strong>error</strong></td>
+<td>보더 주홍 + 하단 작은 에러 텍스트</td>
+</tr>
+<tr>
+<td><strong>success</strong></td>
+<td>보더 청록 (저장 완료 시)</td>
+</tr>
+</tbody></table>
+<h3>2-2. 슬라이더 (RaiseSlider)</h3>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>default</strong></td>
+<td>한지 베이지 트랙 + 금색 핸들</td>
+</tr>
+<tr>
+<td><strong>active</strong></td>
+<td>트랙 진해짐 + 핸들 +scale</td>
+</tr>
+<tr>
+<td><strong>value 표시</strong></td>
+<td>슬라이더 옆 큰 라벨 (&quot;레이즈: 30&quot;)</td>
+</tr>
+</tbody></table>
+<h3>2-3. 입력 검증 마이크로카피</h3>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>카피</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>닉네임 빈 값</td>
+<td>&quot;닉네임을 입력하세요&quot; (placeholder)</td>
+</tr>
+<tr>
+<td>닉네임 너무 김</td>
+<td>&quot;20자 이내로 입력해 주세요&quot; (자동 자름 + 알림)</td>
+</tr>
+<tr>
+<td>닉네임 저장</td>
+<td>&quot;닉네임 저장: &lt;이름&gt;&quot; (status 라벨, 청록)</td>
+</tr>
+<tr>
+<td>명성치 부족 (1차 레이즈)</td>
+<td>&quot;명성치가 부족합니다&quot; (토스트)</td>
+</tr>
+<tr>
+<td>잔액 부족 → all_in 자동 폴백</td>
+<td>&quot;잔액 부족으로 올인 처리&quot; (토스트, 회색)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 상태 표시</h2>
+<h3>3-1. 로딩 상태</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>단순 로딩</strong> (leaderboard fetch)</td>
+<td>텍스트 &quot;불러오는 중...&quot; + ⏳ 아이콘 회전</td>
+</tr>
+<tr>
+<td><strong>저장 중</strong> (autosave)</td>
+<td>우상단 작은 ✓ 페이드 인/아웃 (1초)</td>
+</tr>
+<tr>
+<td><strong>전환 중</strong> (scene change)</td>
+<td>M-10 검은 페이드 (0.5s)</td>
+</tr>
+</tbody></table>
+<h3>3-2. 빈 상태 (empty state)</h3>
+<table>
+<thead>
+<tr>
+<th>화면</th>
+<th>빈 상태 카피</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Leaderboard (기록 없음)</td>
+<td>&quot;(아직 기록 없음 — 첫 런을 완료해 보세요)&quot;</td>
+</tr>
+<tr>
+<td>DailyActivity (기록 없음)</td>
+<td>&quot;(기록 없음)&quot; — 카드 안에, 회색</td>
+</tr>
+<tr>
+<td>DailyActivity (안 플레이 한 날)</td>
+<td>&quot;안 플레이&quot; — 일자별 row, 회색</td>
+</tr>
+<tr>
+<td>Market (구매 가능 카드 없음)</td>
+<td>(이런 상황 거의 없음 — 4 카드 항상 진열)</td>
+</tr>
+</tbody></table>
+<h3>3-3. 에러 상태</h3>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>카피 + UI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>세이브 버전 불일치</td>
+<td>&quot;세이브 버전 불일치 — 새 런 시작 권장&quot; (status 라벨)</td>
+</tr>
+<tr>
+<td>저장된 런 없음</td>
+<td>&quot;저장된 런이 없습니다&quot; (continue 버튼 비활성 + tooltip)</td>
+</tr>
+<tr>
+<td>Supabase 오프라인</td>
+<td>&quot;📁 로컬 기록 (Supabase 키 미설정 — 오프라인 모드)&quot; (회색)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 토스트 / 알림</h2>
+<h3>4-1. 표준 토스트 (M-09 참조)</h3>
+<pre><code>┌──────────────────────────────┐
+│ 🃏 블러프 성공!  +1.5 mult    │
+└──────────────────────────────┘
+화면 상단 중앙. 3.25s 후 자동 사라짐.
+</code></pre>
+<h3>4-2. 토스트 종류</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>색</th>
+<th>아이콘</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>info</strong></td>
+<td>회색 + 흰 텍스트</td>
+<td>ℹ️</td>
+<td>&quot;재배분 완료&quot;</td>
+</tr>
+<tr>
+<td><strong>success</strong></td>
+<td>금 + 먹 텍스트</td>
+<td>🏆</td>
+<td>&quot;단계 3 클리어!&quot;</td>
+</tr>
+<tr>
+<td><strong>warning</strong></td>
+<td>주홍 + 흰 텍스트</td>
+<td>⚠</td>
+<td>&quot;명성치 위험 영역 진입&quot;</td>
+</tr>
+<tr>
+<td><strong>danger</strong></td>
+<td>짙은 주홍 + 흰 텍스트</td>
+<td>⚠️</td>
+<td>&quot;게임오버 임박&quot;</td>
+</tr>
+<tr>
+<td><strong>bluff</strong></td>
+<td>금 + 먹 텍스트</td>
+<td>🃏</td>
+<td>&quot;블러프 성공!&quot;</td>
+</tr>
+</tbody></table>
+<h3>4-3. 토스트 위치</h3>
+<ul>
+<li>기본: 화면 상단 중앙 (margin-top 60px)</li>
+<li>게임 중요 알림: 카드 영역 위쪽 (가독성)</li>
+<li>동시 다발 토스트: 위에서 아래로 stack (max 3, 초과 시 가장 오래된 것 자동 제거)</li>
+</ul>
+<hr>
+<h2>5. 모달 / 다이얼로그</h2>
+<h3>5-1. 모달 사용 시점 (현재 없음 — 미래)</h3>
+<ul>
+<li>Soul 카드 발견 (Legendary 획득)</li>
+<li>단계 클리어 시 다음 단계 진입 확인 (옵션)</li>
+<li>옵션 메뉴 (BGM/SE 볼륨)</li>
+<li>종료 확인 (&quot;정말 메인 메뉴로?&quot;)</li>
+</ul>
+<h3>5-2. 모달 구조</h3>
+<pre><code>┌──────────────────────────────────┐
+│  [반투명 검은 오버레이]          │
+│                                  │
+│    ┌──────────────────────┐      │
+│    │ 🏆 Soul 카드 발견!   │      │ ← 헤더 (24px Bold)
+│    ├──────────────────────┤      │
+│    │                      │      │
+│    │  무한 배수            │      │ ← 본문
+│    │  (Legendary)          │      │
+│    │  &quot;매 T6 마다 누적     │      │
+│    │   ×1.05 영구 복리&quot;   │      │
+│    │                      │      │
+│    ├──────────────────────┤      │
+│    │   [획득]  [넘기기]   │      │ ← 버튼
+│    └──────────────────────┘      │
+└──────────────────────────────────┘
+배경: 검은 오버레이 alpha 0.7
+</code></pre>
+<p><strong>규칙</strong>:</p>
+<ul>
+<li>ESC 키 = 취소 (또는 우측 X)</li>
+<li>외부 영역 클릭 = 취소 (또는 무시 — 화면별 결정)</li>
+<li>모달 등장 모션: alpha + scale 0.9 → 1.0 (0.2s, BACK)</li>
+</ul>
+<hr>
+<h2>6. 정보 위계 (Information Hierarchy)</h2>
+<h3>6-1. Board 화면 우선순위</h3>
+<p>가장 중요한 정보를 가장 큰 사이즈·강한 색으로:</p>
+<table>
+<thead>
+<tr>
+<th>우선순위</th>
+<th>정보</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔴 1</td>
+<td><strong>명성치</strong></td>
+<td>24px Bold, 위험 시 빨강 펄스</td>
+</tr>
+<tr>
+<td>🔴 2</td>
+<td><strong>player 카드 2장</strong></td>
+<td>220×320 (가장 큰 시각)</td>
+</tr>
+<tr>
+<td>🟡 3</td>
+<td><strong>결과 라벨</strong> (승/패/breakdown)</td>
+<td>16px, 색 구분 (승=금/패=회색)</td>
+</tr>
+<tr>
+<td>🟡 4</td>
+<td><strong>판돈 / commit 분리</strong></td>
+<td>16px, 강조 X</td>
+</tr>
+<tr>
+<td>🟢 5</td>
+<td><strong>마패 슬롯</strong> (3개)</td>
+<td>작은 카드 + 발동 시 펄스</td>
+</tr>
+<tr>
+<td>🟢 6</td>
+<td><strong>단계 / 라운드 / AI 패턴</strong></td>
+<td>12~14px, 상단 메타</td>
+</tr>
+<tr>
+<td>🟢 7</td>
+<td><strong>deck_tracker</strong> (사용 카드 수)</td>
+<td>12px, 상단 작은</td>
+</tr>
+</tbody></table>
+<h3>6-2. 폰트 위계 (Palette.gd 와 일관)</h3>
+<pre><code>TITLE    96px   MainMenu / 점수 폭발 / 게임오버 큰 라벨
+HEADING  32px   섹션 헤더 / 모달 제목
+SUBHEAD  24px   토스트 / 카드 컴포넌트 헤더
+BODY     16px   일반 본문 / 버튼 / 결과 라벨
+CAPTION  12px   보조 정보 / 시드 / 메타
+</code></pre>
+<hr>
+<h2>7. 마이크로카피 (Microcopy)</h2>
+<h3>7-1. 톤 원칙</h3>
+<ul>
+<li>✅ 짧고 결단적: &quot;한 판 더&quot;, &quot;다이&quot;, &quot;콜&quot;</li>
+<li>✅ 한국적 어휘: &quot;광 한 번&quot;, &quot;운이 좋군&quot;, &quot;전설&quot;</li>
+<li>❌ 영어 직역 (&quot;게임 시작!&quot;, &quot;확인&quot;, &quot;성공!&quot;) — 한국적이지 않음</li>
+<li>❌ 도박 미화 (&quot;대박!&quot;, &quot;잭팟!&quot;, &quot;이긴다!&quot;) — 사행성 회피</li>
+<li>❌ 코미디 (&quot;앗! 망통이라니!&quot;) — 톤 안 맞음</li>
+</ul>
+<h3>7-2. 핵심 어휘 표</h3>
+<table>
+<thead>
+<tr>
+<th>영어 / 일반</th>
+<th>K-Sutda 어휘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Score</td>
+<td>명성치 (名聲)</td>
+</tr>
+<tr>
+<td>Bet</td>
+<td>베팅 / 콜 / 레이즈</td>
+</tr>
+<tr>
+<td>Fold</td>
+<td>다이 (1차) / 폴드 (2차)</td>
+</tr>
+<tr>
+<td>Win</td>
+<td>승리 / 광 보임</td>
+</tr>
+<tr>
+<td>Lose</td>
+<td>패배 / 패 보임</td>
+</tr>
+<tr>
+<td>Run</td>
+<td>런 (한 번의 도전)</td>
+</tr>
+<tr>
+<td>Stage</td>
+<td>단계</td>
+</tr>
+<tr>
+<td>Round</td>
+<td>판</td>
+</tr>
+<tr>
+<td>Joker</td>
+<td>마패 (タッザ)</td>
+</tr>
+<tr>
+<td>Hand</td>
+<td>패</td>
+</tr>
+<tr>
+<td>Shop</td>
+<td>시장</td>
+</tr>
+<tr>
+<td>Bluff</td>
+<td>뻥 / 블러프</td>
+</tr>
+<tr>
+<td>Game Over</td>
+<td>게임오버</td>
+</tr>
+</tbody></table>
+<h3>7-3. 결과 라벨 (현재 코드 기준)</h3>
+<pre><code>[승리] (공개)  상대 jokbo=30 (점수 90) / 내 jokbo=100 (점수 1500)   명성치 +1500  🃏 블러프!
+[패배] (다이) ...
+[무승부] ...
+</code></pre>
+<p>→ 디자이너가 시안 그릴 때 위 형식 그대로 사용.</p>
+<hr>
+<h2>8. 마우스 / 키보드 / 터치</h2>
+<h3>8-1. 마우스 (PC)</h3>
+<table>
+<thead>
+<tr>
+<th>액션</th>
+<th>행동</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Left Click</td>
+<td>기본 액션 (버튼 / 카드)</td>
+</tr>
+<tr>
+<td>Right Click</td>
+<td>(없음 — 미래: 카드 자세히 보기?)</td>
+</tr>
+<tr>
+<td>Hover</td>
+<td>버튼 / 카드 hover 상태</td>
+</tr>
+</tbody></table>
+<h3>8-2. 키보드 (미래)</h3>
+<table>
+<thead>
+<tr>
+<th>키</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Space / Enter</td>
+<td>기본 (Confirm)</td>
+</tr>
+<tr>
+<td>ESC</td>
+<td>메인 메뉴로 / 모달 닫기</td>
+</tr>
+<tr>
+<td>1 / 2 / 3</td>
+<td>1차 콜 / 레이즈 / 다이 (옵션)</td>
+</tr>
+<tr>
+<td>C / R / F / A</td>
+<td>콜 / 레이즈 / 폴드 / 올인 (영문 단축키)</td>
+</tr>
+</tbody></table>
+<p>→ Phase 4 별도 sprint.</p>
+<h3>8-3. 터치 (모바일 — 13 적응 가이드 참조)</h3>
+<ul>
+<li>최소 터치 타겟: <strong>44 × 44 px</strong> (Apple HIG) / <strong>48 × 48 dp</strong> (Material)</li>
+<li>버튼 간 간격: 최소 8 px</li>
+<li>카드 클릭 = mulligan: 카드 자체가 충분히 큼 (220×320)</li>
+</ul>
+<hr>
+<h2>9. 실수 방지 (Error Prevention)</h2>
+<h3>9-1. 위험한 액션은 확인</h3>
+<table>
+<thead>
+<tr>
+<th>액션</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>새 런 시작 (기존 세이브 덮어쓰기)</td>
+<td>(현재 없음 — 추가 권장: &quot;기존 세이브가 삭제됩니다. 계속?&quot;)</td>
+</tr>
+<tr>
+<td>명성치 한도 직전 all_in</td>
+<td>(현재 없음 — 추가 권장: &quot;잔액 전체 베팅합니다. 다이가 더 안전합니다&quot;)</td>
+</tr>
+</tbody></table>
+<h3>9-2. Undo / Redo (게임 디자인 결정)</h3>
+<ul>
+<li><strong>결정성 게임</strong>: 베팅 후 undo 없음 (도박 본질)</li>
+<li>단, mulligan 은 명성치 차감 — 한 번 더 클릭하면 다시 새 카드 (8명성치 추가)</li>
+<li>게임오버 전: 자동 세이브 → 게임오버 후 &quot;다시 시작&quot; 가능</li>
+</ul>
+<hr>
+<h2>10. 일관성 체크리스트 (디자이너 self-check)</h2>
+<p>새 화면 / 컴포넌트 시안 만들 때:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Palette 색만 사용? (커스텀 색 X)</li>
+<li><input disabled="" type="checkbox"> 폰트 위계 5단계 중 1 선택?</li>
+<li><input disabled="" type="checkbox"> 8px 그리드 (XS/S/M/L/XL spacing 사용)?</li>
+<li><input disabled="" type="checkbox"> 버튼 4 상태 (default/hover/pressed/disabled) 모두 시안?</li>
+<li><input disabled="" type="checkbox"> 빈 상태 (empty) 카피 + 시안?</li>
+<li><input disabled="" type="checkbox"> 에러 상태 + 메시지?</li>
+<li><input disabled="" type="checkbox"> 모션 표 (04-motion-spec) 의 사양 준수?</li>
+<li><input disabled="" type="checkbox"> 마이크로카피 톤 — 한국적, 결단적, 사행성 회피?</li>
+<li><input disabled="" type="checkbox"> 1차 vs 2차 베팅 색 구분 (주홍 vs 금) 유지?</li>
+<li><input disabled="" type="checkbox"> 명성치 위험 영역 (&lt; 0 / &lt; -100) 빨강 / 펄스?</li>
+</ul>
+<hr>
+<h2>11. 인게임 가이드 / 튜토리얼</h2>
+<h3>11-1. 현재 (Sprint 3.15)</h3>
+<ul>
+<li><code>HelpInfo</code> 화면 (메인 메뉴 &quot;📖 게임 규칙&quot;) — 정적 RichText</li>
+<li>Board 진입 시 별도 튜토리얼 없음</li>
+</ul>
+<h3>11-2. 권장 추가 (베타 후)</h3>
+<ul>
+<li><strong>첫 런 튜토리얼</strong>: Board 진입 첫 라운드에 &quot;1차 콜 (5명성치)&quot; 버튼 강조 + 화살표 (3초 후 fade-out)</li>
+<li><strong>첫 mulligan 안내</strong>: 두 번째 카드 받은 직후 &quot;카드를 클릭하면 8명성치로 재배분 가능&quot; 한 번만</li>
+<li><strong>블러프 첫 성공</strong>: 첫 블러프 성공 시 모달 &quot;블러프 시스템 활성화! 약한 패 + raise → AI 다이 유도하면 추가 점수&quot;</li>
+<li><strong>단계 8 첫 도달</strong>: &quot;마지막 보스, 전설의 마패 남궁천 등장&quot; (full screen intro)</li>
+</ul>
+<hr>
+<h2>12. 외부 디자이너 협업 권장</h2>
+<h3>12-1. Figma 활용</h3>
+<ul>
+<li>각 화면 별 frame + 상태 (default/hover/empty/error) 모두 그리기</li>
+<li>컴포넌트 라이브러리 (11번 자료 참조) 를 Figma component 로 등록</li>
+<li>디자인 변경 시 PR 형식으로 개발자 리뷰</li>
+</ul>
+<h3>12-2. 디자이너 → 개발자 핸드오프</h3>
+<ul>
+<li>Figma &quot;Dev Mode&quot; 활용 (CSS / SVG 값 자동 추출)</li>
+<li>모션은 Lottie .json 또는 .mp4 reference</li>
+<li>색은 hex 명시 (Palette.gd 와 매칭 확인)</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>08-ui-ux-guidelines.md</code>
+</div>
+</body>
+</html>

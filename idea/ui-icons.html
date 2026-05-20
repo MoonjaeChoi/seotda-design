@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — UI 아이콘 프롬프트</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — UI 아이콘 프롬프트</h1>
+<blockquote>
+<p>UI 아이콘 10종 + 앱 아이콘 생성 가이드.
+아이콘은 단순 형태가 많아 Figma/Illustrator 직접 제작이 AI 생성보다 효율적인 경우가 많음.</p>
+</blockquote>
+<hr>
+<h2>0. 개요</h2>
+<h3>0-1. UI 아이콘 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>마스터 해상도</td>
+<td>64 × 64 px (→ 게임 내 32 × 32 표시)</td>
+</tr>
+<tr>
+<td>형식</td>
+<td>PNG (투명 배경) 또는 SVG</td>
+</tr>
+<tr>
+<td>색</td>
+<td>단색 흰색 <code>#FFFFFF</code> 또는 금색 <code>#F3C72E</code> — 배경 투명</td>
+</tr>
+<tr>
+<td>저장 경로</td>
+<td><code>assets/ui/{파일명}.png</code> (또는 .svg)</td>
+</tr>
+<tr>
+<td>선 두께</td>
+<td>3 px 기준 (64px 기준), NO 그라데이션, NO 그림자</td>
+</tr>
+</tbody></table>
+<h3>0-2. 스타일 원칙</h3>
+<ul>
+<li><strong>한국 전통 문양에서 모티프 차용</strong> — 전통 + 현대 플랫 아이콘 혼합</li>
+<li><strong>Bold line icon</strong> — 라인 아트, 두꺼운 선</li>
+<li><strong>단색</strong> — 흰색 1 레이어 또는 금색 1 레이어 (배경 투명)</li>
+<li><strong>32×32 px 에서도 식별 가능</strong> — 지나친 디테일 금지</li>
+<li>상세 spec: <a href="../../design-handoff/02-asset-spec.md"><code>design-handoff/02-asset-spec.md §3-3</code></a></li>
+</ul>
+<h3>0-3. 아이콘 목록</h3>
+<table>
+<thead>
+<tr>
+<th>파일명</th>
+<th>용도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>icon_bluff.png</code></td>
+<td>블러프 버튼</td>
+<td>탈 / 입술에 손가락</td>
+</tr>
+<tr>
+<td><code>icon_1st_bet.png</code></td>
+<td>1차 베팅 단계 표시</td>
+<td>화투 1장</td>
+</tr>
+<tr>
+<td><code>icon_2nd_bet.png</code></td>
+<td>2차 베팅 단계 표시</td>
+<td>화투 2장</td>
+</tr>
+<tr>
+<td><code>icon_boss.png</code></td>
+<td>보스 라운드 표시</td>
+<td>인장 / 검</td>
+</tr>
+<tr>
+<td><code>icon_victory.png</code></td>
+<td>승리 표시</td>
+<td>트로피 / 광패 문양</td>
+</tr>
+<tr>
+<td><code>icon_danger.png</code></td>
+<td>위험 / 경고</td>
+<td>삼각형 + 불꽃</td>
+</tr>
+<tr>
+<td><code>icon_calendar.png</code></td>
+<td>주간 챌린지</td>
+<td>달력 + 화투 문양</td>
+</tr>
+<tr>
+<td><code>icon_codex.png</code></td>
+<td>마패 코덱스 화면</td>
+<td>책 + 화투 카드</td>
+</tr>
+<tr>
+<td><code>icon_leaderboard.png</code></td>
+<td>리더보드 화면</td>
+<td>계단 / 순위</td>
+</tr>
+<tr>
+<td><code>icon_settings.png</code></td>
+<td>설정 화면</td>
+<td>톱니바퀴</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>1. 베이스 아이콘 스타일 가이드</h2>
+<h3>1-1. Nano Banana 생성 시 공통 베이스 프롬프트</h3>
+<pre><code>Single flat icon for a Korean card game UI.
+64×64 px, white on transparent background.
+Bold line icon style — thick outlines, minimal detail, NO fill gradients.
+
+[Style]
+- Korean traditional + modern flat icon hybrid
+- Bold black outlines (3px weight at 64px)
+- White icon on transparent background
+- Think: app icon / game HUD button
+- NOT decorative illustration — FUNCTIONAL icon (must read at 32×32 px)
+- NOT 3D, NOT drop shadow, NOT photorealistic
+
+[Motif]
+- {MOTIF_DESCRIPTION}
+- Inspired by Korean traditional folk symbol or design motif
+
+[Specifications]
+- 64×64 px square output
+- Transparent background (PNG)
+- Pure white #FFFFFF icon only
+- Clean crisp edges — flat color, no anti-alias blur
+- Safe zone: 6px from all edges (8px total inner safe area)
+
+Negative: color fill (white outline only), photorealistic, 3D render,
+gradient, shadow, Japanese aesthetic, text labels, multiple icons in one image,
+complex decoration, thin fragile lines (must be bold)
+</code></pre>
+<h3>1-2. Figma/Illustrator 직접 제작 권장</h3>
+<p>단순 기하 형태 아이콘은 AI 생성보다 직접 제작이 더 정밀하고 빠름:</p>
+<pre><code>권장 직접 제작 아이콘: icon_1st_bet, icon_2nd_bet, icon_danger,
+                       icon_calendar, icon_leaderboard, icon_settings
+
+Figma 제작 팁:
+1. 64×64 px 아트보드
+2. 전통 문양 레퍼런스 검색 (Google: &quot;한국 전통 문양 벡터&quot;)
+3. Auto Layout으로 정렬
+4. Export as PNG @1x (64px) and @2x (128px)
+5. iOS에서 1x = 32px, 2x = 64px 로 자동 처리
+</code></pre>
+<hr>
+<h2>2. 아이콘 10종 개별 프롬프트</h2>
+<h3>2-1. <code>icon_bluff.png</code> — 블러프 가면</h3>
+<p>용도: 블러프 action 버튼 (BettingPanel)</p>
+<pre><code>Korean traditional MASK (양반탈 / Yangban mask) face icon.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Simplified face of a Korean Yangban mask (양반탈)
+- Round face outline, stylized eyes (curved slits), curved smile
+- Abstract mask holes for eyes (NOT detailed — just the essential lines)
+- Small mask string detail at sides (optional — only if readable at small size)
+
+[Style]
+- Bold line icon — mask face reduced to essential strokes
+- The smile should read as &quot;knowing&quot; or &quot;scheming&quot; — curved upward
+- 5-6 lines maximum — this is an icon, not an illustration
+
+Negative: full theatrical illustration, Halloween horror, color fill,
+Japanese Noh mask shape (Korean only), detailed shading
+</code></pre>
+<p><strong>Figma 대안</strong>:</p>
+<pre><code>Shape: Circle (face) + 2 eye arcs (curved rectangles) + 1 mouth arc
+Traditional reference: 양반탈 코드 이미지 (공공 도메인)
+Line weight: 3px stroke
+</code></pre>
+<h3>2-2. <code>icon_1st_bet.png</code> — 1차 베팅</h3>
+<p>용도: 1차 베팅 단계 표시 (BettingPanel 상단 진행 indicator)</p>
+<pre><code>One Korean Hwatu (화투) playing card standing upright — face shown.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Single vertical playing card (simplified rectangle with rounded corners)
+- Card face: simple stylized 光 or a floral motif — just 2-3 lines
+- A small &quot;1&quot; or single dot indicator below or on the card (1st stage marker)
+- OR: one card + circular &quot;①&quot; badge overlay
+
+[Style]
+- Clean geometric card shape
+- Bold line art, no fill
+
+Negative: realistic card illustration, text labels (&quot;1차 베팅&quot;), color fill
+</code></pre>
+<p><strong>Figma 대안</strong>: Rounded Rectangle (card) + 1 horizontal stripe (top) + 1 dot or number</p>
+<h3>2-3. <code>icon_2nd_bet.png</code> — 2차 베팅</h3>
+<p>용도: 2차 베팅 단계 표시</p>
+<pre><code>Two Korean Hwatu cards fanned in a hand — second card revealing.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- TWO simplified playing cards slightly overlapping, fanned to show both
+- Second card slightly raised or angled (being revealed)
+- Cards: minimal detail — just the card rectangle with corner radius
+- &quot;2&quot; or double dot indicator
+
+[Style]
+- Same card style as icon_1st_bet but with two cards
+- Second card slightly offset (fan effect)
+
+Negative: full hand illustration, text, color fill
+</code></pre>
+<h3>2-4. <code>icon_boss.png</code> — 보스 라운드</h3>
+<p>용도: 보스 라운드 표시 (Board 상단)</p>
+<pre><code>Korean traditional official seal (인장 / 관인) or sword silhouette.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif Option A — Seal]:
+- Circular seal shape (인장) with Korean traditional knot/flower pattern inside
+- Dramatic weight — this is the &quot;final round&quot; symbol
+- Inner pattern: simplified lotus or cloud motif (2-3 lines only)
+
+[Motif Option B — Sword]:
+- Simplified Korean sword (환도 / hwando) silhouette
+- Straight blade + guard + pommel — 4-5 lines total
+- Slightly angled (diagonal)
+
+Choose whichever reads more clearly at 32×32 px.
+
+Negative: Western medieval sword, skull, Western coat-of-arms, Japanese katana shape,
+color fill, text
+</code></pre>
+<h3>2-5. <code>icon_victory.png</code> — 승리 트로피</h3>
+<p>용도: 승리 / 클리어 표시</p>
+<pre><code>Trophy cup silhouette with Korean lotus or cloud motif accent.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Classic cup/trophy silhouette (2 handles, cup body, base)
+- Inside the cup: simplified 光 character or lotus petal (just 2-3 lines)
+- OR: trophy replaced by a gwang card silhouette (the 광패 = ultimate victory)
+
+[Style]
+- Bold simple trophy — recognizable at 32×32 px
+- Korean accent inside only (not a Western literal trophy — adapt the form)
+
+Negative: color fill, text, realistic trophy, 3D effect
+</code></pre>
+<h3>2-6. <code>icon_danger.png</code> — 위험 경고</h3>
+<p>용도: 위험 상태 / 낮은 명성치 경고</p>
+<pre><code>Warning triangle with a Korean flame (불꽃) motif inside.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Simple equilateral triangle outline (warning shape)
+- Inside: stylized Korean folk flame (불꽃) — 3-4 curved flame tongues
+- Korean folk art flames are curling, decorative, NOT Western realistic fire
+
+[Style]
+- Bold triangle + bold flame lines
+- The flame inside the triangle is the distinguishing feature
+
+Negative: Western exclamation mark (flame is the inner motif), realistic fire,
+skull, cross/X, color fill, text
+</code></pre>
+<h3>2-7. <code>icon_calendar.png</code> — 주간 챌린지</h3>
+<p>용도: WeeklyChallenge 화면 버튼</p>
+<pre><code>Calendar grid with a small hwatu card icon inside.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Simple calendar: rectangle with grid lines (3×4 day cells)
+- Top calendar header bar (date header area)
+- One highlighted cell: small hwatu card silhouette inside (3월 sakura petal hint)
+- OR: spiral notebook calendar with a flower motif on the cover
+
+[Style]
+- Functional calendar shape readable at 32×32 px
+- Hwatu accent is small but distinct
+
+Negative: ornate calendar, text, color fill, complex grid
+</code></pre>
+<p><strong>Figma 대안</strong>: Rectangle + horizontal divider + 3×4 small squares + 1 rounded card accent</p>
+<h3>2-8. <code>icon_codex.png</code> — 마패 코덱스</h3>
+<p>용도: MapaCodex 화면 버튼</p>
+<pre><code>Open book with a hwatu card visible on one page.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Open book silhouette (two pages spread open)
+- Left page: blank lines (3 horizontal lines suggesting text)
+- Right page: small hwatu card silhouette (simplified)
+- Optional: bookmark ribbon at top
+
+[Style]
+- Classic open-book icon adapted with hwatu accent
+- Bold line art, instantly recognizable
+
+Negative: complex illustration, text, color fill, realistic book, scroll shape
+</code></pre>
+<h3>2-9. <code>icon_leaderboard.png</code> — 리더보드</h3>
+<p>용도: Leaderboard 화면 버튼</p>
+<pre><code>Ascending step/podium silhouette — ranking visualization.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Three ascending steps/columns (1st tallest, 2nd medium, 3rd shortest)
+- Classic podium shape: viewed from slight front angle
+- Option A: columns with numbers 1-2-3 (if readable at 32px — otherwise skip numbers)
+- Option B: pure step silhouette with subtle upward arrow
+
+[Style]
+- Very geometric — 3 rectangles of different heights
+- Bold clean lines
+
+Negative: list/table (must be visual steps), color fill, text, Korean characters in icon
+</code></pre>
+<p><strong>Figma 대안</strong>: 3 Rectangle shapes of heights 60%, 90%, 40% aligned at bottom — instantly reads as ranking</p>
+<h3>2-10. <code>icon_settings.png</code> — 설정</h3>
+<p>용도: SettingsScreen 버튼</p>
+<pre><code>Gear/cog wheel with Korean traditional flower motif overlay.
+Flat white line icon, 64×64 px, transparent background.
+
+[Motif]
+- Standard gear/cog silhouette (8 teeth) as the outer shape
+- Inner circle: simplified Korean plum blossom (매화 — 5 petals)
+- OR: standard gear with Korean cloud 운문 (yunmun) pattern inside
+
+[Style]
+- Recognizable settings gear + Korean cultural accent in center
+- Bold line art
+- The inner motif is subtle but present
+
+Negative: 3D gear, complex mechanical, color fill, text, Western industrial
+</code></pre>
+<hr>
+<h2>3. 앱 아이콘 (<code>icon_1024.png</code>)</h2>
+<blockquote>
+<p>📁 저장 경로: <code>assets/marketing/icon_1024.png</code></p>
+</blockquote>
+<h3>3-1. iOS App Store + Android Google Play 공용</h3>
+<pre><code>K-Sutda mobile app icon — 1024×1024 px, PNG.
+Korean gambling roguelike card game icon.
+
+[Motif]
+- TWO hwatu gwang cards (3월 cherry blossom gwang + 8월 moon gwang)
+  slightly overlapping, fanned upward from bottom-center
+- The &quot;光&quot; character visible on both cards — golden
+- Above the cards: subtle golden glow / radiance
+- Below/behind cards: &quot;K&quot; initial or subtle &quot;韓鬪&quot; Korean logo mark
+  (just an outline impression — text is added in code)
+
+[Style]
+- Rich, deep background #0D2619 (mandatory — no white/light background for app icons)
+- Cards have gold #F3C72E gwang border and glow
+- Bold, impactful — must be recognizable at 60×60 px (iPhone small icon)
+- NOT anime, NOT casual mobile art — matches the game&#39;s cinematic tone
+
+[Colors]
+- Background: deep ink #0D2619
+- Cards: hanji beige #F5EBD1 with gold &quot;光&quot; marks
+- Card glow: radiant gold #F3C72E
+- Optional accent: subtle vermillion #D93333 edge
+
+[Specifications]
+- 1024×1024 px square
+- Composition centered
+- Corner radius NOT needed (added by OS automatically)
+- Must read clearly at: 1024px, 512px, 180px, 120px, 60px
+- CRITICAL: at 60px, only the 2 cards + glow should be visible (no fine detail)
+
+[Test sizes — check readability]
+- 1024px: full detail visible
+- 180px: cards + glow clearly visible
+- 60px: golden glow + 2 card shapes = brand identity maintained
+
+Negative: white background, anime art, K-pop idol, Western card ace,
+casino chip, complex background (must be deep solid ink), multiple small elements
+</code></pre>
+<hr>
+<h2>4. Figma/Illustrator 직접 제작 가이드 (권장)</h2>
+<h3>4-1. 아이콘 세트 일관성 규칙</h3>
+<pre><code>모든 아이콘 공통 설정 (Figma Style):
+- Canvas: 64×64 px
+- Safe zone: 6px margin (inner icon area: 52×52 px)
+- Stroke weight: 3px (outer) / 2px (inner detail)
+- Stroke cap: Round
+- Color: #FFFFFF (단색 흰색), 배경 투명
+- Corner radius: 2px on rectangular shapes
+- Export: PNG @1x (64px), @2x (128px), @3x (192px)
+</code></pre>
+<h3>4-2. 전통 문양 레퍼런스 소스</h3>
+<ul>
+<li>국립중앙박물관 e뮤지엄 오픈 컬렉션 (공공 도메인)</li>
+<li>한국문화재청 문화유산 디지털 자료</li>
+<li>국가기록원 기록물 (공공 도메인)</li>
+<li>검색어: &quot;한국 전통 문양&quot;, &quot;단청 문양 벡터&quot;, &quot;민화 문양&quot;</li>
+</ul>
+<hr>
+<h2>5. 검증 체크리스트</h2>
+<h3>UI 아이콘 (10종)</h3>
+<pre><code>각 아이콘 검증:
+[ ] 64×64 px에서 선 명확한가?
+[ ] 32×32 px로 축소 시 여전히 읽히는가?
+[ ] 배경 투명인가 (PNG)?
+[ ] 색: 흰색 단색인가 (또는 금색 — 특별 용도)?
+[ ] 선 두께 충분한가 (너무 가늘지 않은가)?
+[ ] 한국 전통 모티프 요소가 포함되었는가?
+[ ] 다른 아이콘과 스타일 일관성 있는가?
+</code></pre>
+<h3>앱 아이콘 (<code>icon_1024.png</code>)</h3>
+<pre><code>[ ] 1024×1024 px 저장?
+[ ] 60px 축소 시 읽히는가?
+[ ] 배경 완전히 불투명한가 (앱 아이콘은 투명 배경 불가)?
+[ ] 어두운 배경 (#0D2619)?
+[ ] 광패 2장 + 금색 글로우 가시적?
+[ ] iOS 모서리 라운드 crop 시 핵심 요소 잘리지 않는가?
+     (1024px 기준 모서리 약 160px 라운드 — 핵심 요소 중앙에)
+</code></pre>
+<hr>
+<h2>6. 진척 체크리스트</h2>
+<pre><code>UI 아이콘:
+[ ] icon_bluff.png
+[ ] icon_1st_bet.png
+[ ] icon_2nd_bet.png
+[ ] icon_boss.png
+[ ] icon_victory.png
+[ ] icon_danger.png
+[ ] icon_calendar.png
+[ ] icon_codex.png
+[ ] icon_leaderboard.png
+[ ] icon_settings.png
+
+앱 아이콘:
+[ ] icon_1024.png (iOS/Android 공용)
+[ ] icon_512.png (Android Play 전용, downscale)
+</code></pre>
+<p><strong>총 진척</strong>: 0 / 12</p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>ui-icons.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>

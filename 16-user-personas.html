@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 사용자 페르소나</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 사용자 페르소나</h1>
+<blockquote>
+<p>핵심 사용자 6명 페르소나. 디자이너 / 마케터 / 게임 디자이너 모두 &quot;이 사용자가 좋아할 것&quot;을 기준으로 결정할 때 참조.</p>
+</blockquote>
+<hr>
+<h2>0. 페르소나 개요</h2>
+<h3>0-1. 우선순위</h3>
+<table>
+<thead>
+<tr>
+<th>페르소나</th>
+<th>타입</th>
+<th>비중 (추정)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>P1: 발라트로 한국 코어</strong></td>
+<td>코어</td>
+<td>🔴 35%</td>
+</tr>
+<tr>
+<td><strong>P2: 화투 친숙 중년</strong></td>
+<td>코어</td>
+<td>🟡 20%</td>
+</tr>
+<tr>
+<td><strong>P3: 글로벌 인디 카드 게이머</strong></td>
+<td>세컨더리</td>
+<td>🟡 20%</td>
+</tr>
+<tr>
+<td><strong>P4: K-문화 글로벌</strong></td>
+<td>세컨더리</td>
+<td>🟢 10%</td>
+</tr>
+<tr>
+<td><strong>P5: 캐주얼 모바일</strong></td>
+<td>확장</td>
+<td>🟢 10%</td>
+</tr>
+<tr>
+<td><strong>P6: 한국 스트리머 / 크리에이터</strong></td>
+<td>영향력</td>
+<td>🟢 5% (양적 적지만 영향 큼)</td>
+</tr>
+</tbody></table>
+<h3>0-2. 페르소나 사용법</h3>
+<ul>
+<li><strong>디자인 결정 시</strong>: &quot;P1 이 이걸 좋아할까?&quot; 질문</li>
+<li><strong>마케팅 카피</strong>: P1 + P2 한국 코어 우선, 부제는 P3 영문 톤</li>
+<li><strong>튜토리얼 깊이</strong>: P5 캐주얼 기준 (가장 적은 사전 지식)</li>
+<li><strong>접근성 / 모바일</strong>: P5 + P4 글로벌 고려</li>
+</ul>
+<hr>
+<h2>1. P1 — 발라트로 한국 코어</h2>
+<h3>1-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>김준호 (가명)</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>32세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>남성</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>IT 개발자 (대기업)</td>
+</tr>
+<tr>
+<td><strong>거주</strong></td>
+<td>서울</td>
+</tr>
+<tr>
+<td><strong>게임 시간</strong></td>
+<td>평일 저녁 1<del>2시간, 주말 3</del>5시간</td>
+</tr>
+<tr>
+<td><strong>플랫폼</strong></td>
+<td>Steam (PC) 메인, 가끔 Switch</td>
+</tr>
+</tbody></table>
+<h3>1-2. 게임 이력</h3>
+<ul>
+<li>발라트로 200+ 시간 (Steam 도전과제 100%)</li>
+<li>슬레이 더 스파이어 / 인스크립션 / 몽키스파이크 등 로그라이크 100시간+ 다수</li>
+<li>한국 게임: 인디 위주 (메이플 / 던파 등 MMO 거의 안 함)</li>
+<li>한국 화투: 어릴 때 가족 모임에서 본 정도. 룰 대충 앎.</li>
+</ul>
+<h3>1-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;발라트로 했으니 이것도 비슷한 재미일 거다&quot;</li>
+<li>빌딩 / 시너지 / 광패 / 보스 — 친숙한 메커니즘</li>
+<li>한국 정체성 — &quot;한국 IP 인디 게임 응원하고 싶음&quot;</li>
+<li>깊은 전략 — 단순 운 게임 ❌</li>
+</ul>
+<h3>1-4. 니즈</h3>
+<ul>
+<li>✅ 결정성 (시드 기반 — 같은 시드 같은 결과)</li>
+<li>✅ 깊이 (2단계 베팅 + 블러프 + 67 마패 빌드)</li>
+<li>✅ 통계 / 도전과제 (Steam achievement)</li>
+<li>✅ Steam 워크샵 / 모드 (옵션 — 장기적)</li>
+<li>❌ 모바일 인앱결제 (절대 거부감)</li>
+<li>❌ 가챠 / 확률형 (사행성 회피)</li>
+</ul>
+<h3>1-5. 디자이너가 고려할 점</h3>
+<ul>
+<li>UI 정보 밀도 ↑ — 다 보여줘도 OK (분석 좋아함)</li>
+<li>모션 빠른 진행 옵션 (속도 조절)</li>
+<li>다크모드 기본 (PC 어두운 방에서 플레이)</li>
+<li>발라트로 비교 회피 (직접 모방 ❌, 한국 정체성 ✅)</li>
+</ul>
+<h3>1-6. 시나리오</h3>
+<pre><code>21:00  퇴근 후 PC 앞 (헤드폰)
+21:05  Steam 라이브러리 → K-Sutda 클릭
+21:06  &quot;이어하기&quot; → 단계 5 보스 진입
+21:10  광땡 시너지 빌드 시도 — 1차 raise 로 블러프
+21:15  AI 다이 유도 성공 → &quot;🃏 블러프!&quot; → 흐뭇한 미소
+21:30  단계 5 클리어 → Market → Soul 카드 발견 (5% 확률!)
+21:45  단계 6 진입 → 결국 패배
+22:00  &quot;한 판 더...&quot; → 새 런 시작 (3번째)
+23:30  취침 (2시간 30분 플레이)
+</code></pre>
+<hr>
+<h2>2. P2 — 화투 친숙 중년</h2>
+<h3>2-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>박영주 (가명)</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>48세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>여성</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>자영업 (카페 운영)</td>
+</tr>
+<tr>
+<td><strong>거주</strong></td>
+<td>부산</td>
+</tr>
+<tr>
+<td><strong>게임 시간</strong></td>
+<td>점심 후 30분, 저녁 1시간</td>
+</tr>
+<tr>
+<td><strong>플랫폼</strong></td>
+<td>모바일 (iPhone) 메인, 가끔 노트북</td>
+</tr>
+</tbody></table>
+<h3>2-2. 게임 이력</h3>
+<ul>
+<li>한게임 섯다 / 고스톱 다수 (10년+)</li>
+<li>캔디크러시 / 애니팡 등 캐주얼 모바일 게임</li>
+<li>발라트로 모름, 로그라이크 개념 모름</li>
+<li>화투 깊은 이해 — 모든 족보 / 룰 / 매너 알고 있음</li>
+</ul>
+<h3>2-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;섯다인데 좀 다르네? 신기하다&quot;</li>
+<li>친숙한 화투 카드 + 새로운 시스템</li>
+<li>한국 정체성 — 자부심</li>
+<li>가벼운 시간 보내기 — 깊이 분석 안 함</li>
+</ul>
+<h3>2-4. 니즈</h3>
+<ul>
+<li>✅ 한국 화투 정확한 비주얼 (어색하면 즉시 인지)</li>
+<li>✅ 한국적 정서 (도박판 분위기 — 옛 기억)</li>
+<li>✅ 모바일 한 손 플레이</li>
+<li>✅ 자동 세이브 (불규칙 플레이)</li>
+<li>✅ 가족 / 친구와 점수 공유 (간단)</li>
+<li>❌ 복잡한 시스템 (67 마패 외우기 부담)</li>
+<li>❌ 영어 텍스트 (한글만)</li>
+</ul>
+<h3>2-5. 디자이너가 고려할 점</h3>
+<ul>
+<li>화투 카드 일러스트 = 한국 정확성 핵심 (일본 톤 즉시 거부감)</li>
+<li>폰트 가독성 ↑ (40대 후반 시력)</li>
+<li>모바일 한 손 플레이 (엄지 도달 영역)</li>
+<li>인앱 도움말 / 튜토리얼 — P5 캐주얼 수준</li>
+<li>깊은 시스템 (블러프 / 효과 매트릭스) 은 옵션 / 점진 노출</li>
+</ul>
+<h3>2-6. 시나리오</h3>
+<pre><code>13:30  점심 후 카페 잠시 한산
+13:32  iPhone → K-Sutda → &quot;이어하기&quot;
+13:34  단계 2 진입, 1차 카드 받음
+13:36  &quot;어 1월 송학광이네! 좋다&quot;
+13:38  콜 → 2차 → 광패 1장 더 → 광 두 장 (광땡!)
+13:40  점수 폭발 → 메뉴 화면 → 친구한테 카톡 &quot;광땡 떴어!&quot;
+13:45  손님 옴 → 게임 중단 (자동 세이브)
+20:00  저녁 마감 후 다시 시작 → 어제 이어서
+</code></pre>
+<hr>
+<h2>3. P3 — 글로벌 인디 카드 게이머</h2>
+<h3>3-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>Alex Schmidt</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>28세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>비공개</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>디자이너 (베를린)</td>
+</tr>
+<tr>
+<td><strong>거주</strong></td>
+<td>독일 베를린</td>
+</tr>
+<tr>
+<td><strong>게임 시간</strong></td>
+<td>주말 위주, 한 번 3~6시간</td>
+</tr>
+<tr>
+<td><strong>플랫폼</strong></td>
+<td>Steam 메인, Steam Deck</td>
+</tr>
+</tbody></table>
+<h3>3-2. 게임 이력</h3>
+<ul>
+<li>발라트로 / 슬레이 / 인스크립션 / 디스코 엘리시움 등 인디 코어</li>
+<li>한국 게임: 라이즈 오브 더 로닌 / 림버스 컴퍼니 (한국 게임 알지만 깊지 X)</li>
+<li>아시아 카드 게임 호기심 (야쿠자 시리즈의 마작 등 즐김)</li>
+</ul>
+<h3>3-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;Korean Sutda? Looks intriguing. Different from Japanese hanafuda?&quot;</li>
+<li>동양 카드 게임 신선함</li>
+<li>발라트로 후속작 갈증 — 다른 카드 게임 빌더 원함</li>
+<li>K-문화 호기심 (오징어 게임 / Kpop 영향)</li>
+</ul>
+<h3>3-4. 니즈</h3>
+<ul>
+<li>✅ 영어 localization (UI 100%, 보스 대사 영문)</li>
+<li>✅ Steam Deck 호환 (컨트롤러 + 가독성)</li>
+<li>✅ 한국 정체성 유지 (Sutda / Mapa / Gwangddaeng 어휘 보존)</li>
+<li>✅ 학습 곡선 — 첫 30분에 룰 이해</li>
+<li>✅ 발라트로 비교 마케팅 (긍정적 — &quot;if you liked Balatro...&quot;)</li>
+<li>❌ 일본 게임처럼 보이지 않기 (구별 명확)</li>
+<li>❌ Pay-to-Win</li>
+</ul>
+<h3>3-5. 디자이너가 고려할 점</h3>
+<ul>
+<li>&quot;Korean&quot; 정체성 시각 명확 (일본 화투 ≠ 한국 화투 차이표 — 14-cultural-guide)</li>
+<li>영문 폰트 가독성 (Pretendard / Inter)</li>
+<li>발라트로 톤 일부 차용 OK (영문권 친숙) 단, 한국 정체성 유지</li>
+<li>Steam Deck 컨트롤러 입력 가이드</li>
+<li>튜토리얼: &quot;What is Gwang?&quot; &quot;What is a Sutda hand?&quot; 영문 자연스럽게</li>
+</ul>
+<h3>3-6. 시나리오</h3>
+<pre><code>Sat 14:00  Steam Deck 카페에서
+14:05      K-Sutda 첫 진입 (베타 키 입수)
+14:10      Tutorial: &quot;Sutda is a two-card Korean game...&quot;
+14:20      First run — Stage 1 cleared!
+14:45      &quot;Mapa market? Like Balatro shop. Nice.&quot;
+15:30      Stage 4 boss defeated. &#39;Choi Gangsu&#39; — interesting character.
+16:00      Stream 종료 — Discord 에 &quot;Korean roguelike like Balatro but darker, mysterious&quot; 코멘트
+</code></pre>
+<hr>
+<h2>4. P4 — K-문화 글로벌</h2>
+<h3>4-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>Maria Sanchez</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>24세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>여성</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>대학생 (스페인 마드리드)</td>
+</tr>
+<tr>
+<td><strong>거주</strong></td>
+<td>스페인</td>
+</tr>
+<tr>
+<td><strong>게임 시간</strong></td>
+<td>주중 1시간, 모바일 위주</td>
+</tr>
+<tr>
+<td><strong>플랫폼</strong></td>
+<td>iPhone, Steam (가끔)</td>
+</tr>
+</tbody></table>
+<h3>4-2. 게임 / 문화 이력</h3>
+<ul>
+<li>Kpop / K-drama 팬 (NewJeans / 오징어게임 / 더 글로리)</li>
+<li>Sticky Bus / Among Us 등 가벼운 게임</li>
+<li>한국 음식 / 한국어 학습 중</li>
+<li>카드 게임 / 로그라이크 경험 적음</li>
+</ul>
+<h3>4-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;Korean game! Looks cool. Like in K-drama gambling scenes?&quot;</li>
+<li>한국 문화 체험 — 게임으로 더 깊이</li>
+<li>가벼운 즐거움 — 깊은 전략 X</li>
+<li>비주얼 / 캐릭터 매력적이면 OK</li>
+</ul>
+<h3>4-4. 니즈</h3>
+<ul>
+<li>✅ 영어 또는 스페인어 localization (영어로 충분)</li>
+<li>✅ 캐릭터 일러스트 매력 (보스 8명 — 03-characters)</li>
+<li>✅ K-문화 어휘 / 디자인 (Sutda / 화투 시각)</li>
+<li>✅ 모바일 친화 (가벼운 플레이)</li>
+<li>✅ 영상 / SNS 공유 가능 (광짤 / 캡처)</li>
+<li>❌ 너무 어려움 (인지 부담 ↑)</li>
+<li>❌ 도박 미화 (정서적 거부감)</li>
+</ul>
+<h3>4-5. 디자이너가 고려할 점</h3>
+<ul>
+<li>캐릭터 일러스트 매력 (드라마틱한 한복 / 탈 / 한국 미술)</li>
+<li>모바일 UI 우선 (12-mobile-ui)</li>
+<li>영문 카피 K-문화 어휘 보존 (Sutda / Mapa)</li>
+<li>튜토리얼 영문 + 일러스트 / 영상 (텍스트 의존 ↓)</li>
+<li>광패 시각 임팩트 (글로우 / 파티클 — 13-visual-effects)</li>
+</ul>
+<h3>4-6. 시나리오</h3>
+<pre><code>20:00  과제 끝, iPhone 들고 침대
+20:05  Instagram → K-Sutda 광고 영상 본 적 있음 → App Store 검색 → 다운로드
+20:10  Tutorial — &quot;Korean two-card game&quot;
+20:15  First run, 단계 1 클리어
+20:20  보스 일러스트 보고 &quot;Wow this looks like K-drama&quot; → 스토리 보기
+20:30  단계 3 보스 (강도진) 패배 → &quot;Try again&quot;
+20:45  취침 (45분 플레이, 가벼움)
+</code></pre>
+<hr>
+<h2>5. P5 — 캐주얼 모바일</h2>
+<h3>5-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>김미진 (가명)</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>38세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>여성</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>회사원 (대전)</td>
+</tr>
+<tr>
+<td><strong>거주</strong></td>
+<td>대전</td>
+</tr>
+<tr>
+<td><strong>게임 시간</strong></td>
+<td>출퇴근 지하철 30분, 점심 20분</td>
+</tr>
+<tr>
+<td><strong>플랫폼</strong></td>
+<td>모바일 (안드로이드)</td>
+</tr>
+</tbody></table>
+<h3>5-2. 게임 이력</h3>
+<ul>
+<li>캔디크러시 / 애니팡 / 라이즈 오브 킹덤 등 모바일 캐주얼</li>
+<li>카드 게임 / 화투 경험 없음</li>
+<li>로그라이크 / 빌더 개념 모름</li>
+</ul>
+<h3>5-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;광고에서 보고 호기심&quot;</li>
+<li>가볍게 시간 보내기 — 출퇴근 / 점심</li>
+<li>한국 게임 = 친근</li>
+</ul>
+<h3>5-4. 니즈</h3>
+<ul>
+<li>✅ 단순 (한 판 5분 이내)</li>
+<li>✅ 모바일 한 손 플레이</li>
+<li>✅ 무료 (인앱결제 OK 단 강요 X)</li>
+<li>✅ 자주 자동 세이브</li>
+<li>✅ 일별 출석 / 도전과제 (지속 동기)</li>
+<li>❌ 복잡한 룰 / 전략</li>
+<li>❌ 학습 곡선 가파름</li>
+</ul>
+<h3>5-5. 디자이너가 고려할 점</h3>
+<ul>
+<li><strong>튜토리얼 가장 중요</strong> — P5 가 이해 가능하면 모두 가능</li>
+<li>모바일 UI 한 손 (엄지)</li>
+<li>일별 활동 (DailyActivity) — 출석 동기</li>
+<li>한 판 빠르게 — 한 라운드 5분 이내</li>
+<li>시각 임팩트 (점수 폭발) — 즉각 만족</li>
+</ul>
+<h3>5-6. 시나리오</h3>
+<pre><code>08:30  지하철 (1시간 출근)
+08:35  K-Sutda → 어제 진행 이어하기 → 단계 1
+08:40  한 라운드 진행 (3판 1단계) → 6분
+08:50  3 라운드 더 → 단계 1 클리어
+09:00  지하철 도착 → 게임 종료
+12:30  점심 후 → 어제 단계 1 어디까지 했지 → DailyActivity 보고 &quot;오늘 +250&quot; 만족
+12:45  단계 2 한 판 더 → 패배 → 점심시간 끝
+</code></pre>
+<hr>
+<h2>6. P6 — 한국 스트리머 / 크리에이터</h2>
+<h3>6-1. 프로필</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>이름</strong></td>
+<td>박치호 (가명, 스트리머명 &quot;도박왕치호&quot;)</td>
+</tr>
+<tr>
+<td><strong>나이</strong></td>
+<td>30세</td>
+</tr>
+<tr>
+<td><strong>성별</strong></td>
+<td>남성</td>
+</tr>
+<tr>
+<td><strong>직업</strong></td>
+<td>풀타임 스트리머 (Twitch / YouTube)</td>
+</tr>
+<tr>
+<td><strong>구독자</strong></td>
+<td>8만 명 (Twitch), 12만 (YouTube)</td>
+</tr>
+<tr>
+<td><strong>컨텐츠</strong></td>
+<td>인디 게임 위주, 발라트로 100시간+ 방송</td>
+</tr>
+</tbody></table>
+<h3>6-2. 게임 이력</h3>
+<ul>
+<li>발라트로 / 슬레이 등 카드 인디 다수 방송</li>
+<li>한국 게임 적극 홍보 (인디 응원)</li>
+<li>시청자 반응 빠른 게임 선호 (광패 시각 임팩트 등)</li>
+</ul>
+<h3>6-3. K-Sutda 에 대한 기대</h3>
+<ul>
+<li>&quot;한국 게임! 발라트로 같은 거! 시청자 반응 좋겠다&quot;</li>
+<li>짧은 영상 / 클립 만들기 좋은 게임 (광짤 등)</li>
+<li>자기 빌드 자랑 (시청자 와 토론)</li>
+<li>베타 키 빠르게 받고 싶음</li>
+</ul>
+<h3>6-4. 니즈</h3>
+<ul>
+<li>✅ 시각 임팩트 (광패 글로우, 점수 폭발) — 시청자 끌어들임</li>
+<li>✅ 짧은 영상 추출 가능 (15초 클립)</li>
+<li>✅ 인디 게임 응원 톤 (개발자 직접 소통)</li>
+<li>✅ 베타 키 / 인플루언서 키 우선</li>
+<li>✅ Discord 채널 (시청자 + 개발자 소통)</li>
+<li>❌ 인앱결제 (시청자 거부감)</li>
+<li>❌ 너무 단순 (10분 방송 분량 안 나옴)</li>
+</ul>
+<h3>6-5. 디자이너가 고려할 점</h3>
+<ul>
+<li><strong>시각 임팩트</strong> = 디자이너가 가장 영향 큰 곳 (광패 글로우 / 점수 폭발 = 영상 핵심)</li>
+<li>보스 캐릭터 매력 (스트리머가 매번 다른 보스 소개)</li>
+<li>영상에서 한 번에 룰 이해 가능 (시청자 첫 시청)</li>
+<li>광짤 / 캡처 SNS 공유 자연 (워터마크 / 로고 = 게임 인지)</li>
+<li>베타 단계부터 인플루언서 인지 (홍보 효과)</li>
+</ul>
+<h3>6-6. 시나리오</h3>
+<pre><code>13:00  방송 시작 → &quot;오늘 새 게임! K-Sutda&quot;
+13:05  메인 메뉴 보고 시청자 한국 정체성 인지
+13:10  Tutorial 빠르게 (5분) → 첫 런
+13:30  광땡 떴음! → 시청자 채팅 폭발 &quot;광땡!!&quot;
+13:35  광짤 클립 자동 저장 → YouTube 쇼츠 업로드 (15초)
+14:00  단계 5 패배 → &quot;한 판 더!&quot;
+15:00  Discord 에서 시청자 빌드 토론 → 다른 시청자 시드 공유 (결정성!)
+17:00  방송 종료 (4시간)
+22:00  하이라이트 영상 편집 → YouTube 업로드
+</code></pre>
+<hr>
+<h2>7. 페르소나 → 디자인 결정 매트릭스</h2>
+<p>각 디자인 결정 시 페르소나별 영향 평가:</p>
+<table>
+<thead>
+<tr>
+<th>결정</th>
+<th>P1</th>
+<th>P2</th>
+<th>P3</th>
+<th>P4</th>
+<th>P5</th>
+<th>P6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>한국 정체성 강조</td>
+<td>✅</td>
+<td>✅✅</td>
+<td>✅</td>
+<td>✅✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>깊은 시스템 (블러프 등)</td>
+<td>✅✅</td>
+<td>⚠ 옵션</td>
+<td>✅</td>
+<td>⚠</td>
+<td>❌</td>
+<td>✅✅</td>
+</tr>
+<tr>
+<td>모바일 UI</td>
+<td>⚠</td>
+<td>✅✅</td>
+<td>—</td>
+<td>✅✅</td>
+<td>✅✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>영문 localization</td>
+<td>—</td>
+<td>❌</td>
+<td>✅✅</td>
+<td>✅✅</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>시각 임팩트 (광패 / 폭발)</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅✅</td>
+<td>✅✅</td>
+<td>✅✅✅</td>
+</tr>
+<tr>
+<td>튜토리얼 깊이</td>
+<td>⚠ skip 옵션</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅✅</td>
+<td>✅✅✅</td>
+<td>✅ (영상용)</td>
+</tr>
+<tr>
+<td>도전과제 / Steam achievement</td>
+<td>✅✅</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Discord / 커뮤니티</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+<td>✅✅✅</td>
+</tr>
+<tr>
+<td>일별 활동 / 출석</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+<td>✅</td>
+<td>✅✅✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Pay-to-Win / 가챠</td>
+<td>❌❌</td>
+<td>❌</td>
+<td>❌❌</td>
+<td>❌</td>
+<td>⚠</td>
+<td>❌❌</td>
+</tr>
+</tbody></table>
+<p>→ <strong>공통 ✅</strong>: 한국 정체성, 시각 임팩트, 도박 미화 회피
+→ <strong>분기</strong>: 깊은 시스템 (P1/P6) vs 단순함 (P5), 모바일 (P2/P4/P5) vs PC (P1/P3/P6)</p>
+<hr>
+<h2>8. 페르소나 활용 — 디자이너 워크플로우</h2>
+<h3>8-1. 새 화면 시안 시</h3>
+<ul>
+<li><strong>첫 번째 페르소나</strong>: P1 (발라트로 한국 코어) — 메인 사용자</li>
+<li><strong>검증 페르소나</strong>: P5 (캐주얼) — &quot;이해 가능한가?&quot;</li>
+<li><strong>글로벌 검증</strong>: P3 (인디 카드) — &quot;한국 정체성 + 영문 자연?&quot;</li>
+</ul>
+<h3>8-2. 마케팅 카피</h3>
+<ul>
+<li>한국 메인: P1 + P2 우선 — &quot;광 한 번 보는 데 인생을 건다&quot;</li>
+<li>글로벌: P3 + P4 — &quot;One last hand&quot;</li>
+<li>인플루언서: P6 — 짧은 클립 + 베타 키 우선</li>
+</ul>
+<h3>8-3. 접근성 / 모바일</h3>
+<ul>
+<li>P5 가 만족하면 모두 만족</li>
+<li>폰트 사이즈 / 터치 타겟 / 튜토리얼 깊이 → P5 기준</li>
+</ul>
+<h3>8-4. 깊이 / 옵션</h3>
+<ul>
+<li>P1 / P6 만 사용할 옵션 (스피드 모드 / 통계 / 도전과제) 점진 추가</li>
+<li>P5 가 부담스럽지 않도록 기본은 단순, 옵션으로 깊이</li>
+</ul>
+<hr>
+<h2>9. 베타 테스트 시 페르소나 분포</h2>
+<p>베타 사용자 100~500명 모집 시 권장 분포:</p>
+<table>
+<thead>
+<tr>
+<th>페르소나</th>
+<th>모집 %</th>
+<th>채널</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P1</td>
+<td>40%</td>
+<td>Steam 발라트로 커뮤니티 / 한국 인디 디스코드</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>15%</td>
+<td>카페 / 가족 / 친지 (오프라인)</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>20%</td>
+<td>Reddit r/Roguelike / Steam 글로벌</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>10%</td>
+<td>Twitter Kpop / 한국 문화 태그</td>
+</tr>
+<tr>
+<td>P5</td>
+<td>10%</td>
+<td>Google Form 일반 모집</td>
+</tr>
+<tr>
+<td>P6</td>
+<td>5%</td>
+<td>직접 인플루언서 컨택 (베타 키 우선 배포)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>10. 향후 페르소나 추가 (출시 후)</h2>
+<h3>10-1. 잠재 페르소나</h3>
+<ul>
+<li><strong>한국 노년 (60대+)</strong> — 화투 친숙도 ↑, 모바일 사용성 (큰 글씨 옵션)</li>
+<li><strong>글로벌 카지노 카드 게이머</strong> — 포커 / 블랙잭 출신, 도박 게임 친숙</li>
+<li><strong>한국 모바일 게임 코어</strong> — 리니지 / 메이플 등 MMO 위주, 카드 게임 진입</li>
+</ul>
+<h3>10-2. 데이터 수집</h3>
+<ul>
+<li>베타 시작과 함께 사용자 설문 (옵션) — 페르소나 분포 측정</li>
+<li>일별 활동 데이터 → 사용자 행동 패턴 분석</li>
+<li>분석 후 페르소나 가중치 재조정 (출시 1개월 후)</li>
+</ul>
+<hr>
+<h2>11. 페르소나 ↔ 캐릭터 연결</h2>
+<p>본 게임의 단계별 보스 (03-characters) 와 페르소나 매핑:</p>
+<table>
+<thead>
+<tr>
+<th>보스 단계</th>
+<th>매칭 페르소나</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 달삼이 (가벼움)</td>
+<td>P5 (캐주얼) 가 첫 만남에 친근</td>
+</tr>
+<tr>
+<td>2 오영자 (시장 상인)</td>
+<td>P2 (화투 친숙 중년) 가 공감</td>
+</tr>
+<tr>
+<td>3 강도진 (신참 마패)</td>
+<td>P1 (코어) 가 도전적</td>
+</tr>
+<tr>
+<td>5 현묵 스님 (수행자)</td>
+<td>P3 / P4 (글로벌) 가 K-문화 매력</td>
+</tr>
+<tr>
+<td>7 탈춤 영감 (광대)</td>
+<td>P6 (스트리머) 가 영상 자료</td>
+</tr>
+<tr>
+<td>8 남궁천 (전설)</td>
+<td>P1 (코어) 가 최종 도전</td>
+</tr>
+</tbody></table>
+<p>→ 모든 페르소나가 다른 보스에 공감할 수 있도록 단계 분포 설계.</p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>16-user-personas.md</code>
+</div>
+</body>
+</html>

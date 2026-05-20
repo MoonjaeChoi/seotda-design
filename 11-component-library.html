@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 컴포넌트 라이브러리</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 컴포넌트 라이브러리</h1>
+<blockquote>
+<p>재사용 UI 컴포넌트의 시각 + 상태 + 사양 + 코드 매핑. Figma 컴포넌트 등록 + Godot 구현 인터페이스.</p>
+</blockquote>
+<hr>
+<h2>0. 컴포넌트 분류</h2>
+<h3>0-1. 카테고리</h3>
+<table>
+<thead>
+<tr>
+<th>카테고리</th>
+<th>컴포넌트</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Atoms</strong> (원자)</td>
+<td>Label, Button, Input, Slider, Icon, Divider</td>
+</tr>
+<tr>
+<td><strong>Molecules</strong> (분자)</td>
+<td>Card, MapaSlot, StatCard, ScoreBadge, ToastMessage</td>
+</tr>
+<tr>
+<td><strong>Organisms</strong> (유기체)</td>
+<td>BettingPanel, PrestigeBar, DeckTrackerBar, ResultPanel</td>
+</tr>
+<tr>
+<td><strong>Templates</strong> (템플릿)</td>
+<td>Board layout, Market layout, MainMenu layout</td>
+</tr>
+</tbody></table>
+<p>본 문서는 <strong>Atoms + Molecules + Organisms</strong> 중심.</p>
+<h3>0-2. 컴포넌트 명명 규칙</h3>
+<ul>
+<li>PascalCase: <code>BettingPanel</code>, <code>MapaSlot</code>, <code>CardVisual</code></li>
+<li>변형: <code>Button.Primary</code>, <code>Button.Danger</code>, <code>Toast.Bluff</code></li>
+<li>상태: <code>Button[hover]</code>, <code>Card[face_up]</code></li>
+</ul>
+<hr>
+<h2>1. Atoms — 원자 컴포넌트</h2>
+<h3>1-1. Label</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>폰트</th>
+<th>색</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Label.Title</code></td>
+<td>96px Bold</td>
+<td>TEXT_PRIMARY</td>
+<td>MainMenu 타이틀</td>
+</tr>
+<tr>
+<td><code>Label.Heading</code></td>
+<td>32px Bold</td>
+<td>TEXT_PRIMARY</td>
+<td>섹션 헤더</td>
+</tr>
+<tr>
+<td><code>Label.SubHeading</code></td>
+<td>24px Bold</td>
+<td>TEXT_PRIMARY</td>
+<td>토스트 / 모달 헤더</td>
+</tr>
+<tr>
+<td><code>Label.Body</code></td>
+<td>16px Regular</td>
+<td>TEXT_PRIMARY</td>
+<td>일반 본문</td>
+</tr>
+<tr>
+<td><code>Label.Caption</code></td>
+<td>12px Regular</td>
+<td>TEXT_SECONDARY</td>
+<td>보조 정보</td>
+</tr>
+<tr>
+<td><code>Label.Gold</code></td>
+<td>16~32px Bold</td>
+<td>TEXT_GOLD</td>
+<td>강조 (점수 / 승리)</td>
+</tr>
+<tr>
+<td><code>Label.Danger</code></td>
+<td>16~24px Bold</td>
+<td>ACCENT_VERMILION</td>
+<td>위험 (명성치 &lt; 0)</td>
+</tr>
+<tr>
+<td><code>Label.Score.Explode</code></td>
+<td>96px Bold</td>
+<td>TEXT_GOLD</td>
+<td>점수 폭발 (모션 M-05)</td>
+</tr>
+</tbody></table>
+<p><strong>Godot 코드</strong>: <code>Label</code> 노드 + <code>add_theme_color_override(&quot;font_color&quot;, ...)</code></p>
+<hr>
+<h3>1-2. Button</h3>
+<h4>1-2-1. 변형 (Variant)</h4>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>색</th>
+<th>텍스트 색</th>
+<th>보더</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Button.Primary</code></td>
+<td>ACCENT_BEIGE</td>
+<td>짙은 먹</td>
+<td>먹색 1px</td>
+</tr>
+<tr>
+<td><code>Button.Danger</code></td>
+<td>투명</td>
+<td>ACCENT_VERMILION</td>
+<td>ACCENT_VERMILION 2px</td>
+</tr>
+<tr>
+<td><code>Button.Success</code></td>
+<td>투명</td>
+<td>ACCENT_GOLD</td>
+<td>ACCENT_GOLD 2px</td>
+</tr>
+<tr>
+<td><code>Button.Secondary</code></td>
+<td>투명</td>
+<td>TEXT_SECONDARY</td>
+<td>TEXT_SECONDARY 1px</td>
+</tr>
+<tr>
+<td><code>Button.Ghost</code></td>
+<td>투명</td>
+<td>TEXT_PRIMARY</td>
+<td>투명</td>
+</tr>
+</tbody></table>
+<h4>1-2-2. 상태 (8번 가이드 §1-1)</h4>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>(위 변형)</td>
+</tr>
+<tr>
+<td>hover</td>
+<td>scale 1.03, 배경 +5% lightness</td>
+</tr>
+<tr>
+<td>pressed</td>
+<td>scale 0.97, 배경 -10% lightness</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>alpha 0.5, hover/pressed 없음</td>
+</tr>
+</tbody></table>
+<h4>1-2-3. 사이즈</h4>
+<table>
+<thead>
+<tr>
+<th>사이즈</th>
+<th>폭 × 높이</th>
+<th>폰트</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Button.Small</code></td>
+<td>100×36</td>
+<td>14px</td>
+<td>보조</td>
+</tr>
+<tr>
+<td><code>Button.Medium</code></td>
+<td>130×48</td>
+<td>16px</td>
+<td>일반</td>
+</tr>
+<tr>
+<td><code>Button.Large</code></td>
+<td>240×64</td>
+<td>18px Bold</td>
+<td>MainMenu 메인 액션</td>
+</tr>
+</tbody></table>
+<p><strong>Godot 코드</strong>: <code>Button</code> 노드 + custom stylebox (Phase 3 Sprint 3.2 에서 일부 시작)</p>
+<hr>
+<h3>1-3. Input (LineEdit)</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Input.Default</code></td>
+<td>한지 베이지 배경 + 옅은 보더</td>
+</tr>
+<tr>
+<td><code>Input.Focus</code></td>
+<td>보더 금색 + 살짝 글로우</td>
+</tr>
+<tr>
+<td><code>Input.Error</code></td>
+<td>보더 주홍 + 하단 에러 텍스트 (12px)</td>
+</tr>
+<tr>
+<td><code>Input.Success</code></td>
+<td>보더 청록</td>
+</tr>
+</tbody></table>
+<p><strong>사양</strong>: min-width 200px, height 36<del>40px, padding 8</del>12px, font 16px</p>
+<hr>
+<h3>1-4. Slider</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Slider.Default</code></td>
+<td>한지 베이지 트랙 + 금색 핸들 (12×12)</td>
+</tr>
+<tr>
+<td><code>Slider.Active</code></td>
+<td>트랙 진해짐 + 핸들 scale 1.2</td>
+</tr>
+<tr>
+<td><code>Slider.Value Display</code></td>
+<td>슬라이더 옆 라벨 (&quot;레이즈: 30&quot;)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>1-5. Icon</h3>
+<table>
+<thead>
+<tr>
+<th>의미</th>
+<th>현재 (이모지)</th>
+<th>권장 SVG (Sprint 외주)</th>
+<th>크기</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1차 베팅 / 블러프</td>
+<td>🃏</td>
+<td>가면 / 손가락 입술</td>
+<td>24×24</td>
+</tr>
+<tr>
+<td>2차 베팅</td>
+<td>🎴</td>
+<td>카드 부채</td>
+<td>24×24</td>
+</tr>
+<tr>
+<td>보스</td>
+<td>⚔️</td>
+<td>한국 검 / 도장</td>
+<td>32×32</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>🏆</td>
+<td>한국 도장</td>
+<td>32×32</td>
+</tr>
+<tr>
+<td>위험</td>
+<td>⚠️ / ⚠</td>
+<td>경고 표지</td>
+<td>16×16</td>
+</tr>
+<tr>
+<td>일별 활동</td>
+<td>📅</td>
+<td>달력</td>
+<td>24×24</td>
+</tr>
+<tr>
+<td>게임 규칙</td>
+<td>📖</td>
+<td>책</td>
+<td>24×24</td>
+</tr>
+</tbody></table>
+<p><strong>Godot 통합</strong>: <code>TextureRect</code> 또는 폰트 아이콘 (Material Symbols / Lucide 등)</p>
+<hr>
+<h3>1-6. Divider</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Divider.Horizontal</code></td>
+<td>1px line, TEXT_MUTED 색, margin Y: 16px</td>
+</tr>
+<tr>
+<td><code>Divider.Vertical</code></td>
+<td>1px line, vertical (between buttons)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. Molecules — 분자 컴포넌트</h2>
+<h3>2-1. Card (CardVisual)</h3>
+<p><strong>현재 코드</strong>: <code>scripts/game/Card.gd</code></p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>사이즈</td>
+<td>220 × 320 px</td>
+</tr>
+<tr>
+<td>face_up</td>
+<td>한지 베이지 배경 + 월/type 일러스트 (디자이너 작업)</td>
+</tr>
+<tr>
+<td>face_down</td>
+<td>짙은 녹색 + 격자 패턴 + 중앙 마크</td>
+</tr>
+<tr>
+<td>광패 강조</td>
+<td>4px 금색 보더 (자동 감지)</td>
+</tr>
+<tr>
+<td>정보 표시</td>
+<td>좌상단 &quot;%d월&quot; (12px 흰색) + 우하단 type 한글 (14px 흰색)</td>
+</tr>
+<tr>
+<td>모션</td>
+<td>M-01 fade-in / M-02 flip / M-03 슬라이드인</td>
+</tr>
+</tbody></table>
+<p><strong>상태</strong>:</p>
+<ul>
+<li><code>default</code> — 정적</li>
+<li><code>clickable</code> — mulligan 가능 시 hover 글로우</li>
+<li><code>partial_reveal</code> — Sprint 3.8 info_reveal 효과 (월만 / 월+type 노출)</li>
+</ul>
+<p><strong>Godot Variants</strong> (현재 코드):</p>
+<ul>
+<li><code>set_card(data, face_up)</code> — 카드 설정</li>
+<li><code>flip(face_up)</code> — 뒤집기 애니메이션</li>
+<li><code>set_partial_reveal(level)</code> — 부분 노출</li>
+</ul>
+<hr>
+<h3>2-2. MapaSlot</h3>
+<p><strong>현재 코드</strong>: <code>scripts/game/MapaSlot.gd</code></p>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>empty</code></td>
+<td>빈 슬롯, 회색 보더 점선</td>
+</tr>
+<tr>
+<td><code>equipped</code></td>
+<td>마패 카드 미니뷰 + 희귀도 색 보더</td>
+</tr>
+<tr>
+<td><code>equipped[selected]</code></td>
+<td>추가 글로우 (swap 모드)</td>
+</tr>
+<tr>
+<td><code>equipped[triggered]</code></td>
+<td>M-13 펄스 (효과 발동)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>희귀도 보더 색</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>common — 회색 #8C8C8C</td>
+</tr>
+<tr>
+<td>uncommon — 청 #338CD9</td>
+</tr>
+<tr>
+<td>rare — 자주 #C74DD9</td>
+</tr>
+<tr>
+<td>legendary — 주황 #F39C2E + 글로우</td>
+</tr>
+</tbody></table>
+<p><strong>사이즈</strong>: 100 × 140 px (Board 슬롯) / 200 × 280 px (Market 진열)</p>
+<hr>
+<h3>2-3. StatCard (Daily Activity)</h3>
+<pre><code>┌─ 오늘 ──────┐
+│             │  ← Header (Label.Body Secondary)
+│  +1,350     │  ← Total (Label.Heading, ACCENT_GOLD/VERMILION)
+│             │
+│  3 런       │  ← Detail line 1 (Label.Caption)
+│  1승 2패    │  ← Detail line 2 (Label.Caption)
+└─────────────┘
+</code></pre>
+<p><strong>사이즈</strong>: 340 × 120 px
+<strong>색</strong>: 양수 = 금 / 음수 = 주홍 / 0 = 회색
+<strong>Godot</strong>: <code>PanelContainer</code> + <code>VBoxContainer</code></p>
+<hr>
+<h3>2-4. ToastMessage</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>배경</th>
+<th>텍스트</th>
+<th>아이콘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Toast.Info</code></td>
+<td>TEXT_MUTED 회색 + alpha 0.85</td>
+<td>TEXT_PRIMARY 흰색</td>
+<td>ℹ️</td>
+</tr>
+<tr>
+<td><code>Toast.Success</code></td>
+<td>ACCENT_GOLD + alpha 0.85</td>
+<td>짙은 먹</td>
+<td>🏆</td>
+</tr>
+<tr>
+<td><code>Toast.Warning</code></td>
+<td>ACCENT_VERMILION + alpha 0.85</td>
+<td>흰색</td>
+<td>⚠</td>
+</tr>
+<tr>
+<td><code>Toast.Danger</code></td>
+<td>짙은 주홍 (#8C2222) + alpha 0.9</td>
+<td>흰색</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td><code>Toast.Bluff</code></td>
+<td>ACCENT_GOLD + alpha 0.85</td>
+<td>짙은 먹</td>
+<td>🃏</td>
+</tr>
+</tbody></table>
+<p><strong>사양</strong>:</p>
+<ul>
+<li>사이즈: auto-width (텍스트 따라), min 200px, max 600px</li>
+<li>height: 40~56px (1줄 또는 2줄)</li>
+<li>위치: 화면 상단 중앙 margin-top 60px</li>
+<li>모션: M-09 (3.25s)</li>
+</ul>
+<p>→ 현재 Board 의 <code>result_label</code> 이 토스트 역할 일부 수행. 별도 토스트 시스템은 미래 sprint.</p>
+<hr>
+<h3>2-5. ScoreBadge</h3>
+<pre><code>┌───────────┐
+│  +1,500   │
+└───────────┘
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>색</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ScoreBadge.Positive</code></td>
+<td>ACCENT_GOLD 배경, 짙은 먹 텍스트</td>
+</tr>
+<tr>
+<td><code>ScoreBadge.Negative</code></td>
+<td>ACCENT_VERMILION 배경, 흰 텍스트</td>
+</tr>
+<tr>
+<td><code>ScoreBadge.Neutral</code></td>
+<td>TEXT_MUTED 배경, 흰 텍스트</td>
+</tr>
+</tbody></table>
+<p><strong>사이즈</strong>: padding 8×16, font 16~24px Bold, border-radius 4px</p>
+<hr>
+<h2>3. Organisms — 유기체 컴포넌트</h2>
+<h3>3-1. BettingPanel</h3>
+<p><strong>현재 코드</strong>: <code>scripts/game/BettingPanel.gd</code></p>
+<h4>3-1-1. 1차 모드</h4>
+<pre><code>┌──── BettingPanel.FirstBet ─────────────────┐
+│  명성치: 1,234        🃏 1차 베팅 (콜 5)   │ ← Header
+│  ┌────────────┐ ┌─────────────┐ ┌────────┐│
+│  │콜(1차 5)    │ │1차 레이즈(+5)│ │다이(-5)││ ← Button.Success / Danger
+│  └────────────┘ └─────────────┘ └────────┘│
+└──────────────────────────────────────────────┘
+배경: ACCENT_VERMILION 보더 강조
+</code></pre>
+<h4>3-1-2. 2차 모드</h4>
+<pre><code>┌──── BettingPanel.SecondBet ────────────────┐
+│  명성치: 1,229        🎴 2차 베팅 (콜 10)  │
+│  레이즈: [────────────────] 30              │ ← Slider
+│  ┌────┐ ┌──────┐ ┌────┐ ┌─────┐           │
+│  │ 콜 │ │레이즈│ │올인│ │ 폴드 │           │
+│  └────┘ └──────┘ └────┘ └─────┘           │
+└────────────────────────────────────────────┘
+배경: ACCENT_GOLD 보더 강조
+</code></pre>
+<p><strong>Godot API</strong>:</p>
+<ul>
+<li><code>set_state(prestige, ante)</code> — 데이터 갱신</li>
+<li><code>set_first_bet_mode(enabled)</code> — 1차/2차 전환</li>
+<li><code>set_enabled(enabled)</code> — 전체 활성/비활성</li>
+<li>signal <code>action_chosen(action, amount)</code> — 사용자 선택</li>
+</ul>
+<hr>
+<h3>3-2. PrestigeBar</h3>
+<pre><code>[명성치 라벨 — 위험 영역 시 빨강 + 펄스]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default</code></td>
+<td>&quot;명성치: 1,234&quot; — 24px Bold, TEXT_PRIMARY</td>
+</tr>
+<tr>
+<td><code>danger</code> (&lt; 0)</td>
+<td>&quot;⚠ 명성치: -50 (위험 영역)&quot; — ACCENT_VERMILION + scale 1.05 펄스</td>
+</tr>
+<tr>
+<td><code>imminent</code> (&lt; -100)</td>
+<td>&quot;⚠️ 명성치: -120 (게임오버 임박: -150)&quot; — 빨강 + scale 1.15 펄스</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>3-3. DeckTrackerBar</h3>
+<pre><code>사용 4장 | 광 2/3 | 9월 3/4 | 10월 4/4 | 목표 580
+</code></pre>
+<p><strong>사양</strong>: 12px 보조 텍스트 한 줄, TEXT_SECONDARY</p>
+<hr>
+<h3>3-4. ResultPanel (Board 결과 영역)</h3>
+<pre><code>[승리] (공개)   상대 jokbo=30 (점수 90) / 내 jokbo=100 (점수 1,500)   명성치 +1,500  🃏 블러프!
+  내 빌드: 100 × (10.0 + 0.0 + 12.0) = 2,200
+  상대 빌드: 30 × (4.0 + 0.0 + 0.0) = 120
+  ▸ [T2] (카드) 1월광 +5 점수
+  ▸ [T6] (마패 1) 구라쟁이
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>부분</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header (승/패)</td>
+<td>24px Bold, 승=ACCENT_GOLD / 패=TEXT_MUTED</td>
+</tr>
+<tr>
+<td>Breakdown</td>
+<td>16px Regular, TEXT_PRIMARY</td>
+</tr>
+<tr>
+<td>Effects</td>
+<td>14px Regular, TEXT_SECONDARY</td>
+</tr>
+</tbody></table>
+<p><strong>위치</strong>: Board 중앙 (카드 아래) — 결과 표시 3초 후 다음 라운드</p>
+<hr>
+<h3>3-5. CardsRow (3 StatCards in DailyActivity)</h3>
+<pre><code>┌─ 오늘 ────┐ ┌─ 이번 주 ─┐ ┌─ 누적 ───────┐
+│  +1,350   │ │  +4,700   │ │  +12,300     │
+│  3 런     │ │ 10 런     │ │ 47 런        │
+│  1승 2패  │ │ 4승 6패   │ │ 18승 29패    │
+└───────────┘ └───────────┘ └──────────────┘
+</code></pre>
+<p><strong>사양</strong>: HBoxContainer, separation 18px, 3개 StatCard 동일 크기</p>
+<hr>
+<h2>4. Templates — 페이지 레이아웃</h2>
+<h3>4-1. Board layout</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│ [Header: Seed / Stage / Round / AI 패턴]│ ← 12~14px
+│                                         │
+│  [AI Card A] [AI Card B]                │ ← OpponentArea (220×320 × 2)
+│                                         │
+│  [DeckTrackerBar]                       │
+│  [PrestigeBar]                          │ ← 24~32px
+│  [PotLabel]                             │
+│                                         │
+│  [Player Card A] [Player Card B]        │ ← PlayerArea
+│                                         │
+│  [MapaSlot × 3]                        │ ← 100×140 × 3
+│                                         │
+│  [ResultPanel]                          │
+│                                         │
+│  [BettingPanel]                         │ ← 가장 아래
+└─────────────────────────────────────────┘
+배경: BG_INK + 한지 매트 텍스처
+</code></pre>
+<hr>
+<h3>4-2. Market layout</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│ 마패 시장 (단계 N 클리어 후)            │
+│ 명성치: M    리롤 비용: 1                │
+│                                         │
+│  [MapaCard × 4]                        │ ← 200×280 × 4
+│                                         │
+│  [현재 슬롯 × 3]                        │
+│                                         │
+│       [리롤]      [다음 단계 →]          │
+└─────────────────────────────────────────┘
+배경: BG_DARK_BLUE
+</code></pre>
+<hr>
+<h3>4-3. MainMenu layout</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│                                         │
+│             K-Sutda                     │ ← Title 96px
+│      섯다 × 로그라이크 덱빌딩            │ ← Subtitle 16px
+│                                         │
+│   ┌────────────────┐                    │
+│   │ 닉네임 입력...  │                    │ ← Input
+│   └────────────────┘                    │
+│   &quot;닉네임 저장됨&quot;                       │ ← Status
+│                                         │
+│      [새 런 시작]                       │ ← Button.Large
+│      [이어하기]                         │
+│      [리더보드]                         │
+│   [확률 공개] [📖 게임 규칙]             │ ← Button.Medium × 2
+└─────────────────────────────────────────┘
+배경: BG_EARTH + 화투 카드 반투명 배경
+</code></pre>
+<hr>
+<h2>5. Figma 컴포넌트 등록 가이드</h2>
+<h3>5-1. 컴포넌트 트리</h3>
+<pre><code>🎨 Figma 라이브러리: K-Sutda Design System
+├── 🟦 Atoms
+│   ├── Label (10 variants)
+│   ├── Button (5 variants × 4 states × 3 sizes)
+│   ├── Input (4 variants)
+│   ├── Slider
+│   ├── Icon (10+)
+│   └── Divider
+├── 🟪 Molecules
+│   ├── Card (모든 month × type, total 41 + 뒷면)
+│   ├── MapaSlot (4 rarities × 3 states)
+│   ├── StatCard
+│   ├── ToastMessage (5 variants)
+│   └── ScoreBadge (3 variants)
+├── 🟩 Organisms
+│   ├── BettingPanel (1차 / 2차)
+│   ├── PrestigeBar (3 states)
+│   ├── DeckTrackerBar
+│   ├── ResultPanel
+│   └── CardsRow
+└── 🟧 Templates
+    ├── Board layout
+    ├── Market layout
+    ├── MainMenu layout
+    ├── Leaderboard layout
+    ├── DailyActivity layout
+    └── HelpInfo / ProbabilityInfo layout
+</code></pre>
+<h3>5-2. 컴포넌트 명명 (Figma)</h3>
+<ul>
+<li>Atoms/Button/Primary/Medium/Hover</li>
+<li>Molecules/Card/3월광/face_up</li>
+<li>Organisms/BettingPanel/SecondBet/Default</li>
+</ul>
+<p>→ Figma &quot;Component Properties&quot; 활용 (variants, boolean states)</p>
+<h3>5-3. 디자이너 워크플로우</h3>
+<ol>
+<li><strong>컴포넌트 라이브러리 먼저</strong> — Atoms → Molecules → Organisms 순서</li>
+<li><strong>Templates 는 컴포넌트 인스턴스만 배치</strong> — 컴포넌트 일관성 유지</li>
+<li><strong>변경 시 컴포넌트 1곳만 수정</strong> → 모든 페이지 자동 반영</li>
+</ol>
+<hr>
+<h2>6. Godot 구현 매핑</h2>
+<h3>6-1. 현재 코드 구조</h3>
+<pre><code>scripts/
+├── game/
+│   ├── Card.gd              ← Molecules/Card
+│   ├── BettingPanel.gd      ← Organisms/BettingPanel
+│   ├── MapaSlot.gd         ← Molecules/MapaSlot
+│   ├── Board.gd             ← Templates/Board
+│   └── Market.gd            ← Templates/Market
+├── ui/
+│   ├── MainMenu.gd          ← Templates/MainMenu
+│   ├── Leaderboard.gd       ← Templates/Leaderboard
+│   ├── DailyActivity.gd     ← Templates/DailyActivity
+│   ├── HelpInfo.gd          ← Templates/HelpInfo
+│   ├── ProbabilityInfo.gd   ← Templates/ProbabilityInfo
+│   └── Palette.gd           ← (글로벌 디자인 토큰)
+</code></pre>
+<h3>6-2. 컴포넌트 추가 시 권장 위치</h3>
+<table>
+<thead>
+<tr>
+<th>신규 컴포넌트</th>
+<th>권장 파일</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Toast 시스템</td>
+<td><code>scripts/ui/Toast.gd</code> (신규) — 글로벌 toast manager</td>
+</tr>
+<tr>
+<td>Modal 시스템</td>
+<td><code>scripts/ui/Modal.gd</code> (신규)</td>
+</tr>
+<tr>
+<td>ScoreBadge</td>
+<td><code>scripts/ui/ScoreBadge.gd</code> (신규)</td>
+</tr>
+<tr>
+<td>Button 커스텀 stylebox</td>
+<td><code>scripts/ui/theme/buttons.tres</code> (Phase 3 시작)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>7. 디자인 토큰 (Design Tokens)</h2>
+<h3>7-1. 현재 (Palette.gd)</h3>
+<pre><code class="language-gdscript"># 색
+BG_INK, BG_EARTH, BG_DARK_BLUE
+ACCENT_BEIGE, ACCENT_GOLD, ACCENT_VERMILION, ACCENT_TEAL
+TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, TEXT_GOLD
+RARITY { common, uncommon, rare, legendary }
+
+# 폰트 사이즈
+FONT_TITLE, FONT_HEADING, FONT_BODY, FONT_CAPTION, FONT_SCORE
+
+# 간격
+SPACING_XS, SPACING_S, SPACING_M, SPACING_L, SPACING_XL
+</code></pre>
+<h3>7-2. 추가 권장 (미래)</h3>
+<pre><code class="language-gdscript"># 보더 두께
+BORDER_THIN = 1
+BORDER_MEDIUM = 2
+BORDER_THICK = 4
+BORDER_GWANG = 4  # 광패 강조
+
+# Border radius
+RADIUS_SMALL = 4
+RADIUS_MEDIUM = 8
+RADIUS_LARGE = 12
+
+# Animation duration (이미 코드 안에 있음)
+DURATION_FAST = 0.1
+DURATION_NORMAL = 0.3
+DURATION_SLOW = 0.5
+</code></pre>
+<hr>
+<h2>8. 컴포넌트 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전 (디자이너 시안 필수)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Button (Primary/Medium/all states)</li>
+<li><input disabled="" type="checkbox"> Card (220×320 — 화투 40장 + 뒷면 — 05번 가이드 참조)</li>
+<li><input disabled="" type="checkbox"> MapaSlot (4 rarities)</li>
+<li><input disabled="" type="checkbox"> BettingPanel (1차/2차)</li>
+<li><input disabled="" type="checkbox"> StatCard (DailyActivity)</li>
+<li><input disabled="" type="checkbox"> PrestigeBar (3 states)</li>
+</ul>
+<h3>Tier 2 — 베타 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> ToastMessage (5 variants) + Toast 시스템</li>
+<li><input disabled="" type="checkbox"> Modal 시스템 (Soul 카드 발견 등)</li>
+<li><input disabled="" type="checkbox"> 추가 Icon SVG (이모지 → 정식 아이콘)</li>
+<li><input disabled="" type="checkbox"> Settings 페이지 컴포넌트 (Slider, Toggle)</li>
+</ul>
+<h3>Tier 3 — 폴리시</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 모든 Button variants × all states (Hover/Pressed/Disabled 시안)</li>
+<li><input disabled="" type="checkbox"> Loading spinner / progress indicator</li>
+<li><input disabled="" type="checkbox"> Tooltip 컴포넌트 (Sprint 3.8 일부 구현)</li>
+</ul>
+<hr>
+<h2>9. 디자이너 ↔ 개발자 핸드오프</h2>
+<h3>9-1. Figma → Godot</h3>
+<ol>
+<li><strong>Figma Dev Mode</strong> — CSS 값, SVG export, 색 hex 확인</li>
+<li><strong>디자인 토큰 일치</strong> — Figma Variables ↔ Palette.gd 동기화</li>
+<li><strong>Component Properties</strong> → Godot variant 매핑</li>
+<li><strong>모션</strong> → 04-motion-spec 참조</li>
+</ol>
+<h3>9-2. 변경 추적</h3>
+<ul>
+<li>디자인 변경 → Figma 코멘트</li>
+<li>개발자 적용 → git commit + Figma &quot;Implemented&quot; 태그</li>
+<li>베타 피드백 → Figma 새 frame + 비교</li>
+</ul>
+<hr>
+<h2>10. 라이선스 / 외부 컴포넌트</h2>
+<ul>
+<li>본 컴포넌트는 모두 본인 / 외주 work-for-hire</li>
+<li>Material Symbols / Lucide 등 무료 아이콘 사용 시 라이선스 표기 (Apache 2.0 / ISC 등)</li>
+<li>Pretendard 폰트 사용 시 OFL 라이선스 동봉</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>11-component-library.md</code>
+</div>
+</body>
+</html>

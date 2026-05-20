@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 스토리텔링 / 백스토리</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 스토리텔링 / 백스토리</h1>
+<blockquote>
+<p>03-characters 캐릭터 시나리오의 확장판. 8 보스 깊은 백스토리, 메타 서사, 컷신 시나리오, 한국 도박판 세계관.</p>
+</blockquote>
+<hr>
+<h2>0. 스토리텔링 원칙</h2>
+<h3>0-1. 톤</h3>
+<ul>
+<li>✅ <strong>무겁고 진중함</strong> — 한국 도박판의 그림자</li>
+<li>✅ <strong>함축적, 짧음</strong> — 영화 &quot;마패&quot; 의 절제된 대사 톤</li>
+<li>✅ <strong>인물 중심</strong> — 게임 메커니즘이 아닌 사람의 사연</li>
+<li>❌ 코미디 / 가벼움</li>
+<li>❌ 장황한 설명 (보여주기 &gt; 말하기)</li>
+</ul>
+<h3>0-2. 게임 안에서의 스토리</h3>
+<ul>
+<li><strong>컷신</strong>: 최소 (단계 인트로 / 엔딩 정도)</li>
+<li><strong>대사</strong>: 짧게 (한 줄, 무게감)</li>
+<li><strong>시각</strong>: 캐릭터 일러스트 + 배경 + 소품으로 전달</li>
+<li><strong>음향</strong>: 한국 전통 악기 + 침묵</li>
+<li><strong>선택</strong>: 사용자 직접 행동 (베팅 / 다이) 이 곧 스토리</li>
+</ul>
+<h3>0-3. 사용자 해석 여지</h3>
+<p>K-Sutda 의 모든 캐릭터 / 사연은 <strong>열린 결말 / 다중 해석</strong> 가능:</p>
+<ul>
+<li>무명 (플레이어) 가 왜 노름판에 왔는가? → 빚 / 복수 / 호기심 (사용자 마음대로)</li>
+<li>남궁천 (단계 8) 이 왜 무명을 불렀나? → 후계자 찾기 / 죽음 직전 마지막 한 판 / 시험</li>
+</ul>
+<p>→ &quot;정답&quot; 없음. 사용자가 자기 이야기 만들기.</p>
+<hr>
+<h2>1. 세계관 (World Setting)</h2>
+<h3>1-1. 시대 / 공간</h3>
+<ul>
+<li><strong>시대</strong>: 현대 한국 (2020년대) — 단, 한국 전통 도박판 분위기 유지</li>
+<li><strong>공간</strong>: 한국 어느 도시 / 산속 / 다실 — 구체적 지명 없음 (보편적)</li>
+<li><strong>사회</strong>: 한국 도박 문화의 어두운 면 (가산 탕진 / 중독) 직접 묘사 X, 인물 사연으로 암시</li>
+</ul>
+<h3>1-2. 노름판 (場)</h3>
+<pre><code>&quot;노름판&quot; = K-Sutda 의 세계.
+
+평범한 사회 밖, 명성치 (名聲) 라는 가상 통화로 인생을 거는 곳.
+8 단계의 노름판 — 각 단계마다 다른 인물 / 다른 분위기.
+
+마지막 단계 = 전설의 마패 남궁천 의 다실.
+이긴 자만이 &quot;전설&quot; 칭호를 받는다.
+</code></pre>
+<h3>1-3. 명성치 (名聲) — 가상 통화의 의미</h3>
+<ul>
+<li>실제 화폐 X → 명성치</li>
+<li>&quot;이긴다 = 명성을 쌓는다&quot;</li>
+<li>&quot;잃는다 = 평판을 잃는다&quot;</li>
+<li>게임오버 (-150 도달) = 사회적 명예 추락</li>
+<li>→ 도박 미화 회피 + 진중한 게임 톤</li>
+</ul>
+<h3>1-4. 마패 (打子) — 도박의 전설</h3>
+<ul>
+<li>&quot;마패&quot; = 한국에서 도박 고수를 부르는 단어</li>
+<li>영화 &quot;마패&quot; (2006) 의 무대</li>
+<li>K-Sutda 의 단계 8 보스 &quot;남궁천&quot; = 살아있는 전설</li>
+<li>무명 (플레이어) 은 무명 → 전설로 성장</li>
+</ul>
+<hr>
+<h2>2. 메인 캐릭터 — 무명 (無名)</h2>
+<h3>2-1. 백스토리</h3>
+<pre><code>이름을 잃어버린 자.
+
+3년 전, 평범한 회사원이었다.
+어느 날 가족이 도박 빚으로 무너졌고,
+무명은 노름판에 발을 들였다.
+
+처음엔 빚을 갚기 위해.
+그 다음엔 복수를 위해.
+지금은 — 모른다.
+
+&quot;광 한 번 보기 위해.&quot;
+무명이 말할 수 있는 유일한 이유.
+
+얼굴을 가리는 갓 아래, 무명은 노름판을 떠돈다.
+오늘은 8 단계의 마지막 노름판.
+전설의 마패 남궁천이 그를 부르고 있다.
+</code></pre>
+<h3>2-2. 비주얼</h3>
+<ul>
+<li>얼굴 일부 가림 (갓 그림자)</li>
+<li>흑색 도포 (단계 진행에 따라 살짝 변화 가능)</li>
+<li>손에 화투 2장</li>
+<li>표정 없음 (포커페이스)</li>
+</ul>
+<h3>2-3. 대사 / 보이스</h3>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>런 시작 (MainMenu 진입)</td>
+<td>&quot;...한 판 더.&quot;</td>
+</tr>
+<tr>
+<td>단계 1 클리어</td>
+<td>(말 없음. 카드 정리)</td>
+</tr>
+<tr>
+<td>단계 5 클리어</td>
+<td>&quot;...아직이군.&quot;</td>
+</tr>
+<tr>
+<td>단계 7 클리어</td>
+<td>&quot;...마지막 판이 보인다.&quot;</td>
+</tr>
+<tr>
+<td>단계 8 진입 (남궁천)</td>
+<td>&quot;...오늘, 끝내겠소.&quot;</td>
+</tr>
+<tr>
+<td>단계 8 클리어 (런 완료)</td>
+<td>&quot;...광이 보였다.&quot; (작게 미소)</td>
+</tr>
+<tr>
+<td>게임오버</td>
+<td>&quot;...내 차례는 여기까지인가.&quot;</td>
+</tr>
+</tbody></table>
+<h3>2-4. 사용자 ↔ 무명</h3>
+<ul>
+<li>사용자 닉네임 = 무명의 이름 (입력 시 대체)</li>
+<li>사용자의 베팅 = 무명의 결정</li>
+<li>사용자 게임오버 = 무명의 패배 (다음 런에서 다시 시작)</li>
+</ul>
+<hr>
+<h2>3. 8 보스 — 깊은 백스토리</h2>
+<h3>3-1. 단계 1 — 박달삼 (40대 남, BASIC)</h3>
+<h4>백스토리</h4>
+<pre><code>동네 어귀 평상에서 매일 막걸리 한 잔.
+20년 전 직장 잃은 후, 도박이 유일한 낙.
+가족과는 연락 끊긴 지 오래.
+큰 돈 안 거는 대신, 매일 진다.
+&quot;한 판 더!&quot; 외치며 동전을 평상에 던진다.
+
+무명은 박달삼을 본다 — 자기 미래의 한 모습.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;어이 친구, 한 판 어때?&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;오, 좋아 좋아.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;이거 무섭네!&quot;</td>
+</tr>
+<tr>
+<td>1차 dia</td>
+<td>&quot;에이, 봐 줄게. 다이.&quot;</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>&quot;한 번만 더!&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;하하! 운이 좋았어.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>도박의 시작 = 가벼움</li>
+<li>누구나 박달삼이 될 수 있음</li>
+</ul>
+<hr>
+<h3>3-2. 단계 2 — 오영자 (50대 여, BASIC)</h3>
+<h4>백스토리</h4>
+<pre><code>동대문 시장에서 30년 좌판을 운영.
+밤마다 단골들과 화투.
+한 판 한 판이 가게 마치고 풀어내는 시간.
+앞치마 주머니에서 작은 돈을 꺼내 베팅.
+
+손가락에는 금반지 — 남편 사별 후 유일한 추억.
+&quot;이건 봐 줄게, 한 번만이야.&quot;
+정 많은 누님 — 그러나 약빠른 계산.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;장사 끝나고 한 판 안 하면 잠 안 와.&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;오빠, 받겠소.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;어머, 자신감 좀 봐.&quot;</td>
+</tr>
+<tr>
+<td>1차 dia</td>
+<td>&quot;에이, 오늘은 안 풀리네.&quot;</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>&quot;내일 또 와요!&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;한 잔 사 드릴게, 어때?&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>도박은 외로움의 위로</li>
+<li>정 있는 도박판도 있다</li>
+</ul>
+<hr>
+<h3>3-3. 단계 3 — 강도진 (28세 남, AGGRESSIVE)</h3>
+<h4>백스토리</h4>
+<pre><code>지방에서 떠오르는 신예 마패.
+20대 후반에 이미 큰 판에서 명성.
+양복 셔츠 풀어헤치고, 손가락에 굵은 반지.
+거만함이 얼굴에 가득.
+
+큰 판으로 가고 싶어 도전적.
+실력은 있지만 — 자기 자만이 약점.
+망통도 raise 하는 무모한 강세.
+
+&quot;쩐주가 나오나 두고 보자.&quot;
+무명이 만나는 첫 진짜 강자.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;이 정도? 다 콜이다.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;쩐주가 나오나 두고 보자.&quot;</td>
+</tr>
+<tr>
+<td>1차 dia</td>
+<td>(없음 — 자만으로 거의 dia 안 함)</td>
+</tr>
+<tr>
+<td>큰 raise</td>
+<td>&quot;결판내자!&quot;</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>&quot;...장난해?&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;그래, 이게 진짜다.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>자만이 약점</li>
+<li>강자도 진다</li>
+</ul>
+<hr>
+<h3>3-4. 단계 4 — 최강수 (40대 남, AGGRESSIVE)</h3>
+<h4>백스토리</h4>
+<pre><code>군 제대 후 도박장 보디가드로 시작.
+점점 본인이 도박판에 빠짐.
+짧은 머리, 손등에 흉터, 카키 자켓.
+강한 시선 — 협박 없이도 압박.
+
+가족이 도박 빚으로 도망간 지 5년.
+지금은 강수도 같은 길.
+한 번 raise 하면 끝까지.
+
+&quot;쫄지 마라.&quot;
+무명이 만나는 첫 직설적 강자.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>(말 없이 카드 던짐)</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;받겠다.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;쫄지 마라.&quot;</td>
+</tr>
+<tr>
+<td>큰 raise</td>
+<td>&quot;이번 판은 내 거다.&quot;</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>(말 없이 자리에서 일어남)</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;...수고 했다.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>압박 = 무기</li>
+<li>짧고 강한 결정</li>
+</ul>
+<hr>
+<h3>3-5. 단계 5 — 현묵 스님 (60대 남, DEFENSIVE)</h3>
+<h4>백스토리</h4>
+<pre><code>산속 절에서 30년 수행.
+
+한 때 그는 — 한국 도박판의 전설이었다.
+&quot;독사&quot; 라 불렸다. 1월 + 4월 패의 명수.
+독사 1번에 큰 돈을 따냈고, 큰 돈을 잃었다.
+
+가족이 죽고, 도박을 떠나 절에 들어갔다.
+30년의 침묵.
+
+그런데 — 절을 짓기 위해 시주가 필요했다.
+한 번만 더. 마지막 한 번만.
+회색 승복 입은 채, 그는 다시 노름판에 나타났다.
+
+&quot;...인연이라 생각하시오.&quot;
+신중함과 절제 — 도박의 또 다른 모습.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;...인연이라 생각하시오.&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;...받겠소.&quot;</td>
+</tr>
+<tr>
+<td>1차 dia</td>
+<td>&quot;...이번 판은 보내겠소.&quot;</td>
+</tr>
+<tr>
+<td>긴 침묵</td>
+<td>(말 없이 염주 만지작)</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>&quot;...부처의 뜻인가.&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;...광이 보였군. 부처의 뜻인가.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>절제도 도박의 방식</li>
+<li>과거의 그림자</li>
+</ul>
+<h4>내러티브 훅</h4>
+<ul>
+<li>현묵의 옛 이름 = &quot;독사&quot; → 무명이 알게 되면? (옵션 — 사용자 호기심)</li>
+</ul>
+<hr>
+<h3>3-6. 단계 6 — 한채린 (30대 여, DEFENSIVE)</h3>
+<h4>백스토리</h4>
+<pre><code>서울 강남 정보 브로커.
+도박판의 정보를 사고 판다.
+누가 누구에게 빚이 있는지, 누가 어떤 패를 좋아하는지.
+
+5년 전, 그녀는 첫 사기로 큰 돈을 따냈다.
+한복 입은 모습으로 미인계.
+차가운 미소 뒤, 정확한 계산.
+
+채린은 한 번도 큰 위험을 안 진다.
+강패도 살짝 흘려서 함정 유도.
+그녀의 유일한 약점 — 아무도 모르는 어떤 사람.
+
+&quot;당신... 표정을 잘 못 숨기시네요.&quot;
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;오늘은 어떤 분이 오셨나요?&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;받죠.&quot; (짧고 단호)</td>
+</tr>
+<tr>
+<td>1차 dia</td>
+<td>&quot;다이.&quot; (단호)</td>
+</tr>
+<tr>
+<td>함정 함정</td>
+<td>&quot;후후, 재미있네요.&quot;</td>
+</tr>
+<tr>
+<td>패배</td>
+<td>&quot;...예상 밖이네요.&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;예상대로.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>계산 = 무기</li>
+<li>정보가 곧 힘</li>
+</ul>
+<hr>
+<h3>3-7. 단계 7 — 탈춤 영감 (50~60대 남, PSYCHOLOGICAL)</h3>
+<h4>백스토리</h4>
+<pre><code>정체불명. 가명 다수.
+
+전국 도박판을 떠도는 광대.
+한국 전통 양반탈 (또는 각시탈) 을 벗지 않는다.
+탈 뒤의 얼굴을 본 사람이 없다.
+
+20년 전 어느 도박판에서 처음 등장.
+망통으로도 raise — 천하 제일 뻥.
+&quot;허허, 한 판 받아 보시게.&quot;
+
+탈춤 영감이 누구인지 — 아무도 모른다.
+어떤 자는 그가 전설의 마패 남궁천의 옛 친구라 한다.
+어떤 자는 그가 죽은 자의 영혼이라 한다.
+
+확실한 것 하나 — 그는 늘 웃고 있다.
+탈 뒤에서.
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;허허, 한 판 받아 보시게.&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;오, 좋은 결단이오.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;이거 광인가? 망통인가?&quot;</td>
+</tr>
+<tr>
+<td>망통 raise</td>
+<td>&quot;허허, 잘 보시게나.&quot;</td>
+</tr>
+<tr>
+<td>패배 (블러프 들킴)</td>
+<td>&quot;허허허, 잘 보셨네!&quot;</td>
+</tr>
+<tr>
+<td>승리</td>
+<td>&quot;...운인지 실력인지.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>가면 뒤의 진실</li>
+<li>도박판의 신화</li>
+</ul>
+<h4>내러티브 훅</h4>
+<ul>
+<li>탈춤 영감 = 남궁천의 옛 친구? (단계 8 에서 암시 옵션)</li>
+</ul>
+<hr>
+<h3>3-8. 단계 8 — 남궁천 (70대 남, COMPLEX)</h3>
+<h4>백스토리</h4>
+<pre><code>한국 도박계의 전설.
+
+50년 전부터 그는 모든 마패의 스승.
+&quot;남궁천 앞에서 패를 본 자 = 자기 패를 본 적이 없는 자.&quot;
+
+20년 전, 그는 갑자기 사라졌다.
+산속 다실에 자리를 잡고 — 침묵.
+누구의 도전도 받지 않았다.
+
+3개월 전, 그는 한 통의 편지를 보냈다.
+&quot;무명이라는 자를 만나 보고 싶다.&quot;
+무명은 그가 누군지 알지 못한다.
+그런데 왜 자기를?
+
+다실의 문을 열면 — 남궁천이 앉아 있다.
+백발, 검은 한복, 정갈한 손가락.
+다구 옆에 화투 2장이 놓여 있다.
+
+&quot;오랜만에... 진짜 한 판이군.&quot;
+</code></pre>
+<h4>대사</h4>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등장</td>
+<td>&quot;오랜만에... 진짜 한 판이군.&quot;</td>
+</tr>
+<tr>
+<td>콜</td>
+<td>&quot;...받소.&quot;</td>
+</tr>
+<tr>
+<td>1차 raise</td>
+<td>&quot;광이 한 장 보였소.&quot;</td>
+</tr>
+<tr>
+<td>큰 raise</td>
+<td>&quot;...무명, 자네 진심이구만.&quot;</td>
+</tr>
+<tr>
+<td>패배 (사용자 승리)</td>
+<td>&quot;...수고 많았소.&quot; (조용히 카드 내려놓음)</td>
+</tr>
+<tr>
+<td>승리 (사용자 패배)</td>
+<td>&quot;...허허. 시대가 바뀌었군.&quot;</td>
+</tr>
+</tbody></table>
+<h4>메시지</h4>
+<ul>
+<li>전설은 끝나는 것이 아니라 — 이어진다</li>
+<li>마지막 판 = 시작</li>
+</ul>
+<h4>엔딩 (사용자 승리 시)</h4>
+<pre><code>[남궁천이 조용히 일어선다.]
+[다실 창밖, 노을이 진다.]
+
+남궁천: &quot;...자네가 새 전설이군.&quot;
+       &quot;오늘 한 판으로 — 자네는 더 이상 무명이 아니오.&quot;
+
+[화면 페이드 → 한지 베이지]
+[무명이 갓을 벗는다. 처음으로 얼굴이 보인다.]
+[얼굴은 사용자의 닉네임 텍스트.]
+
+&quot;...광이 보였다.&quot;
+
+[운명적 엔딩 — &quot;전설&quot; 칭호 획득]
+</code></pre>
+<hr>
+<h2>4. 메타 서사 (Meta Narrative)</h2>
+<h3>4-1. 한 런의 서사 흐름</h3>
+<pre><code>[프롤로그]
+무명이 노름판에 발을 들이다.
+&quot;...한 판 더.&quot;
+
+[단계 1-2: 가벼운 시작]
+박달삼, 오영자 — 동네 / 시장의 평범한 사람들.
+무명은 자기 미래의 한 모습을 본다.
+
+[단계 3-4: 본격 도전]
+강도진의 자만, 최강수의 압박.
+무명은 진짜 도박판에 들어선다.
+
+[단계 5-6: 정신적 단계]
+현묵 스님의 절제, 한채린의 계산.
+무명은 깨닫는다 — 도박은 카드가 아닌 마음.
+
+[단계 7: 가면 뒤의 신화]
+탈춤 영감의 블러프.
+무명은 진실과 거짓의 경계에 선다.
+
+[단계 8: 전설과의 마지막 한 판]
+남궁천의 다실.
+무명이 이긴다면 → 새 전설.
+무명이 진다면 → 또 하나의 잊혀진 노름꾼.
+
+[엔딩]
+승리: &quot;...광이 보였다.&quot;
+패배: &quot;...내 차례는 여기까지인가.&quot;
+</code></pre>
+<h3>4-2. 단계 간 연결 (옵션)</h3>
+<p>각 단계 클리어 후 짧은 컷신 (5~10초):</p>
+<pre><code>[단계 3 클리어 후]
+[강도진이 자기 카드를 던지며 일어선다.]
+[무명은 카드를 정리한다.]
+[단계 4 진입 — 최강수의 어두운 도박장]
+</code></pre>
+<p>→ 베타 후 콘텐츠. 정식 출시에 들어가면 좋음.</p>
+<h3>4-3. 단계 8 후 — 새 런</h3>
+<p>승리 시 메인 메뉴로 돌아가면:</p>
+<ul>
+<li>닉네임 옆에 &quot;전설&quot; 칭호</li>
+<li>다음 런 시작 시 — 무명이 다른 형태로 보일 수 있음 (옵션, 변형)</li>
+<li>메인 메뉴 배경 — 살짝 다름 (다실 느낌)</li>
+</ul>
+<p>→ 메타 진행 (Persistent meta) 디자인.</p>
+<hr>
+<h2>5. 컷신 / 인트로 시나리오</h2>
+<h3>5-1. 게임 첫 실행 — 프롤로그 컷신 (15~20초)</h3>
+<pre><code>[화면: 검은 화면]
+
+[음악: 가야금 단조 잔잔]
+
+[자막 — 한 줄씩 등장, 각 3초 유지]
+
+&quot;한국 어느 도시의 밤.&quot;
+↓
+&quot;노름판의 문이 열린다.&quot;
+↓
+&quot;무명이라는 자가 들어온다.&quot;
+↓
+&quot;...광 한 번 보기 위해.&quot;
+
+[화면 페이드 → MainMenu]
+</code></pre>
+<p>→ 첫 실행 시 1회만. 스킵 가능.</p>
+<h3>5-2. 단계 8 진입 — 남궁천의 다실 (10초)</h3>
+<pre><code>[Board 화면 진입 전]
+
+[배경: 다실 문이 천천히 열린다.]
+[음악: bgm_boss 의 가야금 솔로]
+
+[남궁천의 모습 — 검은 한복, 백발, 화투 2장]
+
+[자막]
+&quot;전설의 마패 남궁천.&quot;
+
+[화면 전환 → Board (남궁천 일러스트)]
+</code></pre>
+<h3>5-3. 런 클리어 — 새 전설 (15~20초)</h3>
+<pre><code>[남궁천이 일어선다.]
+
+[자막]
+남궁천: &quot;...자네가 새 전설이군.&quot;
+
+[화면 페이드 → 한지 베이지]
+
+[무명이 갓을 벗는다.]
+[얼굴 = 사용자 닉네임 텍스트]
+
+[자막]
+&quot;...광이 보였다.&quot;
+
+[황금 비 + &quot;전설&quot; 칭호 알림]
+
+[화면 → MainMenu (전설 칭호 표시)]
+</code></pre>
+<h3>5-4. 게임오버 (-150 도달) — 침몰 (5~10초)</h3>
+<pre><code>[Board 화면 어두워짐]
+
+[자막]
+무명: &quot;...내 차례는 여기까지인가.&quot;
+
+[화면 페이드 → 검은]
+
+[MainMenu]
+</code></pre>
+<hr>
+<h2>6. 캐릭터 간 관계 / 백스토리 연결</h2>
+<h3>6-1. 가능한 연결</h3>
+<pre><code>- 현묵 스님 (단계 5)
+  ↔ 옛 이름 &quot;독사&quot; — 20년 전 도박판의 전설
+
+- 탈춤 영감 (단계 7)
+  ↔ 남궁천의 옛 친구? (탈 뒤의 정체)
+
+- 남궁천 (단계 8)
+  ↔ 무명을 부른 이유? (편지의 진의)
+
+- 무명 (플레이어)
+  ↔ 가족이 도박 빚으로 무너진 사연
+</code></pre>
+<h3>6-2. 사용자 호기심 유도</h3>
+<p>직접 설명 X. 사용자가 게임 진행하며 발견:</p>
+<ul>
+<li>단계 5 현묵의 대사 중 &quot;...독사 시절에...&quot;</li>
+<li>단계 7 탈춤의 대사 중 &quot;...옛 친구가 나를 기다린다오...&quot;</li>
+<li>단계 8 남궁의 편지 (단계 7 클리어 후 옵션 컷신)</li>
+</ul>
+<p>→ 베타 후 콘텐츠. 사용자 토론 / 추측 활성화.</p>
+<hr>
+<h2>7. 짧은 컷신 — 일러스트 + 자막</h2>
+<h3>7-1. 일러스트 사양</h3>
+<ul>
+<li>600 × 900 px (캐릭터 자체) 또는</li>
+<li>1920 × 1080 (배경 + 캐릭터 — 컷신용)</li>
+<li>PNG 또는 .mp4 (애니메이션 짧은 모션)</li>
+</ul>
+<h3>7-2. 자막 사양</h3>
+<ul>
+<li>폰트: KoPub바탕체 Bold 24~32px</li>
+<li>색: TEXT_PRIMARY (흰색)</li>
+<li>배경: 짙은 먹 + 알파 0.7 또는 그라데이션</li>
+<li>모션: fade-in 0.5s + 유지 3s + fade-out 0.5s</li>
+</ul>
+<h3>7-3. 음향</h3>
+<ul>
+<li>가야금 / 대금 단음 (3~5초)</li>
+<li>침묵 권장 — 한국 도박판 톤</li>
+</ul>
+<hr>
+<h2>8. 엔딩 분기 (옵션)</h2>
+<h3>8-1. 결말 1 — 새 전설 (메인 엔딩, 승리)</h3>
+<pre><code>&quot;...자네가 새 전설이군.&quot;
+[전설 칭호]
+</code></pre>
+<h3>8-2. 결말 2 — 게임오버 (-150)</h3>
+<pre><code>&quot;...내 차례는 여기까지인가.&quot;
+[메인 메뉴로]
+</code></pre>
+<h3>8-3. 결말 3 — 단계 N 실패 (단계 클리어 못함)</h3>
+<pre><code>&quot;...오늘은 안 풀리네.&quot;
+[메인 메뉴로]
+</code></pre>
+<h3>8-4. (옵션, 미래) 결말 4 — 평생의 노름꾼</h3>
+<pre><code>사용자가 100+ 런 완료 시:
+&quot;...언제까지 이 판에 있을 것인가.&quot;
+[숨겨진 엔딩 — 무명이 노름판을 떠나는 시나리오]
+</code></pre>
+<hr>
+<h2>9. 사용자 ↔ 스토리 연결</h2>
+<h3>9-1. 닉네임</h3>
+<ul>
+<li>사용자 닉네임 = 무명의 정체성</li>
+<li>단계 8 엔딩에서 닉네임 노출</li>
+</ul>
+<h3>9-2. 시드 / 결정성</h3>
+<ul>
+<li>&quot;같은 시드 = 같은 운명&quot; — 사용자 끼리 도전 가능</li>
+<li>커뮤니티 시드 챌린지 (22-community)</li>
+</ul>
+<h3>9-3. 일별 활동</h3>
+<ul>
+<li>&quot;오늘의 명성치&quot; — 사용자의 일상</li>
+<li>일별 리포트 = 자기 인생의 한 단면 (DailyActivity)</li>
+</ul>
+<hr>
+<h2>10. 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전 (필수)</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 캐릭터 8명 기본 백스토리 (03-characters)</li>
+<li><input disabled="" type="checkbox"> 메인 캐릭터 무명 — 짧은 백스토리 (HelpInfo 추가)</li>
+</ul>
+<h3>Tier 2 — 베타 운영 중</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 단계 8 남궁천 등장 컷신 (10초)</li>
+<li><input disabled="" type="checkbox"> 런 클리어 엔딩 컷신 (15초)</li>
+<li><input disabled="" type="checkbox"> 단계 보스 8명 깊은 대사 (위 §3)</li>
+</ul>
+<h3>Tier 3 — 정식 출시</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 첫 실행 프롤로그 컷신 (15초)</li>
+<li><input disabled="" type="checkbox"> 게임오버 컷신 (5초)</li>
+<li><input disabled="" type="checkbox"> 단계 간 짧은 전환 컷신 (선택)</li>
+</ul>
+<h3>Tier 4 — 후속 콘텐츠</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 캐릭터 백스토리 연결 (현묵 = 독사, 탈춤 영감 = ?)</li>
+<li><input disabled="" type="checkbox"> 숨겨진 엔딩 (100+ 런)</li>
+<li><input disabled="" type="checkbox"> 시드별 특별 시나리오 (옵션)</li>
+</ul>
+<hr>
+<h2>11. 디자이너 / 작가 협업</h2>
+<h3>11-1. 시나리오 작가</h3>
+<ul>
+<li>8 보스 대사 (위 §3) 다듬기 + 추가</li>
+<li>컷신 자막 (한↔영 양쪽)</li>
+<li>단계 간 전환 (선택)</li>
+</ul>
+<h3>11-2. 일러스트레이터</h3>
+<ul>
+<li>캐릭터 8명 + 무명 (03 + 14-cultural-guide)</li>
+<li>컷신 배경 (다실 / 노을 / 도박장 등)</li>
+<li>엔딩 / 게임오버 시각</li>
+</ul>
+<h3>11-3. 모션 디자이너</h3>
+<ul>
+<li>컷신 짧은 모션 (자막 fade / 캐릭터 등장)</li>
+<li>황금 비 (런 클리어)</li>
+</ul>
+<h3>11-4. 영문 번역</h3>
+<ul>
+<li>모든 대사 / 자막 영문 (10-localization)</li>
+<li>한국 도박 슬랭 톤 보존</li>
+<li>캐릭터 이름 → 영문 표기 (Dalsamee, Yeongja, Dojin 등)</li>
+</ul>
+<hr>
+<h2>12. 라이선스 / 윤리</h2>
+<ul>
+<li>모든 캐릭터 / 스토리 = 본인 창작</li>
+<li>실존 한국 인물 / 영화 캐릭터 모방 ❌</li>
+<li>도박 미화 / 실제 도박 권유 ❌</li>
+<li>사회 약자 (도박 중독자 / 가족 피해자) 비하 / 풍자 ❌</li>
+</ul>
+<hr>
+<h2>13. 결론</h2>
+<pre><code>K-Sutda 의 스토리는 게임 메커니즘 위에 얹는 장식이 아닌,
+한국 도박판의 한 단면을 담는 그릇.
+
+무명은 사용자 자신.
+8 보스는 한국 사회의 다양한 도박꾼들.
+남궁천은 전설 — 또는 사용자의 그림자.
+
+매 런 = 한 인생의 압축.
+승리 = 새 전설.
+패배 = 또 한 명의 잊혀진 노름꾼.
+
+스토리는 짧고 함축적.
+사용자가 자기 이야기를 만들도록.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>24-storytelling.md</code>
+</div>
+</body>
+</html>

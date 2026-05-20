@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 디자인 거버넌스 (Design Governance)</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 디자인 거버넌스 (Design Governance)</h1>
+<blockquote>
+<p>디자인 자산 변경 관리 / 버전 관리 / PR 워크플로우 / 일관성 검증. 디자이너 ↔ 개발자 ↔ 외부 협업자 (작곡가 등) 의 협업 규칙.</p>
+</blockquote>
+<hr>
+<h2>0. 거버넌스 필요성</h2>
+<h3>0-1. 왜 거버넌스인가</h3>
+<p>K-Sutda 는:</p>
+<ul>
+<li><strong>솔로 개발자 + 외부 디자이너 / 작곡가 협업</strong> — 책임·권한 명확 필요</li>
+<li><strong>15 자료 × .md+.html = 32 파일</strong> — 변경 추적 어려움</li>
+<li><strong>베타 → 정식 출시 → 업데이트</strong> — 디자인 일관성 유지 필수</li>
+<li><strong>글로벌 출시</strong> — 다국어 / 다플랫폼 자산 버전 관리</li>
+</ul>
+<p>거버넌스 없으면:</p>
+<ul>
+<li>같은 컴포넌트 다른 시각 (디자인 분기)</li>
+<li>카피 톤 일관성 깨짐 (&quot;다이&quot; vs &quot;포기&quot; 혼재)</li>
+<li>자산 라이선스 추적 실패</li>
+<li>변경 사항 알 수 없음 (디자이너 ↔ 개발자 소통 어려움)</li>
+</ul>
+<hr>
+<h2>1. 디자인 자산 분류 / 위치</h2>
+<h3>1-1. 자산 카테고리</h3>
+<table>
+<thead>
+<tr>
+<th>카테고리</th>
+<th>위치</th>
+<th>변경 권한</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>디자인 자료</strong> (가이드)</td>
+<td><code>design-handoff/*.md</code> + <code>.html</code></td>
+<td>개발자 + 디자이너 합의</td>
+</tr>
+<tr>
+<td><strong>브랜드 자산</strong> (로고 / 카피)</td>
+<td><code>assets/marketing/brand/</code></td>
+<td>개발자 최종 승인</td>
+</tr>
+<tr>
+<td><strong>게임 자산</strong> (카드 / UI / 캐릭터)</td>
+<td><code>assets/cards/</code> <code>assets/ui/</code> <code>assets/mapa/</code></td>
+<td>디자이너 작업 → 개발자 통합</td>
+</tr>
+<tr>
+<td><strong>음향 자산</strong></td>
+<td><code>assets/audio/</code></td>
+<td>작곡가 / 사운드 디자이너 → 개발자 통합</td>
+</tr>
+<tr>
+<td><strong>코드 (디자인 토큰)</strong></td>
+<td><code>scripts/ui/Palette.gd</code></td>
+<td>개발자 (디자이너와 합의 후)</td>
+</tr>
+<tr>
+<td><strong>Figma 디자인</strong></td>
+<td>외부 — Figma 워크스페이스</td>
+<td>디자이너 메인</td>
+</tr>
+</tbody></table>
+<h3>1-2. 자산 명명 규칙</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>규칙</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>가이드 문서</td>
+<td><code>NN-kebab-case.md</code></td>
+<td><code>01-brief.md</code></td>
+</tr>
+<tr>
+<td>이미지</td>
+<td><code>snake_case.png</code></td>
+<td><code>card_1_gwang.png</code></td>
+</tr>
+<tr>
+<td>폰트</td>
+<td><code>Name-Weight.ttf</code></td>
+<td><code>Pretendard-Bold.otf</code></td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>snake_case.ogg</code></td>
+<td><code>card_flip.ogg</code></td>
+</tr>
+<tr>
+<td>Figma 페이지</td>
+<td><code>## NN. Page Name</code></td>
+<td><code>## 01. MainMenu</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 변경 관리 워크플로우</h2>
+<h3>2-1. 자산 변경 단계</h3>
+<pre><code>[디자이너 변경 의도]
+        ↓
+[Figma 시안 작성 / 자산 제작]
+        ↓
+[개발자 리뷰 (이 가이드 위배 X?)]
+        ↓
+[자산 ./assets/ 통합 + git commit]
+        ↓
+[design-handoff/*.md 갱신 (필요 시) + .html 재생성]
+        ↓
+[git PR / push]
+        ↓
+[테스트 (인게임 시각 확인)]
+        ↓
+[Discord / Slack 변경 알림]
+</code></pre>
+<h3>2-2. 변경 분류</h3>
+<table>
+<thead>
+<tr>
+<th>변경 종류</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>마이너</strong> (텍스트 1줄 / 색 미세 조정)</td>
+<td>직접 commit, 가이드 일관</td>
+</tr>
+<tr>
+<td><strong>메이저</strong> (컴포넌트 신규 / 컬러 추가)</td>
+<td>사전 합의 → 디자인 자료 갱신 → 코드</td>
+</tr>
+<tr>
+<td><strong>브랜드</strong> (로고 / 카피)</td>
+<td>개발자 + 디자이너 합의 + 마케팅 영향 검토</td>
+</tr>
+<tr>
+<td><strong>공개 자산</strong> (스토어 페이지 / 트레일러)</td>
+<td>공개 전 최종 합의</td>
+</tr>
+</tbody></table>
+<h3>2-3. 합의 도구</h3>
+<ul>
+<li><strong>빠른 합의</strong>: Slack / Discord / 카톡 메시지</li>
+<li><strong>중요 합의</strong>: Figma 코멘트 + 명확한 ✅</li>
+<li><strong>공개 자산</strong>: 별도 회의 (Zoom / Google Meet)</li>
+</ul>
+<hr>
+<h2>3. 버전 관리 (Semantic Versioning)</h2>
+<h3>3-1. 디자인 자료 버전</h3>
+<p>각 가이드 (<code>design-handoff/*.md</code>) 의 헤더에 버전:</p>
+<pre><code># K-Sutda — 디자이너 브리프
+
+&gt; Version: 1.2.0
+&gt; Last Updated: 2026-05-16
+&gt; 작업 시작 전 반드시 ...
+</code></pre>
+<h3>3-2. SemVer 규칙</h3>
+<ul>
+<li><strong>MAJOR</strong> (1.x.x → 2.0.0): 게임 디자인 큰 변경 (예: 2단계 베팅 도입)</li>
+<li><strong>MINOR</strong> (x.1.x → x.2.0): 새 컴포넌트 / 캐릭터 / 화면 추가</li>
+<li><strong>PATCH</strong> (x.x.1 → x.x.2): 텍스트 수정 / 사양 미세 조정</li>
+</ul>
+<h3>3-3. 게임 자체 버전</h3>
+<p><code>project.godot</code> 의 application/config/version 와 동기:</p>
+<ul>
+<li>v0.x.x — 베타 (현재)</li>
+<li>v1.0.0 — 정식 출시</li>
+<li>v1.x.x — 정식 출시 후 패치</li>
+</ul>
+<h3>3-4. CHANGELOG (옵션)</h3>
+<p><code>design-handoff/CHANGELOG.md</code> 신규 (선택):</p>
+<pre><code class="language-markdown">## [1.2.0] - 2026-05-16
+### Added
+- 16-user-personas: 6명 페르소나 추가
+- 17-in-game-help: 인앱 도움말 가이드
+
+### Changed
+- 01-brief: 9개 화면 → 11개 화면 (DailyActivity, HelpInfo 추가)
+
+### Deprecated
+- (없음)
+</code></pre>
+<hr>
+<h2>4. Git 워크플로우</h2>
+<h3>4-1. 브랜치 전략</h3>
+<pre><code>main                ← 안정 / 출시 가능 상태
+├── feat/sprint-3.x ← 개발 중 sprint
+├── design/figma-v2 ← 디자이너 작업 브랜치 (옵션)
+└── docs/handoff-update ← 디자인 자료 갱신
+</code></pre>
+<h3>4-2. Commit Message 규칙</h3>
+<pre><code>[type]([scope]): [요약 한국어]
+
+[상세 설명 — 변경 사유 / 영향]
+
+Co-Authored-By: [협업자] &lt;email&gt;
+</code></pre>
+<p><strong>Type</strong>:</p>
+<ul>
+<li><code>feat</code> — 새 기능 / 자산</li>
+<li><code>fix</code> — 버그 / 오류 수정</li>
+<li><code>docs</code> — 가이드 / 문서</li>
+<li><code>style</code> — 디자인 시각 변경</li>
+<li><code>refactor</code> — 코드 리팩토링</li>
+<li><code>test</code> — 테스트</li>
+<li><code>chore</code> — 빌드 / 설정</li>
+</ul>
+<p><strong>Scope</strong>:</p>
+<ul>
+<li><code>design</code> — design-handoff/ 변경</li>
+<li><code>brand</code> — 로고 / 카피</li>
+<li><code>assets</code> — 게임 자산</li>
+<li><code>audio</code> — 음향</li>
+<li><code>code</code> — 게임 코드</li>
+</ul>
+<p><strong>예시</strong> (이 repo 의 실제 commit):</p>
+<pre><code>docs(design): 12~15 자료 추가 — 모바일/이펙트/문화/브랜드
+</code></pre>
+<h3>4-3. PR (Pull Request) 규칙</h3>
+<p>대규모 변경은 PR 사용:</p>
+<pre><code class="language-markdown">## PR 제목
+[design] 새 컴포넌트: ScoreBadge 도입
+
+## 변경 사항
+- design-handoff/11-component-library.md: ScoreBadge 추가
+- assets/ui/score_badge_*.png: 3 variants 추가
+- scripts/ui/ScoreBadge.gd: Godot 컴포넌트 신규
+
+## 디자이너 확인
+- [x] Figma 시안 ✅
+- [x] 모션 spec ✅ (M-XX)
+- [x] 접근성 (명도 대비) ✅
+
+## 개발자 확인
+- [x] 헤드리스 테스트 통과
+- [x] 인게임 시각 검증 (macOS / iOS 시뮬레이터)
+- [x] 코드 리뷰
+
+## 영향 범위
+- Board 화면 결과 라벨 → ScoreBadge 사용
+- 후속: result.player_delta 표시도 ScoreBadge 사용 (별도 PR)
+</code></pre>
+<hr>
+<h2>5. 리뷰 체크리스트</h2>
+<h3>5-1. 디자인 자료 PR 리뷰</h3>
+<p>새 가이드 / 갱신 시:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 마크다운 형식 정확 (헤더 / 표 / 코드블록)</li>
+<li><input disabled="" type="checkbox"> <code>.html</code> 동시 생성 (<code>scripts/tools/md_to_html.sh</code>)</li>
+<li><input disabled="" type="checkbox"> 다른 가이드와 일관 (예: Palette 색 같은 hex 사용)</li>
+<li><input disabled="" type="checkbox"> 한국어 / 영어 톤 일관 (15-brand-identity)</li>
+<li><input disabled="" type="checkbox"> 마이크로카피 어휘 (08-ui-ux-guidelines)</li>
+<li><input disabled="" type="checkbox"> 접근성 고려 (09-accessibility)</li>
+<li><input disabled="" type="checkbox"> 디자이너 / 외부 협업자가 5분 안에 이해 가능</li>
+</ul>
+<h3>5-2. 새 컴포넌트 / 화면 PR 리뷰</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Palette 색만 사용</li>
+<li><input disabled="" type="checkbox"> 8px 그리드 (spacing)</li>
+<li><input disabled="" type="checkbox"> 폰트 위계 (Title/Heading/Body/Caption)</li>
+<li><input disabled="" type="checkbox"> 4 상태 (default/hover/pressed/disabled)</li>
+<li><input disabled="" type="checkbox"> 모션 04-motion-spec 사양 따름</li>
+<li><input disabled="" type="checkbox"> 모바일 적응 (12-mobile-ui)</li>
+<li><input disabled="" type="checkbox"> 접근성 (명도 / 폰트 / 터치 타겟)</li>
+<li><input disabled="" type="checkbox"> localization 준비 (i18n 키)</li>
+<li><input disabled="" type="checkbox"> 컴포넌트 라이브러리 (11) 등록</li>
+</ul>
+<h3>5-3. 캐릭터 / 카드 일러스트 PR 리뷰</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 한국적 톤 (14-cultural-guide)</li>
+<li><input disabled="" type="checkbox"> 광패 / 희귀도별 강조 (05-card-art-style)</li>
+<li><input disabled="" type="checkbox"> 해상도 / 형식 (02-asset-spec)</li>
+<li><input disabled="" type="checkbox"> UI overlay 안전 영역</li>
+<li><input disabled="" type="checkbox"> 라이선스 명시 (work-for-hire / 본인 창작)</li>
+</ul>
+<h3>5-4. 사운드 PR 리뷰</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 파일 키 일치 (AudioBus.SOUNDS)</li>
+<li><input disabled="" type="checkbox"> 포맷 / 비트레이트 (06-music-direction)</li>
+<li><input disabled="" type="checkbox"> 볼륨 균형 (-12 ~ -20 dB)</li>
+<li><input disabled="" type="checkbox"> 라이선스 명시</li>
+</ul>
+<hr>
+<h2>6. 일관성 검증 도구</h2>
+<h3>6-1. 수동 검증</h3>
+<p>분기별 (3개월) 1회 디자인 일관성 audit:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 모든 화면에서 같은 색 = 같은 의미?</li>
+<li><input disabled="" type="checkbox"> 같은 컴포넌트 시각 일치?</li>
+<li><input disabled="" type="checkbox"> 마이크로카피 톤 일관?</li>
+<li><input disabled="" type="checkbox"> 새 자산 라이선스 등록?</li>
+<li><input disabled="" type="checkbox"> design-handoff/*.md 와 실제 코드 / 자산 일치?</li>
+</ul>
+<h3>6-2. 자동 검증 (미래)</h3>
+<ul>
+<li><strong>Figma 토큰 vs Palette.gd</strong>: Figma Variables → Palette.gd 동기화 스크립트</li>
+<li><strong>i18n 키 검증</strong>: 모든 tr() 키가 .csv 에 존재</li>
+<li><strong>이미지 사이즈 검증</strong>: 화투 220×320, 마패 200×280 자동 확인</li>
+<li><strong>명도 대비 자동</strong>: 새 컬러 조합 PR 시 4.5:1 검증</li>
+</ul>
+<h3>6-3. 디자인 시스템 사이트 (옵션)</h3>
+<p><code>design-handoff/</code> 의 HTML 들을 정적 사이트로 통합:</p>
+<ul>
+<li>GitHub Pages 또는 Vercel 자동 배포</li>
+<li>디자이너 / 협업자 항상 최신 자료 접근</li>
+<li>검색 / 네비게이션 기능</li>
+</ul>
+<hr>
+<h2>7. 협업자 권한 / 책임</h2>
+<h3>7-1. 역할별 책임</h3>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>책임</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>개발자 (메인)</strong></td>
+<td>게임 코드 / 통합 / 최종 출시 결정</td>
+</tr>
+<tr>
+<td><strong>디자이너</strong></td>
+<td>디자인 시안 / 자산 제작 / 일관성</td>
+</tr>
+<tr>
+<td><strong>작곡가</strong></td>
+<td>BGM / SE 제작 / 라이선스 명시</td>
+</tr>
+<tr>
+<td><strong>번역가</strong></td>
+<td>한↔영 텍스트 / 톤 검증</td>
+</tr>
+<tr>
+<td><strong>마케터</strong></td>
+<td>스토어 페이지 / SNS / 인플루언서</td>
+</tr>
+<tr>
+<td><strong>외부 컨설턴트</strong> (한국 문화)</td>
+<td>정체성 검증</td>
+</tr>
+</tbody></table>
+<h3>7-2. 의사결정 권한</h3>
+<table>
+<thead>
+<tr>
+<th>결정</th>
+<th>권한</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>게임 메커니즘</td>
+<td>개발자 (디자이너 의견 청취)</td>
+</tr>
+<tr>
+<td>디자인 시각</td>
+<td>디자이너 (개발자 합의)</td>
+</tr>
+<tr>
+<td>브랜드 (로고 / 카피)</td>
+<td>개발자 + 디자이너 합의</td>
+</tr>
+<tr>
+<td>가격 / 출시 일정</td>
+<td>개발자</td>
+</tr>
+<tr>
+<td>마케팅 전략</td>
+<td>개발자 + 마케터</td>
+</tr>
+<tr>
+<td>음악 톤</td>
+<td>작곡가 (개발자 합의)</td>
+</tr>
+<tr>
+<td>한국 정체성</td>
+<td>한국 문화 컨설턴트 (있다면) → 개발자</td>
+</tr>
+</tbody></table>
+<h3>7-3. 분쟁 해결</h3>
+<ul>
+<li>디자인 ↔ 개발 의견 차이: <strong>사용자 페르소나</strong> (16) 기준으로 결정</li>
+<li>컴플라이언스 (법적 / 접근성): <strong>디자인 자료</strong> (09 등) 가 우선</li>
+<li>브랜드 일관성: <strong>15-brand-identity</strong> Don&#39;t 위반은 거부</li>
+</ul>
+<hr>
+<h2>8. 라이선스 관리</h2>
+<h3>8-1. 라이선스 추적</h3>
+<p><code>assets/LICENSES.md</code> (전체 자산 라이선스 목록):</p>
+<pre><code class="language-markdown"># 자산 라이선스
+
+## 폰트
+- Pretendard — OFL 1.1 (저작자: 길벗체)
+- KoPub바탕체 — KoPub License (저작자: 한국출판인회의)
+
+## 화투 일러스트
+- 화투 40장 — 본인 창작 (work-for-hire, 게임 측 저작권)
+
+## 마패 카드
+- 마패 67종 — 본인 창작 / 외주 (양쪽 명시)
+
+## 사운드
+- card_flip.ogg — CC0 (Freesound: user_xxx)
+- bgm_menu.ogg — 외주 (작곡가: 홍길동, 게임 측 저작권)
+- ...
+
+## 캐릭터 일러스트
+- 보스 8명 — 외주 (디자이너: 김디자, work-for-hire)
+- 무명 (플레이어) — 외주
+
+## 폰트 / 코드 라이브러리
+- Godot 4.x — MIT
+- marked.js (md_to_html.sh) — MIT
+</code></pre>
+<h3>8-2. 새 자산 추가 시</h3>
+<pre><code class="language-bash"># 1. assets/ 에 파일 추가
+# 2. assets/LICENSES.md 갱신
+# 3. git commit
+git add assets/cards/card_1_gwang.png assets/LICENSES.md
+git commit -m &quot;assets(cards): 1월 송학광 일러스트 (work-for-hire)&quot;
+</code></pre>
+<h3>8-3. 외부 라이선스 검증</h3>
+<ul>
+<li>CC0 / CC-BY 사용 시 출처 명시 필수</li>
+<li>상업 라이선스 (Audiio 등) 계약서 보관</li>
+<li>라이선스 충돌 (GPL 등 강한 copyleft) 회피 (게임 정식 출시 차단)</li>
+</ul>
+<hr>
+<h2>9. 보안 / 백업</h2>
+<h3>9-1. 자산 백업</h3>
+<ul>
+<li><strong>Git</strong> (메인) — 모든 자산 추적</li>
+<li><strong>Google Drive / OneDrive</strong> (이중) — 큰 자산 (4K 일러스트 / WAV 원본)</li>
+<li><strong>외장 하드 / NAS</strong> (월 1회) — 전체 백업</li>
+</ul>
+<h3>9-2. Figma 백업</h3>
+<ul>
+<li>Figma 자체 클라우드 (자동)</li>
+<li>정기 export (.fig 파일) → Drive 보관 (분기별)</li>
+</ul>
+<h3>9-3. 보안</h3>
+<ul>
+<li>라이선스 키 / Steam API 키 ❌ git</li>
+<li><code>.env</code> 파일 사용 + <code>.gitignore</code></li>
+<li>Supabase 키는 별도 (이미 사용자 측 보호)</li>
+</ul>
+<hr>
+<h2>10. 디자인 시스템 진화</h2>
+<h3>10-1. 단계별 성숙도</h3>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>현재 (베타 직전)</strong></td>
+<td>15 자료 가이드 + 부분 컴포넌트 시안</td>
+</tr>
+<tr>
+<td><strong>베타 후</strong></td>
+<td>디자인 시스템 정착 (Figma 라이브러리 등록)</td>
+</tr>
+<tr>
+<td><strong>정식 출시 후</strong></td>
+<td>일관성 audit + 자동 검증 도구</td>
+</tr>
+<tr>
+<td><strong>장기</strong></td>
+<td>디자인 시스템 사이트 + 외부 공개 (오픈소스)</td>
+</tr>
+</tbody></table>
+<h3>10-2. 메트릭</h3>
+<p>분기별 측정:</p>
+<ul>
+<li>디자인 자료 갱신 빈도</li>
+<li>일관성 위반 (디자인 audit)</li>
+<li>협업자 만족도 (디자이너 / 작곡가 / 번역가 설문)</li>
+<li>사용자 피드백 — 시각 / UX 관련</li>
+</ul>
+<h3>10-3. 회고</h3>
+<p>분기 1회 디자인 회고 미팅 (개발자 + 핵심 디자이너):</p>
+<ul>
+<li>잘 된 부분 (continue)</li>
+<li>개선할 부분 (change)</li>
+<li>폐기할 부분 (drop)</li>
+<li>다음 분기 디자인 우선순위</li>
+</ul>
+<hr>
+<h2>11. 외부 협업 — 계약 / 의뢰</h2>
+<h3>11-1. 외주 의뢰 단계</h3>
+<pre><code>1. RFP (Request for Proposal) — 작업 범위 / 예산 / 납기 명시
+   참고: design-handoff 자료 링크
+2. 디자이너 / 작곡가 후보 검토
+3. 샘플 작업 (소량) — 톤 합의
+4. 본 계약 (work-for-hire — 저작권 게임 측)
+5. 양산 + 중간 리뷰
+6. 납품 + 검증
+7. 잔금 + 라이선스 등록
+</code></pre>
+<h3>11-2. 계약서 핵심 항목</h3>
+<ul>
+<li><strong>저작권</strong>: work-for-hire (게임 측 보유) 또는 사용권 라이선스</li>
+<li><strong>납기</strong>: 명확한 마일스톤</li>
+<li><strong>수정</strong>: 횟수 제한 (예: 3회까지 무료, 이후 추가 비용)</li>
+<li><strong>크레딧</strong>: 게임 내 / 스토어 페이지 명시 권리</li>
+<li><strong>비밀유지</strong>: 출시 전 외부 공개 ❌</li>
+<li><strong>분쟁 해결</strong>: 한국 법원 / 사전 협의</li>
+</ul>
+<h3>11-3. 외부 협업자 온보딩</h3>
+<p>새 협업자 시작 시:</p>
+<ul>
+<li><code>design-handoff/</code> 폴더 전체 전달 (zip 또는 GitHub link)</li>
+<li>게임 시연 영상 (10~15분)</li>
+<li>페르소나 / 브랜드 자료 정독 권장</li>
+<li>디스코드 / 슬랙 채널 초대</li>
+</ul>
+<hr>
+<h2>12. 거버넌스 체크리스트</h2>
+<p>분기별 self-audit:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 모든 design-handoff/*.md 와 .html 동기?</li>
+<li><input disabled="" type="checkbox"> 새 자산 LICENSES.md 등록?</li>
+<li><input disabled="" type="checkbox"> Figma 토큰 vs Palette.gd 일치?</li>
+<li><input disabled="" type="checkbox"> 디자인 일관성 (음 색 / 폰트 / 톤)?</li>
+<li><input disabled="" type="checkbox"> 협업자 권한 / 책임 명확?</li>
+<li><input disabled="" type="checkbox"> 백업 (Git + Drive) 최신?</li>
+<li><input disabled="" type="checkbox"> 컴플라이언스 (접근성 / 사행성) 검증?</li>
+<li><input disabled="" type="checkbox"> 사용자 피드백 반영 (디자인 영향)?</li>
+</ul>
+<hr>
+<h2>13. 비상 대응</h2>
+<h3>13-1. 디자이너 / 협업자 이탈</h3>
+<ul>
+<li>모든 자산 git + Drive 백업 (이중)</li>
+<li>작업 중인 Figma 파일 정기 export</li>
+<li>다른 디자이너에게 인계 가능한 자료 (design-handoff)</li>
+</ul>
+<h3>13-2. 라이선스 / 저작권 분쟁</h3>
+<ul>
+<li>모든 외주 work-for-hire 계약서 보관</li>
+<li>라이선스 충돌 시 즉시 해당 자산 교체 (대안 준비)</li>
+<li>법무 자문 (정식 출시 전 검토)</li>
+</ul>
+<h3>13-3. 디자인 일관성 회귀 (큰 변경 후)</h3>
+<ul>
+<li>분기 1회 audit</li>
+<li>회귀 발견 시 PR 으로 일괄 수정</li>
+<li>빈도 잦으면 자동 검증 도구 도입</li>
+</ul>
+<hr>
+<h2>14. 결론</h2>
+<pre><code>좋은 디자인 거버넌스 = 협업자가 자유롭게 작업하되,
+브랜드와 일관성은 무너지지 않는 시스템.
+
+K-Sutda 의 거버넌스 핵심:
+1. 자산 명명 / 위치 규칙 명확
+2. 변경은 PR / commit 로 추적
+3. 라이선스 모두 등록
+4. 디자인 자료 (design-handoff) 항상 최신
+5. 사용자 페르소나 / 브랜드 가이드가 분쟁 해결 기준
+
+거버넌스 = 자유의 토대.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>19-design-governance.md</code>
+</div>
+</body>
+</html>

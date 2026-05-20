@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 디자이너 브리프</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 디자이너 브리프</h1>
+<blockquote>
+<p>작업 시작 전 반드시 <a href="../docs/01-overview.md">../docs/01-overview.md</a> (게임 개요) + <a href="../docs/03-game-design.md">../docs/03-game-design.md</a> (게임 시스템) 함께 정독 권장.
+본 문서는 디자인 작업의 <strong>마스터 안내서</strong> 입니다. 상세 에셋 목록은 <a href="02-asset-spec.md">02-asset-spec.md</a>.</p>
+</blockquote>
+<hr>
+<h2>1. 게임 한 줄 정의</h2>
+<blockquote>
+<p>&quot;섯다의 심리전 DNA에 로그라이크 빌딩을 접목한 싱글플레이어 전략 카드 게임&quot;</p>
+</blockquote>
+<p><strong>레퍼런스</strong>:</p>
+<ul>
+<li>발라트로 (Balatro) — 점수 빌딩 / 조커 시스템 / 깔끔한 UI</li>
+<li>한게임 섯다 (NHN) — 2단계 베팅 / 다이 메커니즘 / 한국 화투 시각</li>
+<li>슬레이 더 스파이어 — 로그라이크 진행 / 단계 구조</li>
+</ul>
+<p><strong>우리 게임의 톤</strong>:</p>
+<ul>
+<li>한국 전통 + 모던 도박판 분위기 (먹색 + 금색 + 한지 베이지)</li>
+<li>발라트로 같은 산뜻함 ❌ → 진중한 무게감 + 한국적 정서 ✅</li>
+<li>사행성 모사 회피 (도박 미화 ❌, 전략 카드 게임 ✅)</li>
+</ul>
+<hr>
+<h2>2. 타겟 플레이어</h2>
+<ul>
+<li><strong>코어</strong>: 25~45세 한국 남성, 섯다/화투 문화 이해 + 발라트로/로그라이크 경험</li>
+<li><strong>세컨더리</strong>: K-문화 관심 글로벌 유저, 전략 카드 게임 팬</li>
+<li>디자인 톤은 <strong>한국 + 약간 모던 (글로벌 친화)</strong> 균형</li>
+</ul>
+<hr>
+<h2>3. ⚠ 법적 제약 (필수 준수)</h2>
+<p><code>../docs/02-legal.md</code> 의 사행성 모사 회피 원칙. 디자인 시각 표현도 영향:</p>
+<table>
+<thead>
+<tr>
+<th>금지</th>
+<th>권장 대체</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>실제 화폐 / 금액 표시</td>
+<td>&quot;명성치 (名聲)&quot; / &quot;점수&quot;</td>
+</tr>
+<tr>
+<td>카지노 적색 카펫 / 슬롯 휠</td>
+<td>한국 전통 도박판 (먹색 + 한지)</td>
+</tr>
+<tr>
+<td>잭팟 / 대박 시각 효과</td>
+<td>점수 폭발 (금색 글로우)</td>
+</tr>
+<tr>
+<td>도박 미화 (담배·술·돈다발)</td>
+<td>화투 / 한지 / 붓 / 매화</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 디자인 시스템 (확정)</h2>
+<h3>4-1. 컬러 팔레트 (<code>scripts/ui/Palette.gd</code>)</h3>
+<pre><code>[배경 / 표면]
+BG_INK         #0D2619    먹색 — 도박판 배경 (Board)
+BG_EARTH       #131313    흙빛 — 메뉴 (MainMenu)
+BG_DARK_BLUE   #15191F    짙은 청 — Market / 정보 화면
+
+[액센트]
+ACCENT_BEIGE     #F5EBD1   한지 — 카드 베이스
+ACCENT_GOLD      #F3C72E   금 — 광패 / 강조 / 승리
+ACCENT_VERMILION #D93333   주홍 — 위험 / 1차 베팅 / 다이
+ACCENT_TEAL      #33A68C   청록 — 안전 / 성공
+
+[텍스트]
+TEXT_PRIMARY    #F2F2F2    기본
+TEXT_SECONDARY  #A6A6B2    보조
+TEXT_MUTED      #666673    덜 중요
+TEXT_GOLD       #F2D94D    강조
+
+[희귀도 — 마패 카드]
+common    #8C8C8C   회색
+uncommon  #338CD9   청
+rare      #C74DD9   자주
+legendary #F39C2E   주황
+</code></pre>
+<h3>4-2. 폰트 위계</h3>
+<pre><code>TITLE    96px   MainMenu &quot;K-Sutda&quot; / 점수 폭발
+HEADING  32px   섹션 헤더
+BODY     16px   일반 본문
+CAPTION  12px   보조 정보
+</code></pre>
+<p><strong>한글 폰트</strong> (✅ 2026-05-16 미팅 확정):</p>
+<ul>
+<li><strong>Title / Heading</strong>: <strong>Noto Serif KR Bold</strong> (명조) — 한국 전통 톤 채택</li>
+<li><strong>Body / Caption</strong>: Pretendard Regular — 가독성 보조</li>
+<li><strong>점수 / 숫자</strong>: Pretendard Black — 모던 가독성</li>
+<li><strong>로고</strong>: Noto Serif KR Bold (96~120px)</li>
+<li><strong>영문 fallback</strong>: Inter / SF Pro / Segoe UI 자동</li>
+<li><strong>라이선스</strong>: SIL OFL (무료 상업) — Google Fonts CDN 또는 로컬 임베드</li>
+</ul>
+<h3>4-3. 간격 (8px 그리드)</h3>
+<pre><code>XS  4px  | S  8px | M 16px | L 24px | XL 48px
+</code></pre>
+<hr>
+<h2>5. 화면 인벤토리 (현재 9개)</h2>
+<p>각 화면의 현재 시각 상태는 <a href="15-asset-spec.md">docs/15-asset-spec.md</a> 의 와이어프레임 참조.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>화면</th>
+<th>우선순위</th>
+<th>현재 상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>MainMenu</strong></td>
+<td>🔴 높음</td>
+<td>✅ 레이아웃 확정: 영화 포스터 톤 (광패 일러스트 + 슬로건 + CTA 버튼). 시안 작업 대기 — <a href="idea/02-mainmenu-mockup.html">idea/02-mainmenu-mockup.html</a> 옵션 C</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Board</strong> (게임 플레이)</td>
+<td>🔴 가장 높음</td>
+<td>절차적 카드 그래픽 / Label 기반 UI</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Market</strong> (마패 시장)</td>
+<td>🟡 중간</td>
+<td>텍스트 위주</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>BettingPanel</strong></td>
+<td>🔴 높음</td>
+<td>단순 버튼 4개</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Leaderboard</strong></td>
+<td>🟢 낮음</td>
+<td>ItemList 기반</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>ProbabilityInfo</strong></td>
+<td>🟢 낮음</td>
+<td>RichText 정적</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>HelpInfo</strong> (Sprint 3.15 신규)</td>
+<td>🟢 낮음</td>
+<td>RichText 정적</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>DailyActivity</strong> (Sprint 3.15 신규)</td>
+<td>🟡 중간</td>
+<td>카드 3개 + ItemList 막대</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>MapaSlot</strong> (Board 내 위젯)</td>
+<td>🟡 중간</td>
+<td>색상 박스 + 텍스트</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>6. 즉시 작업 우선순위 (베타 직전)</h2>
+<h3>Tier 1 — 핵심 게임플레이 비주얼 (필수)</h3>
+<ol>
+<li><p><strong>화투 40장 일러스트</strong> (현재 절차적 <code>_draw()</code> — Card.gd 참조)</p>
+<ul>
+<li>1월~10월 × 4 type (광/띠/열/피)</li>
+<li>일관된 일러스트 스타일 (한국 전통 화투 + 약간 모던)</li>
+<li>광땡 가능 카드 (1월광 / 3월광 / 8월광) 특수 강조 가능</li>
+<li>사양: 220×320px @1x (모바일 ×2 ready)</li>
+</ul>
+</li>
+<li><p><strong>카드 뒷면 디자인</strong> (현재: 짙은 녹색 + 격자)</p>
+<ul>
+<li>한국 전통 문양 (구름 / 매화 / 학)</li>
+<li>광땡 강조 보더 (금색)</li>
+</ul>
+</li>
+<li><p><strong>Board UI 레이아웃</strong></p>
+<ul>
+<li>카드 슬롯 (player 2개 + opponent 2개)</li>
+<li>BettingPanel (1차 주홍 / 2차 금색 — 기존 컬러 활용)</li>
+<li>PrestigeLabel + PotLabel 강조</li>
+<li>도박판 분위기 — 한지·먹·금 조합</li>
+</ul>
+</li>
+</ol>
+<h3>Tier 2 — 마패 카드 (67종)</h3>
+<ol start="4">
+<li><strong>마패 카드 일러스트 65~67장</strong> (<code>data/mapa_cards.json</code> 참조)<ul>
+<li>희귀도별 색 보더 (위 RARITY 색 사용)</li>
+<li>캐릭터·도구·동물 모티프 (예: &quot;노름꾼의 직감&quot;, &quot;광의 신&quot;, &quot;구라쟁이&quot;)</li>
+<li>사양: 200×280px (Market 진열 + Board 슬롯 양쪽 사용)</li>
+<li>5종 Legendary는 특별한 일러스트 (Soul card 발견 시 큰 임팩트)</li>
+</ul>
+</li>
+</ol>
+<h3>Tier 3 — UI 아이콘 + 효과</h3>
+<ol start="5">
+<li><p><strong>이모지 → 정식 아이콘 교체</strong></p>
+<ul>
+<li>🃏 (블러프) / 🎴 (2차 베팅) / ⚔️ (보스) / 🏆 (승리) / ⚠️ (위험)</li>
+<li>32×32 SVG + 색상 variants</li>
+</ul>
+</li>
+<li><p><strong>점수 폭발 / 카드 슬라이드인 / 펄스 효과</strong></p>
+<ul>
+<li>디자이너가 motion graphic 작업 시 참고용 모션 명세 필요</li>
+</ul>
+</li>
+</ol>
+<h3>Tier 4 — 사운드 (별도 외주 또는 라이센스)</h3>
+<ol start="7">
+<li><strong>SE 8개</strong> — card_flip / card_deal / win / lose / button_click / mapa_trigger / first_dia / bluff_success</li>
+<li><strong>BGM 2~3개</strong> — 메뉴 / 게임 / 보스 라운드</li>
+</ol>
+<hr>
+<h2>7. 디자인 원칙 (브랜드)</h2>
+<h3>Do ✅</h3>
+<ul>
+<li>한국 전통 화투 색 (먹·금·한지·주홍) 적극 사용</li>
+<li>광패의 시각적 무게감 (금색 보더, 글로우)</li>
+<li>1차 vs 2차 베팅 색 구분 (주홍 vs 금) — 인지 부담 ↓</li>
+<li>폰트 위계 명확 (점수 폭발 96px / 일반 16px)</li>
+<li>한국 전통 문양 (구름·매화·학·소나무) 차용</li>
+</ul>
+<h3>Don&#39;t ❌</h3>
+<ul>
+<li>카지노 적색 카펫 / 슬롯 그래픽</li>
+<li>돈다발·동전·잭팟 이미지</li>
+<li>발라트로 픽셀 아트 직접 모방 (저작권 + 톤 불일치)</li>
+<li>형광 컬러 (브랜드 톤 안 맞음)</li>
+<li>일본 화투 그대로 — 한국화 (예: 한국식 색감, 한국 식물 정확성)</li>
+</ul>
+<hr>
+<h2>8. 작업 자료 제공</h2>
+<h3>디자이너 접근권 권장</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 이 repo (read-only) 또는 <code>docs/</code> + <code>assets/</code> 폴더만 따로</li>
+<li><input disabled="" type="checkbox"> Figma / Adobe XD 공유 (디자이너가 만든 경우)</li>
+<li><input disabled="" type="checkbox"> Slack / 카톡 채널 (피드백 빠른 응답)</li>
+</ul>
+<h3>추가 참고 자료</h3>
+<ul>
+<li>한국 화투 시각 레퍼런스: 손오공게임 화투 / 한게임 섯다 카드 디자인</li>
+<li>발라트로 UI 톤: 진중함 + 약간 레트로 (<a href="https://www.playbalatro.com">https://www.playbalatro.com</a> — 참고만)</li>
+<li>한국 전통 문양: 단청, 책가도, 화조도</li>
+</ul>
+<h3>파일 전달 형식</h3>
+<ul>
+<li>일러스트: PNG (투명 배경) + 원본 (PSD/AI/SVG)</li>
+<li>모션: After Effects 프로젝트 또는 .json (Lottie)</li>
+<li>사운드: .ogg (Vorbis, mono SE / stereo BGM)</li>
+<li>폰트: 라이센스 명시 (.otf/.ttf)</li>
+</ul>
+<hr>
+<h2>9. 다음 단계</h2>
+<ol>
+<li><strong>킥오프 미팅</strong> (1시간) — 게임 플레이 영상 시청 + 디자이너 톤 제안</li>
+<li><strong>무드보드</strong> (디자이너 → 개발자) — 3~5개 후보</li>
+<li><strong>MainMenu + Board 와이어프레임 → 시안</strong> (Tier 1 우선)</li>
+<li><strong>화투 1~2장 샘플 (1월광)</strong> → 톤 확정 → 전체 40장</li>
+<li><strong>마패 카드 5~10장 샘플</strong> (희귀도별 1장씩) → 톤 확정 → 전체</li>
+</ol>
+<p>상세 에셋 목록·사양·우선순위: <strong><a href="15-asset-spec.md">docs/15-asset-spec.md</a></strong></p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>01-brief.md</code>
+</div>
+</body>
+</html>

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 모션 명세서</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 모션 명세서</h1>
+<blockquote>
+<p>게임 내 모든 애니메이션 / 트랜지션의 사양. After Effects / Lottie 작업, 또는 Godot Tween 튜닝 시 참고.</p>
+</blockquote>
+<hr>
+<h2>0. 기본 원칙</h2>
+<h3>0-1. 모션 톤</h3>
+<ul>
+<li><strong>무게감 + 빠른 반응</strong> — 한국 전통 도박판의 진중함 + 게임으로서의 즉각성</li>
+<li><strong>시간 단위 표기</strong>: 모두 <strong>초 (seconds)</strong> 사용. ms 가 아닌 0.15s, 0.2s 등.</li>
+<li><strong>이징 (easing)</strong>: 기본 <code>SINE_OUT</code> / 임팩트 <code>BACK_OUT</code> / 진정 <code>QUAD_OUT</code></li>
+<li><strong>연속 모션 분해</strong>: 각 단계 0.15s ~ 0.4s. 1초 넘는 모션 피하기 (지루함).</li>
+</ul>
+<h3>0-2. 60 FPS 가정</h3>
+<p>모든 timing 은 60 FPS 기준 부드러움. 30 FPS 환경에서도 자연스러워야.</p>
+<h3>0-3. Reduced Motion 옵션 (선택)</h3>
+<p>향후 접근성 옵션 — 모든 모션 비활성화 / 단순 fade 로 대체. 본 sprint 스코프 외.</p>
+<hr>
+<h2>1. 카드 모션</h2>
+<h3>1-1. 카드 fade-in (<code>Card.gd._play_fade_in</code>)</h3>
+<p>새 카드가 처음 화면에 나타날 때.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>시작 alpha</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>종료 alpha</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>지속 시간</td>
+<td><strong>0.15s</strong></td>
+</tr>
+<tr>
+<td>이징</td>
+<td>SINE_OUT</td>
+</tr>
+<tr>
+<td>발동 시점</td>
+<td>set_card() 호출 시</td>
+</tr>
+</tbody></table>
+<pre><code>[모션 시퀀스]
+0.00s  alpha=0
+0.075s alpha=0.5
+0.15s  alpha=1.0  (완료)
+</code></pre>
+<h3>1-2. 카드 flip (<code>Card.gd._play_flip_anim</code>)</h3>
+<p>face_down ↔ face_up 전환 (3D 회전 시뮬레이션).</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1단계</td>
+<td>scale.x 1.0 → 0.0 (0.15s, SINE_IN)</td>
+</tr>
+<tr>
+<td>중간 콜백</td>
+<td>card_data 갱신 + queue_redraw</td>
+</tr>
+<tr>
+<td>2단계</td>
+<td>scale.x 0.0 → 1.0 (0.15s, SINE_OUT)</td>
+</tr>
+<tr>
+<td>총 지속</td>
+<td><strong>0.30s</strong></td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>card_flip</code> (0.0s 시점)</td>
+</tr>
+</tbody></table>
+<pre><code>[시퀀스]
+0.00s  scale.x=1.0    (face_down 보임)
+0.15s  scale.x=0.0    (옆에서 본 가장 얇은 순간 — flip)
+0.15s+ scale.x=0.0    (card_data face_up 으로 교체)
+0.30s  scale.x=1.0    (face_up 완전 보임)
+</code></pre>
+<h3>1-3. 카드 슬라이드인 (<code>Board.gd._slide_in_second_card</code> — Sprint 3.13)</h3>
+<p>2단계 베팅 진입 시 두 번째 카드 등장.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>시작 위치</td>
+<td>original.x + <strong>60px</strong></td>
+</tr>
+<tr>
+<td>종료 위치</td>
+<td>original.x</td>
+</tr>
+<tr>
+<td>시작 alpha</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>종료 alpha</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>position tween</td>
+<td>0.25s, BACK_OUT (살짝 튕김)</td>
+</tr>
+<tr>
+<td>alpha tween</td>
+<td>0.2s, SINE_OUT</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>card_deal</code></td>
+</tr>
+</tbody></table>
+<pre><code>[시퀀스]
+0.00s  x=+60, alpha=0
+0.10s  x=+30, alpha=0.5
+0.20s  x=-5,  alpha=1.0   (BACK_OUT 오버슛)
+0.25s  x=0,   alpha=1.0   (안착)
+</code></pre>
+<h3>1-4. (제안 — 신규) 카드 mulligan 교체</h3>
+<p>두 번째 카드를 클릭 → 8명성치 차감 → 새 카드 등장.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 클릭 피드백</td>
+<td>카드 scale 1.0 → 0.95 → 1.0 (0.1s, BACK)</td>
+</tr>
+<tr>
+<td>2. flip out</td>
+<td>scale.x 1.0 → 0.0 (0.15s, SINE_IN)</td>
+</tr>
+<tr>
+<td>3. 카드 교체</td>
+<td>callback (instant)</td>
+</tr>
+<tr>
+<td>4. flip in</td>
+<td>scale.x 0.0 → 1.0 (0.15s, SINE_OUT)</td>
+</tr>
+<tr>
+<td>5. 글로우</td>
+<td>1초간 금색 보더 페이드 (0.5s in, 0.5s out)</td>
+</tr>
+</tbody></table>
+<p>총 0.40s + 1.0s glow. 사용자가 &quot;내가 바꿨다&quot; 명확 인지.</p>
+<hr>
+<h2>2. 점수 / 명성치 모션</h2>
+<h3>2-1. 점수 폭발 (<code>Board.gd._explode_score</code>)</h3>
+<p>승리 시 final_score 큰 라벨 강조.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>시작 scale</td>
+<td>0.6</td>
+</tr>
+<tr>
+<td>시작 alpha</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>시작 modulate</td>
+<td>Color(1, 0.9, 0.3, 0) 금색</td>
+</tr>
+<tr>
+<td><strong>단계 1 — 등장</strong></td>
+<td>alpha 0 → 1 (0.15s) + scale 0.6 → 1.8 (0.25s, BACK_OUT)</td>
+</tr>
+<tr>
+<td><strong>휴식</strong></td>
+<td>0.5s 유지</td>
+</tr>
+<tr>
+<td><strong>단계 2 — 축소</strong></td>
+<td>scale 1.8 → 1.0 (0.4s, SINE_IN) + alpha 1 → 0 (0.6s)</td>
+</tr>
+<tr>
+<td>총 지속</td>
+<td><strong>1.4s</strong></td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>win</code> (0.0s)</td>
+</tr>
+</tbody></table>
+<pre><code>[시퀀스 — &quot;+1,250&quot; 폭발]
+0.00s  scale=0.6, alpha=0    &quot;+1,250&quot; 작고 투명
+0.15s  scale=1.0, alpha=1.0  떠오름
+0.25s  scale=1.8, alpha=1.0  최대 — 임팩트 (BACK 오버슛)
+0.75s  유지
+1.15s  scale=1.0, alpha=0.3  서서히 축소·페이드
+1.40s  alpha=0               완전 사라짐
+</code></pre>
+<h3>2-2. 명성치 카운트업 (<code>Board.gd._animate_prestige</code>)</h3>
+<p>명성치 변동 시 숫자가 굴러가는 효과.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>지속 시간</td>
+<td><strong>0.5s</strong> (COUNT_DURATION)</td>
+</tr>
+<tr>
+<td>이징</td>
+<td>QUAD_OUT (빠르게 시작 → 천천히 안착)</td>
+</tr>
+<tr>
+<td>발동</td>
+<td>round 결과 적용 후</td>
+</tr>
+</tbody></table>
+<pre><code>[+125 변동 예시]
+0.00s  명성치: 250
+0.10s  명성치: 312
+0.25s  명성치: 358
+0.40s  명성치: 372
+0.50s  명성치: 375  (안착)
+</code></pre>
+<h3>2-3. 위험 영역 펄스 (<code>Board.gd._refresh_prestige_warning</code> — Sprint 3.14)</h3>
+<p>명성치 &lt; 0 (위험) / &lt; -100 (임박) 시 prestige_label 펄스.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>위험 (&lt; 0)</td>
+<td>scale 1.0 → 1.05 → 1.0 (0.2s + 0.25s, SINE)</td>
+</tr>
+<tr>
+<td>임박 (&lt; -100)</td>
+<td>scale 1.0 → 1.15 → 1.0 (0.2s + 0.25s, SINE)</td>
+</tr>
+<tr>
+<td>색</td>
+<td><code>ACCENT_VERMILION</code> 빨강</td>
+</tr>
+<tr>
+<td>반복</td>
+<td>매 round 후 1회 (round 안에서 호흡하지 않음)</td>
+</tr>
+</tbody></table>
+<p>→ <strong>제안 (신규)</strong>: 임박 영역은 반복 호흡 (0.6s loop, 1.05 ↔ 1.15)? 너무 부담스러우면 1회만.</p>
+<h3>2-4. pot 카운트업 (<code>Board.gd._animate_pot</code>)</h3>
+<p>판돈 변동 표시.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>지속 시간</td>
+<td><strong>0.3s</strong> (COUNT_DURATION × 0.6)</td>
+</tr>
+<tr>
+<td>이징</td>
+<td>QUAD_OUT</td>
+</tr>
+</tbody></table>
+<p>빠르게 갱신 — 베팅 액션마다 pot 즉시 반응.</p>
+<hr>
+<h2>3. 토스트 / 라벨 모션</h2>
+<h3>3-1. (제안 — 신규) 토스트 등장</h3>
+<p>블러프 성공 / 위험 영역 진입 / 단계 클리어 등 알림.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. fade-in + slide-down</td>
+<td>y -20 → 0, alpha 0 → 1 (0.25s, BACK_OUT)</td>
+</tr>
+<tr>
+<td>2. 유지</td>
+<td>2.5s</td>
+</tr>
+<tr>
+<td>3. fade-out</td>
+<td>alpha 1 → 0 (0.5s)</td>
+</tr>
+<tr>
+<td>총</td>
+<td><strong>3.25s</strong></td>
+</tr>
+</tbody></table>
+<p>위치: 화면 상단 중앙. 톤: 한지 베이지 배경 + 먹색 글자.</p>
+<h3>3-2. (제안) &quot;AI 다이!&quot; 토스트 (Sprint 3.13)</h3>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경 색</td>
+<td><code>ACCENT_VERMILION</code> 주홍 + 반투명 (0.85 alpha)</td>
+</tr>
+<tr>
+<td>글자 색</td>
+<td>흰색</td>
+</tr>
+<tr>
+<td>폰트</td>
+<td>24px Bold</td>
+</tr>
+<tr>
+<td>모션</td>
+<td>위 3-1 표준</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>first_dia</code></td>
+</tr>
+</tbody></table>
+<h3>3-3. (제안) &quot;🃏 블러프 성공!&quot; 토스트</h3>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경 색</td>
+<td><code>ACCENT_GOLD</code> 금 + 반투명</td>
+</tr>
+<tr>
+<td>글자 색</td>
+<td>짙은 먹</td>
+</tr>
+<tr>
+<td>폰트</td>
+<td>24px Bold</td>
+</tr>
+<tr>
+<td>추가 효과</td>
+<td>토스트 옆에 가면 아이콘 회전 0.5s</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>bluff_success</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. UI 트랜지션</h2>
+<h3>4-1. 화면 전환 (scene change)</h3>
+<p>현재: Godot 기본 (즉시 전환).</p>
+<p><strong>제안 — 신규</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 페이드 아웃</td>
+<td>검은 오버레이 alpha 0 → 1 (0.2s)</td>
+</tr>
+<tr>
+<td>2. scene 교체</td>
+<td>instant</td>
+</tr>
+<tr>
+<td>3. 페이드 인</td>
+<td>alpha 1 → 0 (0.3s)</td>
+</tr>
+<tr>
+<td>총</td>
+<td><strong>0.5s</strong></td>
+</tr>
+</tbody></table>
+<p>부드러운 전환 + 로딩 가림.</p>
+<h3>4-2. 버튼 hover / pressed</h3>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hover</td>
+<td>scale 1.0 → 1.03 (0.1s, SINE_OUT)</td>
+</tr>
+<tr>
+<td>pressed</td>
+<td>scale → 0.97 (0.05s instant) → 1.0 (0.1s)</td>
+</tr>
+<tr>
+<td>비활성화</td>
+<td>modulate.a 1.0 → 0.5 (instant)</td>
+</tr>
+</tbody></table>
+<h3>4-3. BettingPanel 모드 전환 (Sprint 3.13)</h3>
+<p>1차 (주홍) → 2차 (금) 진입 시.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 1차 버튼 fade out</td>
+<td>alpha 1 → 0 (0.15s)</td>
+</tr>
+<tr>
+<td>2. 2차 버튼 fade in</td>
+<td>alpha 0 → 1 (0.15s)</td>
+</tr>
+<tr>
+<td>3. ante_label 색 transition</td>
+<td>color tween (0.2s)</td>
+</tr>
+<tr>
+<td>4. 2차 슬라이더 slide-in</td>
+<td>width 0 → full (0.25s, BACK_OUT)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. 마패 카드 모션</h2>
+<h3>5-1. 마패 발동 (<code>MapaSlotVisual.pulse_trigger</code>)</h3>
+<p>마패 효과가 발동된 슬롯 강조.</p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>값 (현재 코드 기준 추정)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 글로우</td>
+<td>보더 색 alpha 0 → 1 (0.15s, SINE)</td>
+</tr>
+<tr>
+<td>2. scale pulse</td>
+<td>1.0 → 1.15 → 1.0 (0.3s, BACK)</td>
+</tr>
+<tr>
+<td>3. 글로우 페이드</td>
+<td>alpha 1 → 0 (0.5s)</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>mapa_trigger</code></td>
+</tr>
+</tbody></table>
+<h3>5-2. (제안) 마패 구매 / 장착 모션</h3>
+<p>Market 에서 마패 카드 구매 → 슬롯 장착.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>모션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 카드 hover</td>
+<td>살짝 scale 1.03 (0.1s)</td>
+</tr>
+<tr>
+<td>2. 클릭 + 구매</td>
+<td>명성치 차감 카운트업 (0.5s)</td>
+</tr>
+<tr>
+<td>3. 카드 → 슬롯 이동</td>
+<td>position tween + scale 0.5 (0.4s, QUAD_OUT)</td>
+</tr>
+<tr>
+<td>4. 슬롯 펄스</td>
+<td>도착 시 1.15 scale 펄스 (0.25s)</td>
+</tr>
+<tr>
+<td>사운드</td>
+<td><code>button_click</code> + <code>mapa_trigger</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>6. 보스 / 단계 진입</h2>
+<h3>6-1. (제안) 단계 시작 인트로</h3>
+<p>각 단계 첫 라운드 진입 시 1.5s 짧은 인트로.</p>
+<pre><code>[시퀀스]
+0.0s  Board fade-in
+0.3s  &quot;단계 N&quot; 큰 라벨 등장 (좌측에서 slide-in, 0.4s)
+0.7s  보스 이름 라벨 등장 (&quot;AI: 강도진 / AGGRESSIVE&quot;)
+1.0s  유지
+1.5s  라벨 fade-out + 카드 배분 시작
+</code></pre>
+<h3>6-2. (제안) 보스 라운드 (round 3) 강조</h3>
+<table>
+<thead>
+<tr>
+<th>시퀀스</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Board 진입 시 &quot;⚔️ 보스 라운드&quot; 토스트 (3.1 표준)</td>
+</tr>
+<tr>
+<td>보스 일러스트 fade-in (1.0s) + 배경 어두워짐</td>
+</tr>
+<tr>
+<td>BGM 전환 (<code>bgm_game</code> → <code>bgm_boss</code>, crossfade 1.0s)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>7. 결과 / 엔딩</h2>
+<h3>7-1. (제안) 단계 클리어 트랜지션</h3>
+<pre><code>[시퀀스]
+0.0s  마지막 결과 표시 (3s)
+3.0s  화면 페이드 (검은색, 0.5s)
+3.5s  &quot;🏆 단계 N 클리어!&quot; 큰 라벨 (1.5s)
+5.0s  Market scene change
+</code></pre>
+<h3>7-2. (제안) 게임오버 트랜지션</h3>
+<pre><code>[시퀀스]
+0.0s  명성치 ≤ -150 도달
+0.5s  화면 어두워짐 (alpha overlay 0 → 0.7, 0.5s)
+1.0s  &quot;💀 게임오버&quot; 라벨 등장 (BACK_OUT, 0.4s)
+2.0s  명성치 최종 표시
+4.0s  MainMenu scene change
+</code></pre>
+<h3>7-3. (제안) 런 클리어 (단계 8 통과)</h3>
+<pre><code>[시퀀스 — 가장 큰 임팩트]
+0.0s  단계 8 보스 패배 결과 표시
+3.0s  화면 페이드 (한지 베이지 alpha 0 → 1, 0.8s)
+3.8s  &quot;👑 런 클리어!&quot; 큰 라벨 (BACK + 회전, 0.6s)
+4.5s  &quot;전설&quot; 칭호 획득 알림 (golden particle)
+6.5s  최종 명성치 / 통계 카운트업 표시
+9.0s  점수 제출 → MainMenu
+</code></pre>
+<hr>
+<h2>8. 사양 정리표 (디자이너 / 모션 개발자용)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>모션</th>
+<th>지속</th>
+<th>이징</th>
+<th>트리거</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M-01</td>
+<td>카드 fade-in</td>
+<td>0.15s</td>
+<td>SINE_OUT</td>
+<td>set_card()</td>
+</tr>
+<tr>
+<td>M-02</td>
+<td>카드 flip</td>
+<td>0.30s</td>
+<td>SINE_IN / OUT</td>
+<td>flip()</td>
+</tr>
+<tr>
+<td>M-03</td>
+<td>카드 슬라이드인</td>
+<td>0.25s</td>
+<td>BACK_OUT</td>
+<td>2차 진입</td>
+</tr>
+<tr>
+<td>M-04</td>
+<td>mulligan 교체</td>
+<td>0.40s + 1.0s glow</td>
+<td>복합</td>
+<td>mulligan</td>
+</tr>
+<tr>
+<td>M-05</td>
+<td>점수 폭발</td>
+<td>1.40s</td>
+<td>BACK_OUT / SINE_IN</td>
+<td>승리</td>
+</tr>
+<tr>
+<td>M-06</td>
+<td>명성치 카운트업</td>
+<td>0.50s</td>
+<td>QUAD_OUT</td>
+<td>round 종료</td>
+</tr>
+<tr>
+<td>M-07</td>
+<td>위험 펄스</td>
+<td>0.45s</td>
+<td>SINE</td>
+<td>round 후 &lt; 0</td>
+</tr>
+<tr>
+<td>M-08</td>
+<td>pot 카운트업</td>
+<td>0.30s</td>
+<td>QUAD_OUT</td>
+<td>베팅</td>
+</tr>
+<tr>
+<td>M-09</td>
+<td>토스트 표준</td>
+<td>3.25s</td>
+<td>BACK_OUT / fade</td>
+<td>알림</td>
+</tr>
+<tr>
+<td>M-10</td>
+<td>scene change</td>
+<td>0.50s</td>
+<td>linear</td>
+<td>화면 전환</td>
+</tr>
+<tr>
+<td>M-11</td>
+<td>버튼 hover</td>
+<td>0.10s</td>
+<td>SINE_OUT</td>
+<td>mouse_enter</td>
+</tr>
+<tr>
+<td>M-12</td>
+<td>BettingPanel 전환</td>
+<td>0.55s</td>
+<td>복합</td>
+<td>2차 진입</td>
+</tr>
+<tr>
+<td>M-13</td>
+<td>마패 발동</td>
+<td>0.95s</td>
+<td>BACK + SINE</td>
+<td>T1~T6</td>
+</tr>
+<tr>
+<td>M-14</td>
+<td>단계 인트로</td>
+<td>1.50s</td>
+<td>복합</td>
+<td>단계 시작</td>
+</tr>
+<tr>
+<td>M-15</td>
+<td>단계 클리어</td>
+<td>5.00s</td>
+<td>복합</td>
+<td>clear</td>
+</tr>
+<tr>
+<td>M-16</td>
+<td>게임오버</td>
+<td>4.00s</td>
+<td>복합</td>
+<td>game over</td>
+</tr>
+<tr>
+<td>M-17</td>
+<td>런 클리어</td>
+<td>9.00s</td>
+<td>복합</td>
+<td>victory</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>9. 파일 납품 형식</h2>
+<h3>9-1. After Effects → Lottie</h3>
+<p>각 모션 별 <code>.json</code> (Lottie) 으로 납품. Godot 측에서 Lottie 라이브러리 또는 자체 Tween 으로 재현.</p>
+<pre><code>assets/motion/
+├── M-01_card_fade_in.json
+├── M-02_card_flip.json
+├── ...
+</code></pre>
+<h3>9-2. 사양 시트 (스프레드시트 / Notion)</h3>
+<p>각 모션의 timing 표를 디자이너 ↔ 개발자가 공유. 변경 시 git PR 로 추적.</p>
+<hr>
+<h2>10. 개발자 측 구현 참고</h2>
+<p>현재 Godot Tween 코드 위치:</p>
+<ul>
+<li>카드 모션: <code>scripts/game/Card.gd</code></li>
+<li>점수 / 명성치 / pot: <code>scripts/game/Board.gd</code></li>
+<li>마패 발동: <code>scripts/game/MapaSlot.gd</code></li>
+<li>화면 전환: 각 화면의 <code>_on_back()</code> 등 — 현재 직접 <code>change_scene_to_file</code> (트랜지션 없음)</li>
+</ul>
+<p><strong>제안 모션 (M-04 mulligan 교체, M-09 토스트, M-10 scene change 등)</strong> 은 코드 추가 필요. 디자이너 시안 확정 후 별도 sprint 에서 구현.</p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>04-motion-spec.md</code>
+</div>
+</body>
+</html>

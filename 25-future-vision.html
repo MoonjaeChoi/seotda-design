@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 후속작 / 확장 비전</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 후속작 / 확장 비전</h1>
+<blockquote>
+<p>Phase 4+ 다인 플레이 / DLC / 후속작 / 시즌 콘텐츠 / 장기 IP 비전. 정식 출시 후 12~24개월 로드맵.</p>
+</blockquote>
+<hr>
+<h2>0. 비전 원칙</h2>
+<h3>0-1. K-Sutda IP</h3>
+<ul>
+<li><strong>K-Sutda</strong> = 단일 게임이 아닌 <strong>IP / 브랜드</strong></li>
+<li>한국 도박판 / 화투 / 마패 = 풍부한 콘텐츠 소재</li>
+<li>인디 게임이지만 장기 진화 가능 (발라트로 + 후속 확장 사례 참고)</li>
+</ul>
+<h3>0-2. 우선순위 단계</h3>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>시점</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Phase 4</strong></td>
+<td>정식 출시 후 6개월</td>
+<td>다인 플레이 / 새 게임 모드</td>
+</tr>
+<tr>
+<td><strong>Phase 5</strong></td>
+<td>정식 출시 후 1년</td>
+<td>DLC / 시즌 콘텐츠</td>
+</tr>
+<tr>
+<td><strong>Phase 6</strong></td>
+<td>출시 후 1~2년</td>
+<td>후속작 / 글로벌 확장</td>
+</tr>
+<tr>
+<td><strong>장기</strong></td>
+<td>2년+</td>
+<td>IP 확장 (코믹스 / 영상)</td>
+</tr>
+</tbody></table>
+<h3>0-3. 결정 기준</h3>
+<ul>
+<li>✅ 사용자 피드백 데이터 (23-analytics-kpi)</li>
+<li>✅ 한국 정체성 / 도박판 톤 유지</li>
+<li>✅ 사행성 모사 회피</li>
+<li>❌ 인기 추종 (모방 게임)</li>
+<li>❌ Pay-to-Win / 가챠</li>
+</ul>
+<hr>
+<h2>1. Phase 4 — 다인 플레이 / 새 게임 모드 (출시 후 6개월)</h2>
+<h3>1-1. 다인 플레이 모드 (Multiplayer)</h3>
+<p>K-Sutda 의 본질 — 섯다는 본래 4~6인 게임. AI 1명 → 다인 환경 도입.</p>
+<h4>디자인 옵션</h4>
+<table>
+<thead>
+<tr>
+<th>옵션</th>
+<th>장점</th>
+<th>단점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>로컬 다인</strong> (같은 PC / 모바일 핫시트)</td>
+<td>빠른 개발, 친구 끼리</td>
+<td>글로벌 X</td>
+</tr>
+<tr>
+<td><strong>온라인 다인 (P2P)</strong></td>
+<td>글로벌 가능, 단순 인프라</td>
+<td>NAT / 매칭 어려움</td>
+</tr>
+<tr>
+<td><strong>온라인 다인 (전용 서버)</strong></td>
+<td>안정적 매칭, 큰 커뮤니티</td>
+<td>인프라 비용 / 운영</td>
+</tr>
+<tr>
+<td><strong>비동기 다인 (시드 챌린지)</strong></td>
+<td>인프라 ↓, 결정성 활용</td>
+<td>실시간 X</td>
+</tr>
+</tbody></table>
+<p><strong>🎯 추천 — 단계적</strong>:</p>
+<ol>
+<li>Phase 4.1 <strong>로컬 핫시트</strong> (2~4인) — 친구 모임 / 동네 노름판</li>
+<li>Phase 4.2 <strong>온라인 P2P</strong> (2인) — 글로벌 1:1</li>
+<li>Phase 5+ <strong>전용 서버 매칭</strong> — 큰 규모 (옵션)</li>
+</ol>
+<h4>게임 디자인 변화</h4>
+<pre><code>2인 → 4인 다인:
+- 포지션 (선/후위) 회전 — 매 판 다른 사람이 선
+- 정보 비대칭 — 다른 플레이어의 베팅에서 패 추측
+- 메모리 게임 — 누가 어떤 패턴인지 학습
+- 블러프 의미 ↑ — 여러 명 속이기
+
+기존 솔로 메커니즘 유지:
+- 마패 카드 (각자 보유)
+- mulligan
+- 2단계 베팅 (1차 / 2차)
+- 명성치 한도
+</code></pre>
+<h4>캐릭터 / 아바타</h4>
+<ul>
+<li>사용자 닉네임 + 캐릭터 아바타 (5~10 종 선택)</li>
+<li>한국 도박판 톤 (한복 / 정장 / 갓 / 탈)</li>
+<li>베타 진행하며 추가 아바타 unlock (메타 진행)</li>
+</ul>
+<h4>인프라 / 비용</h4>
+<ul>
+<li>로컬: 코드만 (인프라 X)</li>
+<li>온라인 P2P: STUN/TURN 서버 (월 $50~100)</li>
+<li>전용 서버: 클라우드 (Supabase + Game Server, 월 $200~500)</li>
+</ul>
+<hr>
+<h3>1-2. 새 게임 모드</h3>
+<h4>Mode 1 — Endless (무한 모드)</h4>
+<pre><code>8 단계 클리어 후 계속:
+- 단계 9, 10, 11... 무한
+- AI 패턴 더 강력 (보스 부스트 ↑)
+- 마패 추가 효과 (Legendary 더 자주)
+- 명성치 한도 ↓ (-100 → -50, 더 어려움)
+- 리더보드 — 가장 깊은 단계 도달
+
+대상: P1 코어 / P6 스트리머 (도전 의지)
+</code></pre>
+<h4>Mode 2 — Daily Challenge (일일 챌린지)</h4>
+<pre><code>매일 새 시드 (전 세계 동일):
+- 모든 사용자 같은 카드 / 같은 AI
+- 마패 빌드는 자기 자유
+- 24시간 내 가장 높은 점수
+- 글로벌 리더보드 (Supabase)
+- 한국 시간 자정 갱신
+
+대상: 모든 페르소나 (특히 P5 캐주얼 / P6 스트리머)
+</code></pre>
+<h4>Mode 3 — Speedrun</h4>
+<pre><code>가장 빠른 단계 8 클리어:
+- 타이머 표시
+- 시드 자유
+- 글로벌 리더보드 (시간 순)
+
+대상: P6 스트리머 (영상 콘텐츠)
+</code></pre>
+<h4>Mode 4 — Hardcore (영구사망)</h4>
+<pre><code>한 번 패배하면 끝:
+- 게임오버 한도 -100 (더 엄격)
+- 자동 세이브 X (수동 X)
+- 단계 8 클리어 → &quot;최고 영광&quot; 칭호
+- 베타 후 도입
+
+대상: P1 코어
+</code></pre>
+<hr>
+<h3>1-3. 메타 진행 (Persistent Progression)</h3>
+<pre><code>게임 끝나도 사라지지 않는 진행:
+
+[칭호 시스템]
+- &quot;전설&quot; (단계 8 클리어)
+- &quot;탈춤꾼&quot; (블러프 100회 성공)
+- &quot;광의 신&quot; (광땡 50회)
+- &quot;구라쟁이&quot; (게임오버 50회 — 좌절 유머)
+- ...
+
+[아바타 unlock]
+- 단계 8 클리어 1회 → 갓 무명
+- 5회 → 한복 무명
+- 10회 → 황금 갓 무명
+- ...
+
+[배경 unlock]
+- 단계 5 클리어 → 사찰 배경
+- 단계 8 클리어 → 다실 배경
+- ...
+
+[누적 통계 표시]
+- 총 런 / 클리어 / 광땡 / 블러프
+- 가장 강한 빌드 (TOP 3)
+- 누적 명성치 변화
+</code></pre>
+<hr>
+<h2>2. Phase 5 — DLC / 시즌 콘텐츠 (출시 후 1년)</h2>
+<h3>2-1. DLC 1 — &quot;신참 마패&quot; (Free Update)</h3>
+<pre><code>[무료 업데이트]
+
+추가 콘텐츠:
+- 단계 9, 10 (Endless 모드 강화)
+- 새 보스 2명 (단계 9 + 10)
+- 새 마패 카드 15장 (희귀도별)
+- 새 일러스트 + 컷신
+- 인플루언서 모드 (스트리머 친화 — 글자 큼, 명확)
+</code></pre>
+<p><strong>가격</strong>: 무료
+<strong>시점</strong>: 정식 출시 후 6개월</p>
+<h3>2-2. DLC 2 — &quot;사물놀이&quot; (유료 BGM 팩)</h3>
+<pre><code>[유료 DLC: $4.99 / 6,000원]
+
+추가 콘텐츠:
+- 사물놀이 BGM 팩 (5~10 트랙)
+- 보스별 테마곡 (8명 × 1)
+- 라이브 가야금 / 대금 솔로
+- 사운드트랙 PDF + Wallpaper 4K
+</code></pre>
+<p><strong>시점</strong>: 출시 후 9개월</p>
+<h3>2-3. DLC 3 — &quot;한복 컬렉션&quot; (Free Cosmetic Update)</h3>
+<pre><code>[무료 업데이트]
+
+추가 콘텐츠:
+- 무명 아바타 추가 5종 (한복 / 정장 / 갓 / 탈 변형)
+- 카드 뒷면 디자인 추가 5종
+- 한국 명절 한정 한복 (설날 / 추석)
+- 메타 진행으로 unlock
+</code></pre>
+<p><strong>시점</strong>: 출시 후 1년</p>
+<h3>2-4. DLC 4 — &quot;다인 모드 +&quot; (옵션, 유료)</h3>
+<pre><code>[유료 DLC: $9.99 / 12,000원]
+
+추가 콘텐츠:
+- 다인 플레이 4인 무비 (다인 모드 확장)
+- 새 다인 전용 보스 2명
+- 친구 초대 / 클랜 시스템
+- 다인 전용 리더보드
+- 길드 (옵션)
+</code></pre>
+<p><strong>시점</strong>: 출시 후 1년 6개월</p>
+<hr>
+<h3>2-5. 시즌 콘텐츠 (3개월 주기)</h3>
+<p>매 3개월마다 시즌 패치:</p>
+<pre><code>[시즌 1 — 봄: 매화 시즌] (출시 직후)
+- 봄 한복 무명 (한정)
+- 매화 카드 뒷면
+- 매주 시드 챌린지
+
+[시즌 2 — 여름: 모란 시즌]
+- 여름 한복
+- 모란 카드 뒷면
+- 핫시즌 — 일일 챌린지 보상 ×2
+
+[시즌 3 — 가을: 단풍 시즌]
+- 가을 한복
+- 단풍 카드 뒷면
+- 한국 추석 한정 이벤트
+
+[시즌 4 — 겨울: 솔잎 시즌]
+- 겨울 한복
+- 솔잎 카드 뒷면
+- 한국 설날 한정 이벤트
+</code></pre>
+<p>→ 사용자 retention ↑, 자연스러운 한국 정체성 강조.</p>
+<hr>
+<h2>3. Phase 6 — 후속작 / 글로벌 확장 (출시 후 1~2년)</h2>
+<h3>3-1. 후속작 후보</h3>
+<h4>후속작 A — &quot;K-Mapa&quot; (액션 / 어드벤처)</h4>
+<pre><code>컨셉:
+- K-Sutda 의 캐릭터 (남궁천, 탈춤 영감 등) 의 백스토리 시점
+- 영화 &quot;마패&quot; 톤 — 액션 RPG
+- 무명의 젊은 시절 → 노름판 입성 / 첫 게임
+
+장르: 액션 / 어드벤처 / 스토리 위주
+플랫폼: PC + 콘솔
+가격: $29.99 (인디 + 약간 큰 규모)
+</code></pre>
+<h4>후속작 B — &quot;K-Sutda 2: 다인 시대&quot;</h4>
+<pre><code>컨셉:
+- K-Sutda 정식 후속작
+- 다인 플레이 메인 (4~6인)
+- 한국 + 글로벌 매칭
+- 클랜 / 길드 / 토너먼트
+
+장르: 카드 / 로그라이크 + 멀티
+플랫폼: PC + 모바일
+가격: $19.99 + DLC
+</code></pre>
+<h4>후속작 C — &quot;K-Sutda Mobile&quot; (캐주얼 모바일 확장)</h4>
+<pre><code>컨셉:
+- K-Sutda 의 코어 메커니즘을 모바일 캐주얼로 단순화
+- 한 손 플레이 / 광 한 번
+- F2P + 광고 (인디 게임 윤리 — 강요 X)
+
+장르: 모바일 카드 게임
+플랫폼: iOS / Android
+수익: F2P (광고 + 코스메틱 IAP)
+</code></pre>
+<h3>3-2. 글로벌 확장</h3>
+<h4>일본어 출시</h4>
+<ul>
+<li>한국 화투 ≠ 일본 하나후다 명확</li>
+<li>일본어 보존 (Sutda / Mapa)</li>
+<li>일본 인디 게임 미디어 PR</li>
+<li>일본 인플루언서 (Twitch 일본 / 니코동)</li>
+</ul>
+<h4>중국어 (간/번) 출시</h4>
+<ul>
+<li>&quot;韓鬪&quot; 한자 로고 활용</li>
+<li>중국 도박 콘텐츠 규제 주의 (의역 / 명성치 강조)</li>
+<li>대만 / 홍콩 우선 (정치 이슈 ↓)</li>
+</ul>
+<h4>유럽 출시</h4>
+<ul>
+<li>독일 / 프랑스 / 스페인 — Steam 우선</li>
+<li>영문 fallback 으로 시작</li>
+<li>큰 시장 (독일) 별도 번역 검토</li>
+</ul>
+<hr>
+<h3>3-3. 콘솔 출시</h3>
+<h4>Nintendo Switch</h4>
+<ul>
+<li>모바일 + 콘솔 사이 — K-Sutda 톤 적합</li>
+<li>한국 카드 게임 = 닌텐도 사용자 (가족 / 캐주얼)</li>
+<li>인디 게임 친화 플랫폼</li>
+</ul>
+<h4>Steam Deck</h4>
+<ul>
+<li>이미 PC 호환 (Phase 4 검증)</li>
+<li>컨트롤러 매핑 (Sprint 4.x)</li>
+<li>Steam Deck Verified 인증</li>
+</ul>
+<h4>PlayStation / Xbox (옵션, 후순위)</h4>
+<ul>
+<li>큰 시장이지만 인디 진입 비용 ↑</li>
+<li>베타 / 정식 출시 후 데이터 보고 결정</li>
+</ul>
+<hr>
+<h2>4. IP 확장 (장기 — 출시 후 2년+)</h2>
+<h3>4-1. 코믹스 / 웹툰</h3>
+<pre><code>[K-Sutda — 무명의 이야기]
+
+웹툰 형식:
+- 무명의 과거 (가족 도박 빚 → 노름판 입성)
+- 8 단계 보스 8명의 백스토리 (각 1~2화)
+- 단계 8 남궁천과의 마지막 한 판
+- 엔딩 — 새 전설
+
+한국 웹툰 플랫폼 (네이버 / 카카오) 외주 또는 자체 제작.
+</code></pre>
+<h3>4-2. 단편 영상 / 영화</h3>
+<pre><code>[K-Sutda — Short Film]
+
+15~30분 단편 영상:
+- 한국 영화 톤 (마패 / 신과 함께)
+- 캐릭터 일러스트 → 영상 캐릭터
+- 한국 인디 영화 채널 또는 YouTube
+
+장기 비전: 장편 영화 / 드라마 (옵션, 외부 제작자 협업)
+</code></pre>
+<h3>4-3. 보드게임 (실물)</h3>
+<pre><code>[K-Sutda Board Game]
+
+실물 보드게임:
+- 카드 덱 (Phase 5 한정판 + 정식)
+- 4~6인 플레이
+- 한국 도박판 분위기 (한지 매트 / 도장)
+- 한국 보드게임 매장 / Kickstarter
+
+크라우드펀딩 → 한국 + 글로벌 출시.
+</code></pre>
+<h3>4-4. 아트북 / 사운드트랙</h3>
+<ul>
+<li>정식 아트북 출간 (40~80p)</li>
+<li>사운드트랙 LP / CD (한정판 굿즈)</li>
+<li>한국 인디 출판 / 음반사 협업</li>
+</ul>
+<hr>
+<h2>5. 라이브 운영 (정식 출시 후)</h2>
+<h3>5-1. 정기 업데이트</h3>
+<table>
+<thead>
+<tr>
+<th>주기</th>
+<th>종류</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>매주</td>
+<td>시드 챌린지 / 콘텐츠 SNS</td>
+</tr>
+<tr>
+<td>매월</td>
+<td>패치 (밸런스 / 버그 / 작은 콘텐츠)</td>
+</tr>
+<tr>
+<td>분기</td>
+<td>시즌 패치 (한복 / 카드 뒷면)</td>
+</tr>
+<tr>
+<td>반기</td>
+<td>큰 DLC (게임 모드 / 보스)</td>
+</tr>
+<tr>
+<td>매년</td>
+<td>큰 업데이트 (다인 모드 등)</td>
+</tr>
+</tbody></table>
+<h3>5-2. 이벤트</h3>
+<table>
+<thead>
+<tr>
+<th>이벤트</th>
+<th>시점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>출시 1주년</td>
+<td>대형 패치 + 굿즈 한정판</td>
+</tr>
+<tr>
+<td>한국 명절 (설/추석)</td>
+<td>한정 한복 + 이벤트</td>
+</tr>
+<tr>
+<td>Steam Sale (Summer/Winter)</td>
+<td>할인 + 트레일러</td>
+</tr>
+<tr>
+<td>한국 인디 페스티벌 (BIC 등)</td>
+<td>데모 / 개발자 직접</td>
+</tr>
+</tbody></table>
+<h3>5-3. 커뮤니티 관리 (22-community 일관)</h3>
+<ul>
+<li>Discord 운영 — 개발자 정기 소통</li>
+<li>AMA 월 1회</li>
+<li>인플루언서 정기 협업</li>
+<li>사용자 컨텐츠 추천 (Twitter / Discord)</li>
+</ul>
+<hr>
+<h2>6. 수익 모델 (정식 출시 + 장기)</h2>
+<h3>6-1. 기본 모델</h3>
+<pre><code>PC (Steam):
+- 정가: $14.99 / 18,000원
+- Steam Sale: 50% (최대)
+- DLC: $4.99 ~ $9.99
+- Soundtrack DLC: $9.99
+</code></pre>
+<h3>6-2. 모바일 (Phase 5 후)</h3>
+<pre><code>옵션 A: 유료 (premium)
+- $9.99 / 12,000원 단품
+- DLC 없음 (PC 와 동일)
+
+옵션 B: F2P + 광고 + 코스메틱
+- 무료 게임
+- 광고 (스킵 가능)
+- 아바타 / 한복 IAP ($0.99 ~ $4.99)
+- 강요 X (인디 게임 윤리)
+</code></pre>
+<h3>6-3. 굿즈 (보조)</h3>
+<ul>
+<li>한정판 실물 화투 덱: 40,000원</li>
+<li>티셔츠 / 머그컵: 15,000~25,000원</li>
+<li>Collector&#39;s Edition: 80,000원</li>
+</ul>
+<h3>6-4. 장기 IP (잠재)</h3>
+<ul>
+<li>웹툰: 광고 수익 (네이버 / 카카오)</li>
+<li>영상: 광고 수익 (YouTube)</li>
+<li>보드게임: Kickstarter ($30~50 USD)</li>
+</ul>
+<hr>
+<h2>7. 장기 비전 — 5년 후</h2>
+<h3>7-1. K-Sutda 가 도달할 수 있는 곳</h3>
+<pre><code>정식 출시 (2026)
+↓
+1년차: 다인 모드 + DLC + 모바일
+↓
+2년차: 후속작 발표 + 글로벌 확장
+↓
+3년차: 콘솔 출시 + 보드게임
+↓
+5년차: IP 확장 (웹툰 / 영상) + 시즌 컨텐츠 정착
+↓
+장기: 한국 인디 게임의 한 축 — K-콘텐츠 전 세계
+</code></pre>
+<h3>7-2. 성공 지표 (5년 누적)</h3>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>목표</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>총 판매</td>
+<td>50만~100만 카피</td>
+</tr>
+<tr>
+<td>활성 사용자 (MAU)</td>
+<td>5만</td>
+</tr>
+<tr>
+<td>Discord 커뮤니티</td>
+<td>10,000명</td>
+</tr>
+<tr>
+<td>한국 vs 글로벌</td>
+<td>40 : 60</td>
+</tr>
+<tr>
+<td>후속작 / DLC 매출 비중</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>굿즈 / IP 확장</td>
+<td>10%</td>
+</tr>
+</tbody></table>
+<h3>7-3. 성공 기준</h3>
+<ul>
+<li>✅ 한국 인디 게임으로 글로벌 인지 (Balatro 의 한국판 인식)</li>
+<li>✅ 한국 도박판 / 화투 문화의 긍정적 노출</li>
+<li>✅ 사행성 모사 회피 + 윤리적 디자인</li>
+<li>✅ 솔로 개발자 → 작은 팀 / IP 회사 진화</li>
+<li>❌ 단순 모방 (발라트로 카피)</li>
+<li>❌ Pay-to-Win 으로 전환</li>
+</ul>
+<hr>
+<h2>8. 의사결정 가이드 (장기)</h2>
+<h3>8-1. 새 기능 / 콘텐츠 추가 시</h3>
+<pre><code>[질문]
+1. 한국 정체성 강화하나?
+2. 도박 미화 회피하나?
+3. 기존 사용자 (P1~P6) 가치 있나?
+4. 데이터 / 피드백 근거 있나?
+5. 단기 매출 X, 장기 IP 가치 ↑?
+
+[답이 모두 ✅ 이면 진행]
+</code></pre>
+<h3>8-2. 외부 제안 / 컬래버</h3>
+<pre><code>- 다른 게임과의 컬래버: 한국 정체성 보존 시 OK
+- 영화 / 드라마 IP 사용: 신중 (한국 도박 콘텐츠 — 사회적 영향)
+- 한국 정부 사업 (콘텐츠 진흥원 등): 가능 (자금 / 노출)
+- 광고 / 협찬: 인디 톤 유지 (과한 광고 X)
+</code></pre>
+<h3>8-3. 후속작 결정 기준</h3>
+<pre><code>정식 출시 후 12~18개월:
+- 사용자 retention ≥ 30% (3개월)
+- 활성 MAU ≥ 1,000명
+- Discord 커뮤니티 ≥ 500명
+- 인플루언서 자연 영상 ≥ 50개
+- 누적 판매 ≥ 30,000 카피
+
+위 모두 만족 시 → 후속작 결정.
+부족 시 → 라이브 운영 / DLC 집중.
+</code></pre>
+<hr>
+<h2>9. 위기 대응 / 출구 전략</h2>
+<h3>9-1. 실패 시나리오</h3>
+<pre><code>[시나리오 1: 출시 후 6개월 판매 &lt; 5,000]
+- 마케팅 전략 재검토
+- 작은 무료 업데이트 + Steam Sale
+- 인플루언서 재배포
+- 6개월 더 운영 후 재평가
+
+[시나리오 2: 1년 후에도 정착 X]
+- 게임 자체 유지 (작은 업데이트)
+- 후속작 개발 중단 / 보류
+- 굿즈 / IP 확장 보류
+- 개발자 다음 프로젝트 준비
+
+[시나리오 3: 비판 / 컴플라이언스 문제]
+- 즉시 사과 + 수정
+- 사행성 우려 시 — 게임 디자인 변경 검토
+- 한국 게임위 / Apple / Google 가이드 준수
+</code></pre>
+<h3>9-2. 출구 전략 (Exit)</h3>
+<pre><code>인디 게임 출구 옵션:
+- 자체 운영 지속 (가장 흔함)
+- 퍼블리셔 협업 (인디 → 인디 퍼블리셔)
+- IP 매각 (드물지만 가능 — 후속작 미개발 시)
+- 오픈소스 (게임 자체 — 장기, 옵션)
+
+K-Sutda 의 경우 자체 운영 지속이 가장 가능.
+</code></pre>
+<hr>
+<h2>10. 결론</h2>
+<pre><code>K-Sutda 의 비전은 단일 게임이 아닌 — 한국 인디 카드 게임의 한 축.
+
+단기 (1년): 다인 플레이 + DLC + 모바일
+중기 (2~3년): 후속작 + 글로벌 + 콘솔
+장기 (5년+): IP 확장 (웹툰 / 영상 / 보드게임)
+
+성장의 기준:
+1. 한국 정체성 강화 (영합 X)
+2. 데이터 기반 결정 (감 X)
+3. 윤리적 디자인 (사행성 회피)
+4. 자생적 커뮤니티 (강요 X)
+5. 인디 정체성 유지 (대기업 / Pay-to-Win 회피)
+
+K-Sutda 가 5년 후 — 한국 화투의 글로벌 대명사가 되기를.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>25-future-vision.md</code>
+</div>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 비주얼 이펙트 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 비주얼 이펙트 가이드</h1>
+<blockquote>
+<p>광패 글로우 / 점수 폭발 파티클 / 블러프 가면 / 위험 펄스 등 인게임 이펙트 디테일. 모션 (04) 의 timing 위에 시각 표현 깊이 추가.</p>
+</blockquote>
+<hr>
+<h2>0. 이펙트 디자인 원칙</h2>
+<h3>0-1. 톤</h3>
+<ul>
+<li><strong>한국 전통 + 모던 융합</strong> — 가야금 풍경 (風磬) 처럼 잔잔한 신비</li>
+<li>발라트로 같은 색띠 ❌ → 차분한 글로우 + 한지 결 ✅</li>
+<li>짧고 강한 임팩트 (1~2초 이내)</li>
+</ul>
+<h3>0-2. 사용 빈도 차등</h3>
+<table>
+<thead>
+<tr>
+<th>빈도</th>
+<th>예시</th>
+<th>톤</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>흔함</strong> (매 라운드)</td>
+<td>카드 flip, 명성치 갱신</td>
+<td>차분</td>
+</tr>
+<tr>
+<td><strong>자주</strong> (몇 라운드 1번)</td>
+<td>마패 발동, 점수 폭발</td>
+<td>중간</td>
+</tr>
+<tr>
+<td><strong>드뭄</strong> (단계당 1~2번)</td>
+<td>광땡 / Soul 카드 / 블러프</td>
+<td>강한 임팩트</td>
+</tr>
+<tr>
+<td><strong>매우 드뭄</strong> (런당 0~1번)</td>
+<td>단계 8 클리어, 게임오버</td>
+<td>가장 강함</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>1. 광패 글로우</h2>
+<h3>1-1. 일반 광패 (1·3·8월 광)</h3>
+<pre><code>[광패가 face_up 일 때]
+- 카드 보더: 4px 금색 (#F3C72E) 단색 (현재 코드 적용됨)
+- 카드 뒤 글로우: 5~10px 옆으로 퍼지는 옅은 금색 (alpha 0.3 → 0)
+- 정적 — 호흡 없음 (광패는 항상 있는 사실)
+</code></pre>
+<h3>1-2. 광땡 완성 시 (3월광 + 8월광)</h3>
+<pre><code>[광땡 jokbo 100 인 경우]
+- 양쪽 카드 4px 금색 보더 그대로
+- 추가: 두 카드 사이 + 위에 황금 빛줄기 (10초간 잔잔히 펄스)
+- 점수 폭발 후 1초간 카드 위 반짝이 파티클 (3~5개)
+</code></pre>
+<p><strong>시각 묘사</strong>:</p>
+<ul>
+<li>빛줄기: 두 카드 중간점 위로 45도 각도로 가야금 줄 모양 빛 4~5개</li>
+<li>파티클: 작은 점 (2<del>4px) 금색, 위로 떠오르며 fade-out (0.5</del>1초)</li>
+</ul>
+<h3>1-3. 광 카드 효과 발동 시 (T1/T2)</h3>
+<ul>
+<li>해당 카드 위 1초간 가벼운 금색 글로우 (max alpha 0.5)</li>
+<li>&quot;1월광 효과 발동&quot; 등 텍스트 라벨 짧게 (1.5초)</li>
+</ul>
+<hr>
+<h2>2. 점수 폭발 (M-05 기반)</h2>
+<h3>2-1. 표준 점수 폭발</h3>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 등장</td>
+<td>&quot;+1,250&quot; 라벨 alpha 0→1 + scale 0.6→1.8 (0.25s, BACK_OUT)</td>
+</tr>
+<tr>
+<td>2. 휴식</td>
+<td>0.5s 유지</td>
+</tr>
+<tr>
+<td>3. 축소</td>
+<td>scale 1.8→1.0, alpha 1→0 (0.6s)</td>
+</tr>
+<tr>
+<td>추가 효과</td>
+<td>라벨 등장 시 화면 중앙에서 황금 파티클 8~12개 사방으로 흩어짐</td>
+</tr>
+</tbody></table>
+<h3>2-2. 파티클 디테일</h3>
+<pre><code>파티클 종류:
+- 작은 동그라미 (3~6px)
+- 금색 (#F3C72E) + 살짝 다른 톤 (#FFE680, #DDA200) 변형 3종
+- 화면 중심에서 사방 8방향 + 약간 랜덤 흩어짐
+- 속도: 빠르게 (0.3s 만에 화면 1/4 거리)
+- alpha: 1.0 → 0 (0.6s linear)
+- 회전: 살짝 회전 (각 파티클별 다른 속도)
+</code></pre>
+<h3>2-3. 점수 크기별 차등 (선택)</h3>
+<table>
+<thead>
+<tr>
+<th>점수</th>
+<th>파티클 수</th>
+<th>라벨 색</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt; 100</td>
+<td>4~6개</td>
+<td>TEXT_GOLD</td>
+</tr>
+<tr>
+<td>100~999</td>
+<td>8~12개</td>
+<td>TEXT_GOLD</td>
+</tr>
+<tr>
+<td>1,000~9,999</td>
+<td>15~20개</td>
+<td>TEXT_GOLD + 약간 큰 라벨</td>
+</tr>
+<tr>
+<td>10,000+ (광땡 등)</td>
+<td>25~30개 + 화면 가장자리 황금 글로우 (0.5초)</td>
+<td>TEXT_GOLD Bold 더 큰 사이즈</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 위험 영역 펄스 (M-07)</h2>
+<h3>3-1. 위험 영역 (명성치 &lt; 0)</h3>
+<pre><code>prestige_label:
+- 색: ACCENT_VERMILION (#D93333)
+- scale: 1.0 → 1.05 → 1.0 (0.45s 1회)
+- 매 round 후 발동
+- 텍스트: &quot;⚠ 명성치: -50 (위험 영역)&quot;
+</code></pre>
+<h3>3-2. 임박 영역 (명성치 &lt; -100)</h3>
+<pre><code>prestige_label:
+- 색: 더 어두운 빨강 (#A82828)
+- scale: 1.0 → 1.15 → 1.0 (0.45s)
+- 매 round 후 + 추가 호흡 (loop 0.6s, scale 1.0↔1.05)
+- 텍스트: &quot;⚠️ 명성치: -120 (게임오버 임박: -150)&quot;
+- 추가: 화면 가장자리 빨간 비네팅 (alpha 0.1~0.2)
+</code></pre>
+<h3>3-3. 빨간 비네팅 (Vignette)</h3>
+<pre><code>화면 전체:
+- 가장자리 (10% 영역) 부터 안쪽으로 빨강 그라데이션
+- alpha 0.15 (임박) ~ 0.25 (게임오버 직전)
+- 호흡 없음 (정적)
+</code></pre>
+<hr>
+<h2>4. 블러프 가면 이펙트</h2>
+<h3>4-1. 블러프 성공 시</h3>
+<pre><code>result_label 옆에 &quot;🃏 블러프!&quot; 토스트:
+- 가면 아이콘 회전 등장 (0~180도, 0.5s, BACK_OUT)
+- 가면 위 작은 골드 파티클 5~8개 흩어짐
+- 사운드: bluff_success
+- 1.5초 유지 후 fade-out
+</code></pre>
+<h3>4-2. 가면 시각</h3>
+<ul>
+<li><strong>양반탈</strong> 또는 <strong>각시탈</strong> 모티프 (단계 7 탈춤 영감 참조)</li>
+<li>색: ACCENT_GOLD 금 + 검은 라인</li>
+<li>크기: 32~40px (토스트 안)</li>
+</ul>
+<h3>4-3. AI 1차 dia (raise 받고)</h3>
+<pre><code>&quot;AI 다이!&quot; 토스트:
+- 카드 1장이 떨어지는 듯한 fade-out (위에서 아래로 살짝 이동)
+- 사운드: first_dia
+- 1.5초 유지
+- 가면 아이콘 없음 (블러프 성공만 가면)
+</code></pre>
+<hr>
+<h2>5. 카드 인터랙션 이펙트</h2>
+<h3>5-1. 카드 hover (PC) / pressed (모바일)</h3>
+<pre><code>- 보더 색 옅게 강조 (현재 보더 → 1.2배 alpha)
+- 카드 살짝 위로 떠오름 (y -2px, 0.1s)
+- shadow 약하게 (cast shadow)
+</code></pre>
+<h3>5-2. Mulligan 클릭 (mulligan 가능 시)</h3>
+<pre><code>- 클릭 직후 카드 ripple (원형으로 옅은 흰색 퍼짐, 0.4s)
+- 명성치 차감 카운트다운 (-8 라벨 작게 떠오름, 0.6s)
+- 새 카드 flip (M-02) + 1초간 금색 보더 글로우 (강조)
+</code></pre>
+<h3>5-3. mulligan 불가 시 (명성치 부족)</h3>
+<pre><code>- 카드 살짝 흔들림 (shake — x +-3px, 3회, 0.3s)
+- &quot;명성치 부족&quot; 토스트 (Warning 변형)
+- 사운드: 없음 또는 짧은 에러 톤
+</code></pre>
+<hr>
+<h2>6. 마패 발동 이펙트 (M-13)</h2>
+<h3>6-1. 일반 마패 발동</h3>
+<pre><code>MapaSlot:
+- 1단계: 보더 alpha 0→1 (0.15s) — 발동 시작
+- 2단계: scale 1.0→1.15→1.0 (0.3s, BACK) — 펄스
+- 3단계: 글로우 fade-out (0.5s)
+- 추가: 슬롯 위로 효과 텍스트 (&quot;노름꾼의 직감 +2&quot;) 떠오름 (1초)
+- 사운드: mapa_trigger
+</code></pre>
+<h3>6-2. 희귀도별 차등</h3>
+<table>
+<thead>
+<tr>
+<th>희귀도</th>
+<th>글로우 색</th>
+<th>추가</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>common (회색)</td>
+<td>회색 → 흰색 글로우</td>
+<td>—</td>
+</tr>
+<tr>
+<td>uncommon (청)</td>
+<td>청 → 밝은 청 글로우</td>
+<td>—</td>
+</tr>
+<tr>
+<td>rare (자주)</td>
+<td>자주 → 분홍 글로우</td>
+<td>작은 별 파티클 2~3개</td>
+</tr>
+<tr>
+<td>legendary (주황)</td>
+<td>주황 → 금 글로우</td>
+<td>황금 파티클 5~8개 + 화면 살짝 황금 비네팅 (0.3초)</td>
+</tr>
+</tbody></table>
+<h3>6-3. Soul 카드 발견 (Legendary 획득)</h3>
+<pre><code>Market 진입 시 5% 확률:
+- 화면 어두워짐 (overlay 0.7, 0.5s)
+- 중앙에 카드 등장 (alpha 0→1 + scale 0.6→1.2→1.0, 0.8s)
+- 카드 위 황금 빛줄기 5~7개 (1초간 잔잔히 회전)
+- &quot;Soul 카드 발견!&quot; 라벨 큰 사이즈 (Bold, 32px)
+- 사운드: mapa_trigger 더 깊은 톤 (또는 특수 사운드 &quot;soul_discover.ogg&quot;)
+- 사용자 확인 클릭 후 어두움 해제
+</code></pre>
+<hr>
+<h2>7. 보스 라운드 이펙트</h2>
+<h3>7-1. 보스 등장 (round 3)</h3>
+<pre><code>화면 어두워짐 (0.5s):
+- BG_INK 더 진하게 (0.3 추가 alpha)
+- 중앙에 &quot;⚔️ 보스 라운드&quot; 라벨 (BACK_OUT, 0.4s)
+- 보스 일러스트 우측에서 slide-in (0.6s, 일러스트 600×900)
+- BGM 전환 (bgm_game → bgm_boss, crossfade 1초)
+- 1초 유지 후 라벨 fade-out + 라운드 시작
+</code></pre>
+<h3>7-2. 단계 8 남궁천 특수 등장</h3>
+<pre><code>단계 8 라운드 3 (마지막 보스):
+- 추가 효과: 다실 (茶室) 배경 잠시 보임 (1초)
+- 묵향 파티클 (가벼운 회색 구름 5~7개, 위로 떠오름)
+- 글자: &quot;전설의 마패 남궁천&quot; (32px Bold, 금색)
+- BGM: bgm_boss + 추가 가야금 솔로 0.5초 (epic intro)
+</code></pre>
+<hr>
+<h2>8. 단계 클리어 / 게임오버 이펙트</h2>
+<h3>8-1. 단계 클리어 (M-15)</h3>
+<pre><code>1. 결과 표시 (3초)
+2. 화면 페이드 (검은색, 0.5s)
+3. &quot;🏆 단계 N 클리어!&quot; 라벨 (BACK, 0.4s)
+   - 색: ACCENT_GOLD
+   - 사이즈: 48px Bold
+4. 황금 별 파티클 화면 사방 (15~20개, 1초간)
+5. 1.5초 유지
+6. Market scene change (0.5s fade)
+</code></pre>
+<h3>8-2. 게임오버 (M-16)</h3>
+<pre><code>1. 결과 표시 (1초)
+2. 화면 어두워짐 (0.5s, BG_INK 짙어짐 + alpha 0.7 overlay)
+3. &quot;💀 게임오버&quot; 라벨 (BACK, 0.4s)
+   - 색: ACCENT_VERMILION
+   - 사이즈: 48px Bold
+4. 화면 가장자리 빨간 비네팅 (0.5s fade-in)
+5. 명성치 라벨 큰 빨강 (32px)
+6. 2초 유지
+7. MainMenu scene change
+</code></pre>
+<h3>8-3. 런 클리어 — 단계 8 통과 (M-17)</h3>
+<pre><code>가장 큰 임팩트 — 메인 이펙트:
+
+1. 단계 8 결과 표시 (3초)
+2. 화면 페이드 (한지 베이지, 0.8s)
+3. &quot;👑 런 클리어!&quot; 라벨 (BACK + 회전 360, 0.6s)
+   - 색: ACCENT_GOLD Bold
+   - 사이즈: 64px
+4. 화면 전체 황금 비 (rain effect, 2초)
+   - 작은 황금 입자 50~80개 위에서 아래로
+5. &quot;전설&quot; 칭호 획득 알림 (한 줄 라벨, 1초 delay 후 등장)
+6. 통계 카운트업 (2~3초간 숫자 굴러감)
+7. 5초 유지
+8. MainMenu scene change (페이드)
+</code></pre>
+<hr>
+<h2>9. 카드 효과 발동 시 (T1~T6)</h2>
+<h3>9-1. 카드 자체 발동</h3>
+<pre><code>플레이어 카드 위에:
+- 카드 잠시 위로 떠오름 (y -10px, 0.2s)
+- 보더 색 옅게 강조 (해당 효과 카테고리 색)
+  - mult_immediate (배수): 금색
+  - mult_accumulate (누적): 청록
+  - economy (명성치): 베이지
+  - info_reveal: 청색
+- 효과 텍스트 라벨 카드 옆에 (&quot;1월광 +5 점수&quot;, 1초)
+</code></pre>
+<h3>9-2. 효과 카테고리별 색</h3>
+<table>
+<thead>
+<tr>
+<th>effect_type</th>
+<th>글로우 색</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mult_immediate</td>
+<td>금 (#F3C72E)</td>
+</tr>
+<tr>
+<td>mult_accumulate</td>
+<td>청록 (#33A68C)</td>
+</tr>
+<tr>
+<td>economy</td>
+<td>한지 베이지 (#F5EBD1)</td>
+</tr>
+<tr>
+<td>info_reveal</td>
+<td>청 (#338CD9)</td>
+</tr>
+<tr>
+<td>deck_manipulation</td>
+<td>자주 (#C74DD9)</td>
+</tr>
+<tr>
+<td>bluff_synergy</td>
+<td>황금 + 빨강 (혼합)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>10. 환경 이펙트 (배경)</h2>
+<h3>10-1. Board 배경</h3>
+<pre><code>정적 요소:
+- BG_INK 짙은 먹색 베이스
+- 한지 매트 텍스처 (살짝 결, alpha 0.1)
+- 모서리 살짝 빛 (vignette 반대 — 가장자리 살짝 밝게)
+
+동적 요소 (선택):
+- 매우 옅은 먼지 입자 (4~6개) 화면을 천천히 가로지름
+  - alpha 0.05~0.1, 회색
+  - 1픽셀 점, 천천히 이동 (10초당 화면 1/3)
+- 라운드 흐름 방해 X
+</code></pre>
+<h3>10-2. Market 배경</h3>
+<pre><code>정적:
+- BG_DARK_BLUE 어두운 청남
+- 한지 진열대 텍스처
+- 한 쪽 등불 (작은 황색 빛, 정적)
+
+동적:
+- 등불 옆 살짝 깜빡임 (촛불 효과, 2초마다 약하게)
+- 작은 입자 (먼지) 등불 주위
+</code></pre>
+<h3>10-3. MainMenu 배경</h3>
+<pre><code>정적:
+- BG_EARTH 흙빛
+- 화투 카드 반투명 흩어짐 (배경 그림자, alpha 0.05)
+- 가장자리 약간 어두움
+
+동적 (선택):
+- 가벼운 한지 결 흐름 (parallax 효과, 매우 느린)
+</code></pre>
+<hr>
+<h2>11. 사운드 동기화</h2>
+<p>각 이펙트는 사운드 (<code>scripts/core/AudioBus.gd</code>) 와 동기:</p>
+<table>
+<thead>
+<tr>
+<th>이펙트</th>
+<th>사운드 키</th>
+<th>동기 시점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>카드 flip</td>
+<td>card_flip</td>
+<td>0.0s (시작)</td>
+</tr>
+<tr>
+<td>카드 deal (슬라이드인)</td>
+<td>card_deal</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>점수 폭발</td>
+<td>win</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>위험 펄스</td>
+<td>(없음 — 시각만)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>광패 발동</td>
+<td>mapa_trigger</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>마패 발동</td>
+<td>mapa_trigger</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>블러프 성공</td>
+<td>bluff_success</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>AI 1차 dia</td>
+<td>first_dia</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>단계 클리어</td>
+<td>win + 짧은 fanfare</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>게임오버</td>
+<td>lose</td>
+<td>0.0s</td>
+</tr>
+<tr>
+<td>런 클리어</td>
+<td>win + 황금 비 시작과 함께</td>
+<td>0.0s</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>12. 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 광패 보더 + 글로우 (기본 코드 적용됨)</li>
+<li><input checked="" disabled="" type="checkbox"> 점수 폭발 라벨 (기본)</li>
+<li><input checked="" disabled="" type="checkbox"> 위험 영역 펄스 (기본)</li>
+<li><input checked="" disabled="" type="checkbox"> 카드 fade-in / flip / 슬라이드인 (기본)</li>
+<li><input disabled="" type="checkbox"> 점수 폭발 파티클 (8~12 황금 점)</li>
+<li><input disabled="" type="checkbox"> 블러프 가면 토스트</li>
+</ul>
+<h3>Tier 2 — 베타 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 광땡 완성 시 빛줄기</li>
+<li><input disabled="" type="checkbox"> 위험 영역 빨간 비네팅 (임박)</li>
+<li><input disabled="" type="checkbox"> 마패 발동 희귀도별 차등</li>
+<li><input disabled="" type="checkbox"> Soul 카드 발견 풀 시퀀스</li>
+<li><input disabled="" type="checkbox"> 보스 라운드 등장 (배경 어두워짐 + 일러스트 slide-in)</li>
+</ul>
+<h3>Tier 3 — 폴리시 (정식 출시 직전)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 단계 8 남궁천 특수 등장 (다실 + 묵향)</li>
+<li><input disabled="" type="checkbox"> 런 클리어 황금 비 + 칭호 알림</li>
+<li><input disabled="" type="checkbox"> 환경 이펙트 (배경 동적 — 먼지 / 등불 깜빡임)</li>
+<li><input disabled="" type="checkbox"> 카드 효과 카테고리별 색 글로우</li>
+</ul>
+<hr>
+<h2>13. 디자이너 / 모션 디자이너 협업</h2>
+<h3>13-1. 파일 형식</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>형식</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>정적 이펙트 (글로우 / 비네팅)</td>
+<td>PNG (투명 배경) — Godot 에서 add modulate / shader</td>
+</tr>
+<tr>
+<td>파티클 (점수 폭발)</td>
+<td>Godot 자체 ParticleSystem 또는 .json (Lottie)</td>
+</tr>
+<tr>
+<td>영상 이펙트 (런 클리어 등)</td>
+<td>.mp4 또는 .json (Lottie)</td>
+</tr>
+<tr>
+<td>일러스트 글로우 변형</td>
+<td>일러스트 위 추가 레이어 (PSD)</td>
+</tr>
+</tbody></table>
+<h3>13-2. 디자이너 → 개발자 핸드오프</h3>
+<ul>
+<li>각 이펙트의 <strong>시퀀스 영상</strong> (.mp4) 30 FPS — 개발자가 보고 Godot Tween 구현</li>
+<li>또는 <strong>Lottie .json</strong> — 직접 통합 (Godot Lottie 플러그인)</li>
+<li>파티클은 색·개수·속도 spec sheet (위 표 참조)</li>
+</ul>
+<h3>13-3. 인게임 통합</h3>
+<ul>
+<li><code>scripts/game/Board.gd</code> 에 이펙트 호출 메서드 추가<ul>
+<li><code>_play_score_explosion_particles(score)</code></li>
+<li><code>_play_bluff_mask_toast()</code></li>
+<li><code>_play_gwangddaeng_lightbeams()</code></li>
+<li>등</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>14. 라이선스</h2>
+<ul>
+<li>파티클 / 글로우 텍스처: 본인 / 외주 work-for-hire</li>
+<li>사운드와 동기 — 음원 라이선스 따로 (06-music-direction 참조)</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>13-visual-effects.md</code>
+</div>
+</body>
+</html>

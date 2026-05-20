@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 캐릭터 시나리오</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 캐릭터 시나리오</h1>
+<blockquote>
+<p><a href="01-brief.md">01-brief.md</a>, <a href="02-asset-spec.md">02-asset-spec.md</a> 의 자매 문서.
+플레이어 1명 + 8단계 보스 8명 + 일반 라운드 AI 인물 가이드.</p>
+</blockquote>
+<hr>
+<h2>0. 캐릭터 시스템 개요</h2>
+<h3>0-1. 게임 구조 (참고)</h3>
+<p>K-Sutda 는 [8 단계 × 3 라운드] 구조:</p>
+<ul>
+<li><strong>라운드 1~2</strong>: 일반 AI (단계별 패턴 동일)</li>
+<li><strong>라운드 3 (보스)</strong>: 같은 패턴 + 보스 부스트 (콜률 +5~20%p, opening_bet ×1.3)</li>
+</ul>
+<p>→ 단계마다 <strong>보스 1명</strong> 의 시각·내러티브 캐릭터 + 일반 라운드용 비주얼 1~2종.</p>
+<h3>0-2. AI 패턴 5종 (코드 참조)</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>성격</th>
+<th>사용 단계</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BASIC</td>
+<td>평범한 결정 — 강패 콜, 약패 폴드</td>
+<td>1, 2</td>
+</tr>
+<tr>
+<td>AGGRESSIVE</td>
+<td>강패에 큰 베팅, 약패 콜도 자주</td>
+<td>3, 4</td>
+</tr>
+<tr>
+<td>DEFENSIVE</td>
+<td>약패 빠른 폴드, 강패도 미끼 베팅</td>
+<td>5, 6</td>
+</tr>
+<tr>
+<td>PSYCHOLOGICAL</td>
+<td>망통으로도 raise (뻥)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>COMPLEX</td>
+<td>균형형 — 변동성 작음, 신중</td>
+<td>8</td>
+</tr>
+</tbody></table>
+<h3>0-3. 내러티브 톤</h3>
+<ul>
+<li><strong>무겁고 진중함</strong> — 한국 전통 도박판의 무게감. 가벼운 코미디 ❌</li>
+<li><strong>각 보스의 사연</strong> — 단순 적이 아닌, 패배·복수·집착의 인물. 도박판에서 만나는 한국 사회의 단면.</li>
+<li><strong>플레이어 = 떠도는 노름꾼</strong> — 무명에서 시작해 단계 8 도달 시 &quot;전설&quot; 칭호 획득</li>
+<li><strong>사행성 모사 회피</strong> — 도박 미화 ❌. 인물 모두 패배 / 후회 / 집착의 그림자 보유.</li>
+</ul>
+<hr>
+<h2>1. 플레이어 캐릭터</h2>
+<h3>1-1. 무명 (無名) — 디폴트 호칭</h3>
+<p><strong>기본 설정</strong> (게임 내 닉네임 입력 전 표시):</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td>무명 (플레이어 닉네임 입력 시 대체)</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>30대 추정</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>갓 / 흑색 도포 / 손에 화투 / 얼굴 일부 그림자 (얼굴 명시 X)</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>알 수 없음. 어느 날 한국 전통 노름판에 나타남</td>
+</tr>
+<tr>
+<td>동기</td>
+<td>&quot;광 한 번 보기 위해&quot; — 인생의 큰 한 번, 또는 빚 / 복수 / 단순 호기심 (열린 해석)</td>
+</tr>
+</tbody></table>
+<p><strong>시각 모티프</strong>:</p>
+<ul>
+<li>흑백 톤 (단계 진행에 따라 옷 색·소품 변화 가능)</li>
+<li>얼굴은 항상 일부 가림 (갓 그림자, 부채 등) — 플레이어 자기 투영 여지</li>
+<li>명성치 &lt; 0 영역: 옷이 헝클어진 / 어두운 모습 (옵션)</li>
+</ul>
+<p><strong>대사</strong> (Board 또는 결과 화면 자기 대사):</p>
+<ul>
+<li>런 시작: <em>&quot;…한 판 더.&quot;</em></li>
+<li>승리: <em>&quot;…운이 좋았군.&quot;</em> / <em>&quot;광이 보였어.&quot;</em></li>
+<li>패배: <em>&quot;…(말없이 카드를 내려놓는다)&quot;</em></li>
+<li>게임오버: <em>&quot;…내 차례는 여기까지인가.&quot;</em></li>
+</ul>
+<hr>
+<h2>2. 보스 캐릭터 — 단계별 8명</h2>
+<p>각 보스는 단계 최종 라운드에 등장. 라운드 1~2 의 일반 AI 와 같은 패턴이지만 부스트.</p>
+<hr>
+<h3>단계 1 — 동네 형 &quot;달삼이&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>동네 형</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>박달삼</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>40대</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>BASIC</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>흰 셔츠에 멜빵바지, 둥근 얼굴, 살짝 배 나옴, 담배 한 대</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>동네 어귀 평상에서 매일 화투 치는 동네 형. 큰 돈 안 거는 대신 매일 잃기만 함.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>사람 좋고 가벼움. 진지함 없음.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;어이 친구, 한 판 어때?&quot; / &quot;에이 망통이네.&quot; / (지면) &quot;한 번만 더!&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>평상, 막걸리, 담뱃대, 가볍게 흩어진 화투</td>
+</tr>
+</tbody></table>
+<p><strong>진행 시나리오</strong>: 플레이어가 노름판에 첫 발을 들이는 곳. 패배해도 큰 손해 없는 워밍업.</p>
+<hr>
+<h3>단계 2 — 시장 상인 &quot;오영자&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>영자 누님</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>오영자</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>50대 여성</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>BASIC</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>머리 단단히 묶음, 앞치마, 시장 좌판 주인 차림. 손가락에 금반지</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>동대문 시장 좌판 주인. 가게 마치고 단골들과 화투. 손님과 가격 흥정하듯 베팅.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>약빠르고 계산적이지만 정 있음.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;장사 끝나고 한 판 안 하면 잠 안 와.&quot; / &quot;이건 봐 줄게, 한 번만이야.&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>시장 좌판, 한 무더기의 천, 저울, 야간 시장 등불</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>단계 3 — 신참 마패 &quot;강도진&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>도진</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>강도진</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>20대 후반</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>AGGRESSIVE</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>양복 셔츠 풀어헤침, 머리 위로 올린 스타일, 손가락에 굵은 반지, 자신감 가득</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>지방 도박장에서 떠오르는 신예 마패. 큰 판으로 가고 싶어 도전적.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>거만함. 약패도 강하게 베팅. 패배 시 분노.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;이 정도? 다 콜이다.&quot; / &quot;쩐주가 나오나 두고 보자.&quot; / (지면) &quot;…장난해?&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>지방 도박장 (싸구려 네온), 위스키 한 잔, 손가락 반지, 흩어진 칩 (게임 내 명성치)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>단계 4 — 군 출신 &quot;최강수&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>강수 선임</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>최강수</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>40대</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>AGGRESSIVE</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>짧은 머리, 군 출신 다부진 체격, 손등에 흉터, 카키색 자켓</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>군 제대 후 도박장 보디가드 / 해결사 출신. 본인도 강패 좋아함.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>직설적, 압박형. 강패가 들면 가차없이 raise.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;쫄지 마라.&quot; / &quot;결판내자.&quot; / &quot;이번 판은 내 거다.&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>손등 흉터, 군용 라이터, 강한 시선, 어두운 도박장 한쪽</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>단계 5 — 노승 &quot;현묵 스님&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>스님</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>현묵</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>60대</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>DEFENSIVE</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>회색 승복, 머리 짧음 (수행자), 손에 염주, 평온한 얼굴</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>산속 절에서 수행 중. 한 때 큰 도박장의 마패였으나 깨달음 후 절에 들어감. 다시 노름판에 발 들이게 된 사연 있음.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>느리고 신중. 약패 즉시 폴드. 강패도 미끼 베팅 (조용히 묵직).</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;…인연이라 생각하시오.&quot; / <em>(긴 침묵 후)</em> &quot;다이.&quot; / &quot;광이 보였군. 부처의 뜻인가.&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>염주, 향, 노을 진 사찰, 단정히 정돈된 화투 더미</td>
+</tr>
+</tbody></table>
+<p><strong>내러티브 훅</strong>: 스님이 왜 다시 도박판에? — 절 짓기 위한 시주? 옛 동료 구하기? (해석 여지)</p>
+<hr>
+<h3>단계 6 — 미녀 사기꾼 &quot;한채린&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>채린</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>한채린</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>30대 여성</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>DEFENSIVE</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>짙은 색 한복 (정장 한복), 깔끔하게 묶은 머리, 가는 안경, 입가에 약한 미소</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>도박판 정보 브로커 / 미인계로 큰 돈 빼앗아 온 인물. 정확한 계산 + 시각으로 상대 압박.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>차갑고 우아함. 위험한 베팅 절대 안 함. 강패도 살짝 흘려서 함정 유도.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;당신… 표정을 잘 못 숨기시네요.&quot; / &quot;다이.&quot; (짧고 단호) / (이기면) &quot;예상대로.&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>가는 안경, 한복, 차 한 잔, 정돈된 손톱, 흰 장갑</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>단계 7 — 광대 &quot;탈춤 영감&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>탈춤 영감</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>알 수 없음 (가명 다수)</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>50~60대 (탈로 가림)</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>PSYCHOLOGICAL</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>한국 전통 탈 (양반탈 또는 각시탈), 화려한 한복, 손짓 과장</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>전국 도박판을 떠도는 정체불명의 광대. 항상 탈을 쓰고 있어 본 얼굴을 본 사람이 없음. 망통으로도 raise 하는 천하 제일 뻥.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>능청맞고 가벼움 (탈 뒤에). 망통으로도 raise — 블러프 천재.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;허허, 한 판 받아 보시게.&quot; / &quot;이거 광인가? 망통인가?&quot; / (지면) &quot;허허허, 잘 보셨네!&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>한국 전통 탈 (양반탈), 부채, 색동 한복, 어른어른 흔들리는 표정</td>
+</tr>
+</tbody></table>
+<p><strong>디자인 핵심</strong>: 탈을 클로즈업하면 표정이 변하는 듯한 느낌 — 패에 따라 미세하게 다른 탈 표정 가능 (강패 / 망통 / 블러프 시 다른 컷).</p>
+<hr>
+<h3>단계 8 — 전설의 마패 &quot;남궁천&quot;</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>호칭</td>
+<td>남궁 / 천 사범</td>
+</tr>
+<tr>
+<td>본명</td>
+<td>남궁천</td>
+</tr>
+<tr>
+<td>나이</td>
+<td>70대</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>COMPLEX</td>
+</tr>
+<tr>
+<td>외형</td>
+<td>백발 단정, 검은색 정장 한복, 손가락이 길고 가늘다. 눈빛 깊고 정밀.</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>한국 도박계의 전설. 50년 전부터 모든 마패의 스승. 한 번도 진 적 없다는 전설. 마지막으로 한 번 더 패를 잡기 위해 무명을 부름.</td>
+</tr>
+<tr>
+<td>성격</td>
+<td>균형형 — 강패 변동성 작음, 약패 신중. 흠 잡을 데 없음.</td>
+</tr>
+<tr>
+<td>대사</td>
+<td>&quot;오랜만에… 진짜 한 판이군.&quot; / &quot;광이 한 장 보였소.&quot; / (이기면, 조용히) &quot;…수고 많았소.&quot; / (지면) &quot;...허허. 시대가 바뀌었군.&quot;</td>
+</tr>
+<tr>
+<td>시각 모티프</td>
+<td>백발, 검은 한복, 정갈한 다실, 화투가 칼처럼 정돈됨, 묵향</td>
+</tr>
+</tbody></table>
+<p><strong>엔딩</strong>: 남궁천을 이긴 무명은 &quot;새 전설&quot; 칭호 획득 → MainMenu 닉네임 옆에 칭호 표시 (선택 기능).</p>
+<hr>
+<h2>3. 일반 라운드 AI — 단계별 비주얼 가이드</h2>
+<p>라운드 1~2 의 AI 는 보스보다 약함. <strong>이름·내러티브 부여 안 함</strong> (도전 흐름을 끊지 않음). 단계 보스의 부하 / 동료 / 손님 등으로 시각화.</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>일반 라운드 AI 시각</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>동네 어귀 평상의 다른 동네 형들 (1~2명)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>시장 다른 상인들</td>
+</tr>
+<tr>
+<td>3</td>
+<td>도진의 졸개들 (지방 도박장 단골)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>강수의 부하 (군 동료)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>사찰 신도 / 다른 수행자</td>
+</tr>
+<tr>
+<td>6</td>
+<td>채린의 동업자 (안경 쓴 여성 2~3명)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>다른 광대들 (탈 종류 다른)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>(없음 — 단계 8 은 보스만 또는 남궁의 제자)</td>
+</tr>
+</tbody></table>
+<p><strong>디자인 작업량</strong>: 보스 8명이 핵심. 일반 라운드는 보스와 비슷한 톤의 비주얼 1~2장으로 묶어 처리 가능.</p>
+<hr>
+<h2>4. 캐릭터 디자인 가이드 (디자이너용)</h2>
+<h3>4-1. 공통 원칙</h3>
+<ul>
+<li><strong>한국 전통 + 도박판 무게감</strong> — 컬러 팔레트 (먹·금·한지·주홍) 그대로</li>
+<li><strong>얼굴 표현</strong> — 진중함 / 약간의 그림자. 발라트로 같은 카툰 톤 ❌</li>
+<li><strong>연령대 다양</strong> — 20대 신예부터 70대 전설까지. 폭넓은 한국 사회 단면</li>
+<li><strong>여성 / 남성 균등</strong> — 8 보스 중 2명 (오영자 / 한채린) 여성</li>
+<li><strong>외형으로 패턴 암시</strong> — DEFENSIVE 캐릭터 (현묵 / 채린) 는 차분한 옷·소품, AGGRESSIVE (도진 / 강수) 는 강한 라인·시각, PSYCHOLOGICAL (탈춤 영감) 은 가려진 얼굴</li>
+</ul>
+<h3>4-2. 캐릭터 일러스트 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>해상도</td>
+<td>600 × 900 px @1x (1200 × 1800 @2x)</td>
+</tr>
+<tr>
+<td>형식</td>
+<td>PNG (투명 배경) + 원본</td>
+</tr>
+<tr>
+<td>노출 영역</td>
+<td>Board 화면 우상단 또는 OpponentArea — 풀바디 또는 상반신</td>
+</tr>
+<tr>
+<td>변형 (옵션)</td>
+<td>일반 / 강패 (자신감) / 망통 (블러프, 표정 미세 변화) — 보스 한정</td>
+</tr>
+</tbody></table>
+<h3>4-3. Tier 우선순위</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>캐릭터</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔴 Tier 1</td>
+<td>단계 1 (달삼이), 단계 8 (남궁천)</td>
+<td>첫인상 + 최종 보스</td>
+</tr>
+<tr>
+<td>🟡 Tier 2</td>
+<td>단계 3 (도진), 단계 5 (현묵), 단계 7 (탈춤 영감)</td>
+<td>패턴 변화 명확 단계</td>
+</tr>
+<tr>
+<td>🟢 Tier 3</td>
+<td>단계 2, 4, 6 (영자 / 강수 / 채린)</td>
+<td>보강</td>
+</tr>
+<tr>
+<td>⚪ Tier 4</td>
+<td>플레이어 무명 + 일반 라운드 AI</td>
+<td>후순위 (베타 후 가능)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. 대사 시스템 (구현 참고)</h2>
+<h3>5-1. 대사 발동 시점</h3>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>발동 캐릭터</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>라운드 시작</td>
+<td>AI</td>
+<td>&quot;한 판 어때?&quot;</td>
+</tr>
+<tr>
+<td>1차 raise 받았을 때</td>
+<td>AI</td>
+<td>&quot;쩐주가 나오나 두고 보자.&quot;</td>
+</tr>
+<tr>
+<td>AI 1차 dia 시</td>
+<td>AI</td>
+<td>&quot;다이.&quot; / &quot;이 판은 보내겠소.&quot;</td>
+</tr>
+<tr>
+<td>플레이어 승리</td>
+<td>AI</td>
+<td>&quot;…장난해?&quot; / &quot;예상대로.&quot;</td>
+</tr>
+<tr>
+<td>플레이어 패배</td>
+<td>AI</td>
+<td>&quot;허허허, 잘 보셨네!&quot;</td>
+</tr>
+<tr>
+<td>단계 클리어</td>
+<td>(다음 단계 보스)</td>
+<td>&quot;...자네, 좀 하는군.&quot;</td>
+</tr>
+<tr>
+<td>게임오버</td>
+<td>마지막 만난 AI</td>
+<td>&quot;...여기까지인가.&quot;</td>
+</tr>
+</tbody></table>
+<h3>5-2. 대사 데이터 구조 (제안)</h3>
+<pre><code class="language-json">// data/character_dialogue.json (신규 — 별도 sprint 에서 구현)
+{
+  &quot;stage_1&quot;: {
+    &quot;name&quot;: &quot;달삼이&quot;,
+    &quot;intro&quot;: [&quot;어이 친구, 한 판 어때?&quot;, &quot;오늘도 왔군!&quot;],
+    &quot;first_raise_response&quot;: [&quot;오, 이거 무섭네!&quot;],
+    &quot;first_dia&quot;: [&quot;에이, 봐 줄게. 다이.&quot;],
+    &quot;ai_win&quot;: [&quot;하하! 운이 좋았어.&quot;],
+    &quot;ai_lose&quot;: [&quot;한 번만 더!&quot;]
+  },
+  &quot;stage_8&quot;: {
+    &quot;name&quot;: &quot;남궁천&quot;,
+    &quot;intro&quot;: [&quot;오랜만에… 진짜 한 판이군.&quot;],
+    ...
+  }
+}
+</code></pre>
+<p>→ <strong>구현 우선순위</strong>: 베타 후. 베타에선 캐릭터 일러스트만 보여주고 대사는 단계 이름 라벨 정도로 시작.</p>
+<hr>
+<h2>6. 내러티브 구조 (메타 진행)</h2>
+<h3>6-1. 한 런의 서사</h3>
+<pre><code>[프롤로그]
+무명이 노름판에 발을 들이다.
+&quot;…한 판 더.&quot;
+
+[단계 1~2] 동네 / 시장
+가벼운 워밍업. 무명의 실력을 시험.
+
+[단계 3~4] 지방 도박장
+본격적인 도전. 신예 마패 + 군 출신과 대결.
+
+[단계 5~6] 정신적 단계
+사찰 + 미인계 — 단순 강패 게임이 아닌, 인내·심리 게임.
+
+[단계 7] 정체불명의 광대
+블러프 마스터. 진짜 실력은 카드가 아닌 마음 읽기.
+
+[단계 8] 전설의 마패
+모든 것의 시험. 남궁천을 꺾어 새 전설이 되거나, 또 하나의 사라진 노름꾼이 되거나.
+
+[엔딩]
+승리: &quot;…자네가 새 전설이군.&quot; → MainMenu &quot;전설&quot; 칭호
+패배: &quot;…내 차례는 여기까지인가.&quot; → 메인 메뉴 (런 다시 시작)
+</code></pre>
+<h3>6-2. 단계 간 연결</h3>
+<p>각 단계 클리어 후 Market 진입. Market 의 가게 주인은 <strong>단계와 관계 없는 중립 NPC</strong> (예: 늙은 화투 장수 노인) — 별도 캐릭터 1명 필요 (옵션, 베타 후).</p>
+<hr>
+<h2>7. 작업 체크리스트</h2>
+<h3>디자이너 — 8 보스 일러스트</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 단계 1 — 달삼이 (BASIC)</li>
+<li><input disabled="" type="checkbox"> 단계 2 — 오영자 (BASIC)</li>
+<li><input disabled="" type="checkbox"> 단계 3 — 강도진 (AGGRESSIVE)</li>
+<li><input disabled="" type="checkbox"> 단계 4 — 최강수 (AGGRESSIVE)</li>
+<li><input disabled="" type="checkbox"> 단계 5 — 현묵 스님 (DEFENSIVE)</li>
+<li><input disabled="" type="checkbox"> 단계 6 — 한채린 (DEFENSIVE)</li>
+<li><input disabled="" type="checkbox"> 단계 7 — 탈춤 영감 (PSYCHOLOGICAL)</li>
+<li><input disabled="" type="checkbox"> 단계 8 — 남궁천 (COMPLEX)</li>
+</ul>
+<h3>디자이너 — 플레이어 + 일반</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 무명 (플레이어, 얼굴 가림)</li>
+<li><input disabled="" type="checkbox"> 일반 라운드 AI (단계별 1~2 종)</li>
+<li><input disabled="" type="checkbox"> (옵션) Market NPC — 화투 장수 노인</li>
+</ul>
+<h3>개발자 — 통합</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Board 우상단 / OpponentArea 에 보스 일러스트 표시 영역</li>
+<li><input disabled="" type="checkbox"> 단계 보스 라운드 시작 시 보스 이름 + 패턴 라벨 표시</li>
+<li><input disabled="" type="checkbox"> (베타 후) <code>data/character_dialogue.json</code> + 대사 시스템</li>
+<li><input disabled="" type="checkbox"> (베타 후) 단계 클리어 / 게임오버 시 컷신 (정적 일러스트 + 대사)</li>
+</ul>
+<hr>
+<h2>8. 라이선스 / 저작권</h2>
+<ul>
+<li>모든 캐릭터는 본인 창작 (work-for-hire) 또는 라이선스 명시</li>
+<li>한국 실존 인물 / 연예인 / 유명 도박꾼 모방 ❌</li>
+<li>한국 전통 탈 (양반탈 / 각시탈 등) — public domain, 디자이너가 새로 그리기 권장</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>03-characters.md</code>
+</div>
+</body>
+</html>

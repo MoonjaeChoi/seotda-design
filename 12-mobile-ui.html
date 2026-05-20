@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 모바일 UI 적응 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 모바일 UI 적응 가이드</h1>
+<blockquote>
+<p>데스크탑 (가로 1280×720+) 위주의 현재 UI 를 모바일 (세로 위주) 로 재배치. iOS / Android 양쪽 + 안전 영역 + 터치 타겟.</p>
+</blockquote>
+<hr>
+<h2>0. 모바일 출시 전략</h2>
+<h3>0-1. 우선순위</h3>
+<table>
+<thead>
+<tr>
+<th>플랫폼</th>
+<th>출시 시점</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>iOS (iPhone)</strong></td>
+<td>🟡 Phase 4</td>
+<td>6.5&quot;~6.7&quot; 메인 (iPhone 11 Pro Max ~ 15 Pro Max)</td>
+</tr>
+<tr>
+<td><strong>iPad</strong></td>
+<td>🟢 Phase 4 후</td>
+<td>가로/세로 모두 지원 (iPad 12.9&quot;)</td>
+</tr>
+<tr>
+<td><strong>Android (Phone)</strong></td>
+<td>🟡 Phase 4</td>
+<td>일반 1080×1920 ~ 1080×2400</td>
+</tr>
+<tr>
+<td><strong>Android Tablet</strong></td>
+<td>🟢 Phase 5</td>
+<td>별도 적응 (iPad 와 유사)</td>
+</tr>
+</tbody></table>
+<h3>0-2. 화면 방향 결정</h3>
+<table>
+<thead>
+<tr>
+<th>옵션</th>
+<th>장점</th>
+<th>단점</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>세로 (Portrait) 전용</strong></td>
+<td>한 손 플레이, 모바일 게임 표준</td>
+<td>데스크탑 UI 큰 재배치 필요</td>
+</tr>
+<tr>
+<td><strong>가로 (Landscape) 전용</strong></td>
+<td>데스크탑 UI 그대로 활용</td>
+<td>한 손 플레이 불가, 모바일 자연스럽지 X</td>
+</tr>
+<tr>
+<td><strong>자동 회전 지원</strong></td>
+<td>사용자 선택</td>
+<td>양쪽 레이아웃 모두 디자인·테스트</td>
+</tr>
+</tbody></table>
+<p><strong>🎯 추천: 세로 (Portrait) 전용</strong></p>
+<ul>
+<li>한국 모바일 게임 사용자 한 손 플레이 선호</li>
+<li>카드 게임 특성상 세로 배치 자연스러움 (Hearthstone 모바일 등 참고)</li>
+<li>iPad 는 자동 회전 추가 고려 (선택)</li>
+</ul>
+<hr>
+<h2>1. 화면 해상도 / 안전 영역</h2>
+<h3>1-1. 기준 해상도 (디자인 작업용)</h3>
+<table>
+<thead>
+<tr>
+<th>디바이스</th>
+<th>논리 해상도</th>
+<th>물리 해상도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iPhone 13 Pro</td>
+<td>390 × 844</td>
+<td>1170 × 2532</td>
+<td>작은 디자인 기준</td>
+</tr>
+<tr>
+<td>iPhone 15 Pro Max</td>
+<td>430 × 932</td>
+<td>1290 × 2796</td>
+<td>큰 디자인 기준</td>
+</tr>
+<tr>
+<td>Android (1080×2400)</td>
+<td>360 × 800</td>
+<td>1080 × 2400</td>
+<td>일반 안드로이드</td>
+</tr>
+<tr>
+<td>Android (1080×1920)</td>
+<td>360 × 640</td>
+<td>1080 × 1920</td>
+<td>구형 안드로이드</td>
+</tr>
+</tbody></table>
+<p><strong>디자인 기준</strong>: <strong>390 × 844 (iPhone 13 Pro)</strong> 를 기본 캔버스로 작업 → 다른 사이즈로 자동 스케일.</p>
+<h3>1-2. 안전 영역 (Safe Area)</h3>
+<pre><code>┌─────────────────────┐
+│ 상단 노치/Dynamic   │ 47~59px (iOS)
+│ Island / 상태바     │ 24px (Android)
+├─────────────────────┤  ← Safe Area 시작
+│                     │
+│   콘텐츠 영역       │  ← 모든 UI 가 여기에
+│                     │
+├─────────────────────┤  ← Safe Area 끝
+│ 홈 인디케이터       │ 34px (iOS)
+│ 또는 시스템 바      │ 48px (Android)
+└─────────────────────┘
+</code></pre>
+<p><strong>규칙</strong>:</p>
+<ul>
+<li>모든 인터랙티브 요소는 안전 영역 안에</li>
+<li>배경 / 장식만 안전 영역 밖으로 확장 가능</li>
+<li>iOS / Android 양쪽 자동 처리 (Godot <code>SafeAreaContainer</code>)</li>
+</ul>
+<hr>
+<h2>2. 세로 모드 화면 재배치</h2>
+<h3>2-1. Board 화면 — 모바일 세로 레이아웃</h3>
+<pre><code>┌─────────────────────────────┐ ← iPhone 13 Pro (390×844)
+│ ─ Safe Area ─                │
+│ 단계 3 [AI:AGGRESSIVE]      │ ← Header (12px)
+│ Seed:1234  사용 4 | 광 2/3  │
+│                             │
+│  ┌──┐ ┌──┐                  │ ← AI 카드 (작게 — 140×200)
+│  │AI│ │AI│                  │
+│  └──┘ └──┘                  │
+│                             │
+│  ⚠ 명성치: -50              │ ← Prestige (큰, 20px Bold)
+│  판돈: 30 (1차10/2차20)     │
+│                             │
+│  ┌──┐ ┌──┐                  │ ← Player 카드 (140×200)
+│  │P1│ │P2│                  │
+│  └──┘ └──┘                  │
+│                             │
+│  [T1][T2][T3]               │ ← 마패 슬롯 (작게 — 80×112)
+│                             │
+│  [결과 라벨 — 2~3 lines]   │
+│                             │
+│  ┌──────────────────────┐   │ ← BettingPanel
+│  │ 🃏 1차 베팅 (콜 5)   │   │
+│  │ ┌───┐┌──────┐┌────┐ │   │
+│  │ │콜 ││레이즈││다이│ │   │ ← 버튼 큼 (110×56)
+│  │ └───┘└──────┘└────┘ │   │
+│  └──────────────────────┘   │
+│ ─ Safe Area ─                │
+└─────────────────────────────┘
+</code></pre>
+<p><strong>디자인 변화</strong> (vs 데스크탑):</p>
+<ul>
+<li>카드 사이즈 220×320 → <strong>140×200</strong> (세로 공간 절약)</li>
+<li>마패 슬롯 100×140 → <strong>80×112</strong></li>
+<li>결과 라벨 14~16px → <strong>13px</strong> (공간 절약)</li>
+<li>베팅 버튼 130×64 → <strong>110×56</strong> (3개 한 줄 들어가게)</li>
+<li>pot/prestige 한 줄로 압축</li>
+</ul>
+<h3>2-2. MainMenu — 모바일</h3>
+<pre><code>┌─────────────────────────────┐
+│ ─ Safe Area ─                │
+│                             │
+│                             │
+│         K-Sutda             │ ← 72px (96px → 축소)
+│   섯다 × 로그라이크 덱빌딩    │
+│                             │
+│   ┌─────────────────┐       │
+│   │ 닉네임 입력...   │       │ ← Input 폭 90% 화면
+│   └─────────────────┘       │
+│      &quot;닉네임 저장됨&quot;        │
+│                             │
+│      ┌─────────────┐        │
+│      │  새 런 시작  │        │ ← 버튼 큰 사이즈
+│      └─────────────┘        │
+│      ┌─────────────┐        │
+│      │   이어하기   │        │
+│      └─────────────┘        │
+│      ┌─────────────┐        │
+│      │  리더보드    │        │
+│      └─────────────┘        │
+│   ┌─────┐    ┌─────┐        │
+│   │확률  │    │📖규칙│        │
+│   └─────┘    └─────┘        │
+│                             │
+│ ─ Safe Area ─                │
+└─────────────────────────────┘
+</code></pre>
+<p><strong>변화</strong>:</p>
+<ul>
+<li>타이틀 96px → <strong>72px</strong></li>
+<li>버튼 240×48 → <strong>280×56</strong> (터치 친화, 폭 ↑)</li>
+<li>버튼 간격 8px 그대로 (최소)</li>
+</ul>
+<h3>2-3. Market — 모바일</h3>
+<pre><code>┌─────────────────────────────┐
+│ 마패 시장 (단계 3 클리어)    │
+│ 명성치: 350  리롤: 1         │
+│                             │
+│  ┌────┐ ┌────┐              │ ← 2×2 그리드 (4 카드)
+│  │마패 │ │마패 │              │ ← 160×220
+│  │  1  │ │  2  │              │
+│  └────┘ └────┘              │
+│  ┌────┐ ┌────┐              │
+│  │마패 │ │마패 │              │
+│  │  3  │ │  4  │              │
+│  └────┘ └────┘              │
+│                             │
+│  현재 슬롯:                 │
+│  [T1][T2][빈]               │
+│                             │
+│  [리롤]  [다음 단계 →]      │
+└─────────────────────────────┘
+</code></pre>
+<p><strong>변화</strong>:</p>
+<ul>
+<li>카드 진열 1×4 → <strong>2×2 그리드</strong> (세로 공간 활용)</li>
+<li>카드 사이즈 200×280 → <strong>160×220</strong></li>
+</ul>
+<h3>2-4. DailyActivity — 모바일</h3>
+<pre><code>┌─────────────────────────────┐
+│   📅 일별 활동 기록          │
+│  ※ 게임 내 가상 점수입니다.  │
+│                             │
+│  ┌─────────────────────┐    │
+│  │ 오늘   +1,350       │    │ ← 카드 세로 stack
+│  │ 3 런 / 1승 2패       │    │   (3개 1행씩)
+│  └─────────────────────┘    │
+│  ┌─────────────────────┐    │
+│  │ 이번 주  +4,700      │    │
+│  │ 10 런 / 4승 6패       │    │
+│  └─────────────────────┘    │
+│  ┌─────────────────────┐    │
+│  │ 누적  +12,300        │    │
+│  │ 47 런 / 18승 29패     │    │
+│  └─────────────────────┘    │
+│                             │
+│  📊 14일                    │
+│  5-16 │ ███████ +1,350     │
+│  5-15 │ ▒▒      -250       │ ← 가로 폭 좁아 막대 짧음
+│  5-14 │ █████████ +3,600   │
+│  ...                        │
+│                             │
+│       [리더보드로]          │
+└─────────────────────────────┘
+</code></pre>
+<p><strong>변화</strong>:</p>
+<ul>
+<li>3 카드 1×3 → <strong>3×1 세로 stack</strong></li>
+<li>14일 표 row 가로 폭 좁음 — 막대 짧게</li>
+</ul>
+<h3>2-5. Leaderboard / HelpInfo / ProbabilityInfo</h3>
+<ul>
+<li>모두 <strong>ScrollContainer</strong> 안에 콘텐츠 — 세로 스크롤 자연</li>
+<li>큰 변화 없음</li>
+</ul>
+<hr>
+<h2>3. 터치 인터랙션</h2>
+<h3>3-1. 최소 터치 타겟</h3>
+<table>
+<thead>
+<tr>
+<th>디자인 가이드</th>
+<th>최소</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS HIG</td>
+<td>44 × 44 pt</td>
+</tr>
+<tr>
+<td>Material Design</td>
+<td>48 × 48 dp</td>
+</tr>
+<tr>
+<td><strong>K-Sutda 권장</strong></td>
+<td><strong>48 × 48 pt</strong> (양쪽 만족)</td>
+</tr>
+</tbody></table>
+<p>→ 모든 버튼 / 클릭 가능 영역 ≥ 48×48.</p>
+<h3>3-2. 터치 vs 마우스 차이</h3>
+<table>
+<thead>
+<tr>
+<th>차이</th>
+<th>마우스 (데스크탑)</th>
+<th>터치 (모바일)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hover</td>
+<td>있음 (사전 시각 피드백)</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>클릭 정확도</td>
+<td>픽셀 단위</td>
+<td>손가락 (큰 영역)</td>
+</tr>
+<tr>
+<td>우클릭</td>
+<td>가능</td>
+<td>없음 (long press 대체)</td>
+</tr>
+<tr>
+<td>Tooltip</td>
+<td>hover 시 표시</td>
+<td>(없음 — long press 또는 별도 UI)</td>
+</tr>
+</tbody></table>
+<p><strong>대응</strong>:</p>
+<ul>
+<li>Hover 상태 시각 → <strong>Pressed 상태</strong> 강화로 대체 (터치 후 즉시 피드백)</li>
+<li>Tooltip → 카드 자체에 정보 일부 노출 (Sprint 3.8 partial reveal 처럼)</li>
+<li>우클릭 (카드 상세) → <strong>long press (0.5초)</strong> 로 매핑</li>
+</ul>
+<h3>3-3. 스와이프 제스처 (선택 — 미래)</h3>
+<table>
+<thead>
+<tr>
+<th>제스처</th>
+<th>액션</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Swipe Up (카드)</td>
+<td>카드 사용 / 베팅 콜 (옵션)</td>
+</tr>
+<tr>
+<td>Swipe Down (카드)</td>
+<td>카드 다이 / mulligan (옵션)</td>
+</tr>
+<tr>
+<td>Pinch Zoom (카드)</td>
+<td>카드 자세히 보기 (옵션)</td>
+</tr>
+</tbody></table>
+<p>→ Phase 4 폴리시 sprint. 베타에선 버튼만으로 충분.</p>
+<hr>
+<h2>4. 폰트 사이즈 — 모바일</h2>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>데스크탑</th>
+<th>모바일 권장</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TITLE</td>
+<td>96px</td>
+<td><strong>72px</strong> (또는 64px)</td>
+</tr>
+<tr>
+<td>HEADING</td>
+<td>32px</td>
+<td><strong>28px</strong></td>
+</tr>
+<tr>
+<td>SUBHEAD</td>
+<td>24px</td>
+<td><strong>22px</strong></td>
+</tr>
+<tr>
+<td>BODY</td>
+<td>16px</td>
+<td><strong>16px</strong> (최소 유지)</td>
+</tr>
+<tr>
+<td>CAPTION</td>
+<td>12px</td>
+<td><strong>13px</strong> (작은 화면 가독성 ↑)</td>
+</tr>
+<tr>
+<td>SCORE</td>
+<td>96px</td>
+<td><strong>64px</strong> (점수 폭발)</td>
+</tr>
+</tbody></table>
+<p>→ 폰트 사이즈 살짝 줄이지만 BODY/CAPTION 은 최소 유지.</p>
+<hr>
+<h2>5. iOS vs Android 차이</h2>
+<h3>5-1. 디자인 차이</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>iOS</th>
+<th>Android</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>시스템 폰트</td>
+<td>SF Pro / Apple SD Gothic Neo</td>
+<td>Roboto / Noto Sans KR</td>
+</tr>
+<tr>
+<td>안전 영역</td>
+<td>Notch / Dynamic Island</td>
+<td>상태바</td>
+</tr>
+<tr>
+<td>시스템 바</td>
+<td>홈 인디케이터 (하단)</td>
+<td>내비 바 (하단, 작거나 제스처)</td>
+</tr>
+<tr>
+<td>버튼 톤</td>
+<td>iOS 곡선적</td>
+<td>Material 직선적</td>
+</tr>
+</tbody></table>
+<h3>5-2. 우리 접근</h3>
+<ul>
+<li><strong>공통 디자인</strong> — Pretendard 폰트 + 우리 Palette</li>
+<li>시스템 폰트 fallback 만 OS 별 (Apple SD Gothic Neo vs Noto Sans KR)</li>
+<li>시스템 UI (스테이터스바) 색상은 OS 자동 (Godot 설정)</li>
+</ul>
+<h3>5-3. 빌드 차이</h3>
+<ul>
+<li>iOS: Apple Developer Account ($99/년)</li>
+<li>Android: Google Play Console ($25 일회)</li>
+<li>빌드: Godot Export → 각 플랫폼별 패키지</li>
+</ul>
+<hr>
+<h2>6. 성능 / 메모리 (모바일)</h2>
+<h3>6-1. 최적화 포인트</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>가이드</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>카드 이미지</td>
+<td>@2x (440×640) 최대, @3x 불필요</td>
+</tr>
+<tr>
+<td>마패 카드</td>
+<td>@2x (400×560)</td>
+</tr>
+<tr>
+<td>캐릭터 일러스트</td>
+<td>@2x (1200×1800) — 큰 화면만</td>
+</tr>
+<tr>
+<td>BGM</td>
+<td>192kbps 까지 (저전력 디바이스)</td>
+</tr>
+<tr>
+<td>메모리</td>
+<td>200MB 미만 권장</td>
+</tr>
+</tbody></table>
+<h3>6-2. Godot 모바일 최적화</h3>
+<ul>
+<li>텍스처 압축: ETC2 (Android) / ASTC (iOS)</li>
+<li>오디오: Ogg Vorbis (둘 다 지원)</li>
+<li>화면 갱신: 60 FPS 기준, 30 FPS fallback (저전력)</li>
+<li>절전 모드: 비활성 60초 후 30 FPS 강제</li>
+</ul>
+<hr>
+<h2>7. 모바일 특화 기능 (선택)</h2>
+<h3>7-1. 햅틱 피드백</h3>
+<table>
+<thead>
+<tr>
+<th>액션</th>
+<th>햅틱</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>버튼 클릭</td>
+<td>Light impact</td>
+</tr>
+<tr>
+<td>카드 flip</td>
+<td>Light impact</td>
+</tr>
+<tr>
+<td>카드 mulligan</td>
+<td>Medium impact</td>
+</tr>
+<tr>
+<td>광땡 승리</td>
+<td>Heavy impact (한 번)</td>
+</tr>
+<tr>
+<td>게임오버</td>
+<td>Heavy impact (한 번)</td>
+</tr>
+<tr>
+<td>위험 영역 진입</td>
+<td>Light selection</td>
+</tr>
+</tbody></table>
+<p><strong>Godot 4 API</strong>: <code>Input.vibrate_handheld(duration_ms)</code></p>
+<h3>7-2. 알림 (Push Notification)</h3>
+<ul>
+<li>베타에선 불필요</li>
+<li>정식 출시 후: &quot;오늘 한 판 어때?&quot; (옵션, 사용자 동의 시)</li>
+</ul>
+<h3>7-3. 클라우드 세이브 (iCloud / Google Play Games)</h3>
+<ul>
+<li>베타에선 로컬만</li>
+<li>정식 출시 시 옵션 (Supabase 통합 가능)</li>
+</ul>
+<hr>
+<h2>8. 가로 모드 / iPad</h2>
+<h3>8-1. iPad — 자동 회전</h3>
+<pre><code>가로 모드 (1024 × 768):
+  데스크탑 UI 거의 그대로 + 약간 큰 텍스트
+  
+세로 모드 (768 × 1024):
+  iPhone 모바일 레이아웃 확대
+</code></pre>
+<h3>8-2. 가로 ↔ 세로 전환</h3>
+<ul>
+<li>회전 시 UI 자동 재배치 (반응형 레이아웃)</li>
+<li>게임 진행 중 회전 시: pause + scene transition (옵션)</li>
+</ul>
+<p>→ Phase 4 별도 작업.</p>
+<hr>
+<h2>9. 작업 우선순위</h2>
+<h3>Tier 1 — Phase 4 모바일 출시 핵심</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Board 화면 세로 레이아웃 시안</li>
+<li><input disabled="" type="checkbox"> MainMenu 모바일 시안</li>
+<li><input disabled="" type="checkbox"> BettingPanel 모바일 (버튼 사이즈 ↑)</li>
+<li><input disabled="" type="checkbox"> Card 시각 모바일 검증 (140×200 가독성)</li>
+<li><input disabled="" type="checkbox"> 터치 타겟 48×48 검증</li>
+</ul>
+<h3>Tier 2 — 베타 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Market 2×2 그리드 시안</li>
+<li><input disabled="" type="checkbox"> DailyActivity 세로 stack 시안</li>
+<li><input disabled="" type="checkbox"> Leaderboard / HelpInfo 스크롤 검증</li>
+<li><input disabled="" type="checkbox"> 햅틱 피드백 매핑</li>
+<li><input disabled="" type="checkbox"> iPad 가로 모드 시안</li>
+</ul>
+<h3>Tier 3 — 폴리시</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 스와이프 제스처</li>
+<li><input disabled="" type="checkbox"> Push Notification</li>
+<li><input disabled="" type="checkbox"> 클라우드 세이브</li>
+</ul>
+<hr>
+<h2>10. 디자이너 협업</h2>
+<h3>10-1. Figma 모바일 프레임</h3>
+<pre><code>🎨 Figma:
+├── Desktop (1280×720)
+│   ├── MainMenu
+│   ├── Board
+│   └── ...
+└── Mobile (390×844)
+    ├── MainMenu
+    ├── Board
+    └── ...
+</code></pre>
+<p>→ 데스크탑 ↔ 모바일 frame 별도 작업 + 컴포넌트 공유 (11번 가이드)</p>
+<h3>10-2. 디바이스 테스트</h3>
+<ul>
+<li>iPhone 13 (작은) + 15 Pro Max (큰) — 양 극단</li>
+<li>Android (1080×1920) + (1080×2400) — 양 비율</li>
+<li>iPad 12.9&quot; + Air</li>
+</ul>
+<h3>10-3. 핸드오프</h3>
+<ul>
+<li>Figma Dev Mode → 정확한 px / pt 값</li>
+<li>안전 영역 가이드라인 frame 별로 표시</li>
+<li>터치 타겟 48×48 가이드 박스 (디자인 시 보조)</li>
+</ul>
+<hr>
+<h2>11. QA 체크리스트</h2>
+<p>새 모바일 화면 시안 만들 때:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 390×844 (iPhone 13 Pro) 기준 디자인?</li>
+<li><input disabled="" type="checkbox"> 안전 영역 안에 모든 인터랙티브?</li>
+<li><input disabled="" type="checkbox"> 터치 타겟 ≥ 48×48?</li>
+<li><input disabled="" type="checkbox"> 폰트 BODY 16px / CAPTION 13px 이상?</li>
+<li><input disabled="" type="checkbox"> 한 손 플레이 가능 (엄지로 닿는 영역 위주)?</li>
+<li><input disabled="" type="checkbox"> 가로 회전 무시 / 자동 회전 결정?</li>
+<li><input disabled="" type="checkbox"> 햅틱 피드백 매핑 (선택)?</li>
+<li><input disabled="" type="checkbox"> 로드 시간 / 메모리 검증 (실기기)?</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>12-mobile-ui.md</code>
+</div>
+</body>
+</html>

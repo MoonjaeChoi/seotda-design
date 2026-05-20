@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — PR / 미디어 키트</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — PR / 미디어 키트</h1>
+<blockquote>
+<p>기자 / 리뷰어 / 인플루언서 / 미디어 담당자용 보도자료. 한국 + 글로벌 영문 양쪽.</p>
+</blockquote>
+<hr>
+<h2>0. 미디어 키트 사용법</h2>
+<h3>0-1. 미디어 키트란?</h3>
+<p>기자 / 인플루언서 / 리뷰어가 게임을 다룰 때 필요한 자료 모음:</p>
+<ul>
+<li>보도자료 (Press Release)</li>
+<li>팩트시트 (Fact Sheet)</li>
+<li>스크린샷 / 트레일러</li>
+<li>로고 / 키 비주얼</li>
+<li>개발자 인터뷰 Q&amp;A</li>
+<li>인용 가능 카피</li>
+</ul>
+<h3>0-2. 배포 방법</h3>
+<table>
+<thead>
+<tr>
+<th>채널</th>
+<th>형태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Press Kit 사이트</strong> (자체)</td>
+<td>press.ksutda.com 또는 GitHub Pages</td>
+</tr>
+<tr>
+<td><strong>이메일</strong></td>
+<td>기자 직접 컨택 시 첨부 (ZIP)</td>
+</tr>
+<tr>
+<td><strong>Steam 페이지</strong></td>
+<td>&quot;Press Kit&quot; 링크 (페이지 푸터)</td>
+</tr>
+<tr>
+<td><strong>PR Newswire / GameJobs</strong></td>
+<td>보도자료 배포 서비스</td>
+</tr>
+</tbody></table>
+<h3>0-3. 영어 / 한국어 양쪽</h3>
+<ul>
+<li>한국 기자 — 한국어 우선</li>
+<li>글로벌 기자 — 영문 우선</li>
+<li>양쪽 모두 같은 정보 (번역 일관성)</li>
+</ul>
+<hr>
+<h2>1. 보도자료 (Press Release)</h2>
+<h3>1-1. 한국어 보도자료</h3>
+<pre><code class="language-markdown">[보도자료]
+
+한국 화투에 발라트로식 로그라이크를 더하다.
+&quot;K-Sutda&quot; 정식 출시.
+
+발행일: 2026년 X월 X일
+개발사: [개발자 / 회사명]
+플랫폼: Steam (Windows / macOS) / 모바일 (iOS / Android)
+가격: 18,000원 / $14.99 USD
+출시일: 2026년 X월 X일
+
+[게임 소개]
+
+K-Sutda 는 한국 전통 카드 게임 섯다에 발라트로 (Balatro) 식
+로그라이크 빌딩을 접목한 싱글플레이어 전략 카드 게임이다.
+
+발라트로의 빌딩 / 시너지 / 보스 시스템에 한국 화투의 심리전 / 블러프 /
+2단계 베팅을 결합. 65종 마패 카드로 자신만의 빌드를 만들어
+8단계의 한국 도박판을 클리어하는 것이 목표.
+
+[핵심 차별화]
+
+1. 한국 정통 2단계 베팅: 첫 카드 1장 보고 1차 베팅 →
+   2번째 카드 받은 후 2차 베팅. 결단의 깊이.
+
+2. 67종 마패 카드: 광패 시너지 / 블러프 보너스 / 연승 누적 등
+   복잡한 빌드 시스템.
+
+3. 8단계 한국 보스: 동네 형 박달삼부터 전설의 마패 남궁천까지.
+   각 보스의 독특한 AI 패턴과 백스토리.
+
+4. 결정성 (Deterministic): 같은 시드 = 같은 런. 친구와 도전 가능.
+
+5. 인앱결제 / 광고 없음: 정액 구매. 사행성 모사 회피.
+
+[게임 시스템]
+
+- 8 단계 × 3 라운드 (1 단계 = 소판 / 대판 / 보스 라운드)
+- 매 라운드: 1차 베팅 (1장 보고) → 2차 베팅 (2장 완성 후)
+- 명성치 (가상 점수) -150 도달 시 게임오버
+- 마패 슬롯 3개 — 시장에서 구매 / 슬롯 교환
+- 마지막 단계 8 클리어 → &quot;전설&quot; 칭호
+
+[개발자 소개]
+
+[개발자명] 은 한국 인디 게임 개발자로, K-Sutda 는 [N]개월의
+개발 기간을 거쳐 정식 출시된다. 발라트로의 빌딩 매력과
+한국 전통 도박판의 진중함을 결합하고자 한 작품이다.
+
+&quot;한국 화투의 무게감을 잃지 않으면서, 발라트로의 빌딩 재미를
+결합하고 싶었습니다. 도박 미화가 아닌, 인생을 거는 한 판의
+진중함을 전달하고자 했습니다.&quot; — 개발자 인터뷰 中
+
+[향후 계획]
+
+정식 출시 후:
+- 다인 플레이 모드 (4~6인) — 출시 후 6개월
+- 모바일 출시 — 출시 후 9개월
+- DLC + 사운드트랙 — 분기별
+- 한정판 굿즈 (실물 화투 덱)
+
+[자료 / 미디어]
+
+- 트레일러: [URL]
+- 스크린샷 (5장): [URL]
+- Press Kit: [URL]
+- Discord 커뮤니티: [URL]
+- Steam 페이지: [URL]
+
+[연락처]
+
+- 기자 / 리뷰어 문의: [이메일]
+- 마케팅 / 인플루언서: [이메일]
+- 사업 협업: [이메일]
+
+— END —
+</code></pre>
+<h3>1-2. 영문 보도자료</h3>
+<pre><code class="language-markdown">[PRESS RELEASE]
+
+A Korean Sutda meets Balatro:
+&quot;K-Sutda&quot; launches on Steam.
+
+Release Date: 2026-XX-XX
+Developer: [Developer Name]
+Platform: Steam (Windows / macOS), Mobile (iOS / Android)
+Price: $14.99 USD / 18,000 KRW
+Launch: 2026-XX-XX
+
+[ABOUT THE GAME]
+
+K-Sutda is a single-player roguelike deckbuilder inspired by
+Korean Sutda — the traditional two-card mind game — and built
+with the building blocks of Balatro.
+
+Combine Balatro&#39;s signature building / synergy / boss system with
+Sutda&#39;s mind game / bluffing / two-stage betting. Build your way
+through 67 Mapa cards and 8 stages of Korean gamblers to claim
+the title of &quot;Legend&quot;.
+
+[KEY FEATURES]
+
+1. Two-Stage Betting (Korean tradition): See one card and decide.
+   See the second and decide again. Depth in every hand.
+
+2. 67 Mapa Cards: Gwang synergy, bluff bonuses, win streak
+   compounds. Build your way to victory.
+
+3. 8 Korean Bosses: From a neighborhood gambler &quot;Dalsamee&quot; to the
+   legendary master &quot;Nam-gung Cheon&quot;. Each with unique AI and
+   backstory.
+
+4. Deterministic: Same seed = same run. Challenge friends.
+
+5. No IAP / No Ads: Premium one-time purchase. Ethical design,
+   no gambling glorification.
+
+[GAME SYSTEM]
+
+- 8 stages × 3 rounds (each stage = small / large / boss round)
+- Per round: 1st bet (see 1 card) → 2nd bet (after 2 cards)
+- Game Over at prestige ≤ -150
+- 3 Mapa slots — buy from market / swap freely
+- Beat stage 8 → earn &quot;Legend&quot; title
+
+[ABOUT THE DEVELOPER]
+
+[Developer Name] is a Korean indie developer. K-Sutda was developed
+over [N] months, combining the satisfaction of Balatro-style
+deckbuilding with the weight of Korean traditional gambling.
+
+&quot;I wanted to keep the gravity of Korean Sutda — not the gambling
+glamour, but the weight of betting one&#39;s life on a single hand —
+while bringing the build-up joy of Balatro.&quot; — Developer Quote.
+
+[FUTURE PLANS]
+
+After release:
+- Multiplayer mode (4~6 players) — 6 months after launch
+- Mobile release — 9 months after launch
+- DLC + soundtrack — quarterly
+- Limited edition merchandise (physical hwatu deck)
+
+[ASSETS / MEDIA]
+
+- Trailer: [URL]
+- Screenshots (5): [URL]
+- Press Kit: [URL]
+- Discord: [URL]
+- Steam page: [URL]
+
+[CONTACT]
+
+- Press / Reviews: [Email]
+- Marketing / Influencers: [Email]
+- Business Partnerships: [Email]
+
+— END —
+</code></pre>
+<hr>
+<h2>2. 팩트시트 (Fact Sheet)</h2>
+<pre><code class="language-markdown">[K-Sutda 팩트시트]
+
+## 기본 정보
+
+| 항목 | 내용 |
+|---|---|
+| 게임명 | K-Sutda |
+| 부제 | 섯다 × 로그라이크 덱빌딩 |
+| 장르 | 카드 / 로그라이크 / 덱빌딩 / 싱글플레이어 |
+| 개발사 | [개발자명] |
+| 퍼블리셔 | 자체 (인디) |
+| 플랫폼 | Steam / iOS / Android |
+| 출시일 | 2026-XX-XX |
+| 가격 | $14.99 / 18,000원 |
+| 언어 | 한국어 / 영어 |
+| 등급 | 12세 이용가 (한국 GRAC) / Teen (ESRB) |
+| 추정 플레이 시간 | 한 런 20~30분 / 전체 콘텐츠 20+ 시간 |
+
+## 기술
+
+| 항목 | 내용 |
+|---|---|
+| 엔진 | Godot 4.6.2 |
+| 그래픽 | 2D (한국 민화 + 모던) |
+| 음향 | 한국 전통 악기 + 모던 신스 |
+| 해상도 | 1280×720 ~ 4K |
+| 시스템 요구사항 | 평범한 PC (8GB RAM, 통합 그래픽) |
+| 멀티플레이 | 출시 시 X, Phase 4 (6개월 후) |
+
+## 콘텐츠 규모
+
+| 항목 | 내용 |
+|---|---|
+| 카드 (화투) | 40장 (1~10월 × 광/띠/열/피) |
+| 마패 카드 | 67종 (Common 30 / Uncommon 21 / Rare 11 / Legendary 5) |
+| 단계 (Stage) | 8개 + Endless 모드 |
+| 보스 캐릭터 | 8명 (단계별 unique) |
+| 일러스트 | 캐릭터 8 + 화투 40 + 마패 67 = 115+ |
+| BGM | 3 곡 + SE 8개 |
+</code></pre>
+<hr>
+<h2>3. 인용 가능 카피 (Quotable Quotes)</h2>
+<p>기자 / 리뷰어가 영상 / 글에 인용할 수 있는 짧은 카피:</p>
+<h3>3-1. 한국어 인용</h3>
+<pre><code>- &quot;광 한 번 보는 데 인생을 건다.&quot;
+- &quot;한국 화투의 무게감 + 발라트로의 빌딩.&quot;
+- &quot;단순히 운만이 아닌, 인생의 한 판.&quot;
+- &quot;전설이 되거나, 잊혀진 노름꾼이 되거나.&quot;
+- &quot;한국 인디 게임의 자존심.&quot;
+</code></pre>
+<h3>3-2. 영문 인용</h3>
+<pre><code>- &quot;One last hand. The cards remember everything.&quot;
+- &quot;Balatro&#39;s build, Sutda&#39;s mind game.&quot;
+- &quot;Korean tradition meets roguelike depth.&quot;
+- &quot;Become a Legend, or another forgotten gambler.&quot;
+- &quot;K-Sutda is Korea&#39;s answer to Balatro.&quot;
+</code></pre>
+<hr>
+<h2>4. 스크린샷 팩 (Press Pack — Images)</h2>
+<h3>4-1. 권장 스크린샷 5장 (한+영 자막 양쪽)</h3>
+<ol>
+<li><p><strong>MainMenu</strong> — 게임 정체성</p>
+<ul>
+<li>한: &quot;한국 화투 × 로그라이크&quot;</li>
+<li>영: &quot;Korean Sutda × Roguelike&quot;</li>
+</ul>
+</li>
+<li><p><strong>Board — 광땡 승리</strong> — 가장 임팩트</p>
+<ul>
+<li>한: &quot;광땡! 인생의 한 판.&quot;</li>
+<li>영: &quot;Gwangddaeng — The highest hand.&quot;</li>
+</ul>
+</li>
+<li><p><strong>Board — 1차 베팅 단계</strong> — 2단계 베팅 차별화</p>
+<ul>
+<li>한: &quot;한 장 보고 결단.&quot;</li>
+<li>영: &quot;Decide with one card.&quot;</li>
+</ul>
+</li>
+<li><p><strong>Market — 마패 시장</strong> — 빌딩 요소</p>
+<ul>
+<li>한: &quot;67종 마패 카드로 빌드.&quot;</li>
+<li>영: &quot;Build with 67 Mapa cards.&quot;</li>
+</ul>
+</li>
+<li><p><strong>Board — 보스 라운드</strong> — 캐릭터 + 도전</p>
+<ul>
+<li>한: &quot;전설의 마패와의 마지막 한 판.&quot;</li>
+<li>영: &quot;Final hand with the legendary master.&quot;</li>
+</ul>
+</li>
+</ol>
+<h3>4-2. 추가 스크린샷 (선택 5장)</h3>
+<ol start="6">
+<li>DailyActivity — 정착성 강조</li>
+<li>HelpInfo — 접근성 강조</li>
+<li>Market 새 마패 카드 — 시스템 깊이</li>
+<li>위험 영역 (명성치 &lt; 0) — 긴장감</li>
+<li>런 클리어 엔딩 — 보상</li>
+</ol>
+<h3>4-3. 파일 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>해상도</td>
+<td>1920×1080 (Full HD) — 최소</td>
+</tr>
+<tr>
+<td>형식</td>
+<td>PNG 또는 JPG</td>
+</tr>
+<tr>
+<td>자막</td>
+<td>한국어 + 영문 별도 버전</td>
+</tr>
+<tr>
+<td>워터마크</td>
+<td>없음 (자유 사용)</td>
+</tr>
+<tr>
+<td>라이선스</td>
+<td>미디어 자유 사용 (출처 표기 권장)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. 트레일러 / 영상</h2>
+<h3>5-1. 메인 트레일러 (60~90초)</h3>
+<p>[07-marketing-assets §3 참조]</p>
+<ul>
+<li>한국어 자막 / 영문 자막 양쪽</li>
+<li>YouTube 공개 + 직접 다운로드 (.mp4)</li>
+<li>인터뷰어 자유 사용 (출처 표기)</li>
+</ul>
+<h3>5-2. 짧은 클립 (15초)</h3>
+<ul>
+<li>광짤 / 1차 raise / 보스 등장 등</li>
+<li>Twitter / TikTok / Shorts 공유</li>
+<li>다운로드 가능</li>
+</ul>
+<h3>5-3. 게임플레이 풀 영상 (5~10분)</h3>
+<ul>
+<li>1 단계 풀 플레이 (사운드 포함)</li>
+<li>인플루언서 참고용</li>
+<li>자막 X (인플루언서가 자기 보이스)</li>
+</ul>
+<hr>
+<h2>6. 로고 / 키 비주얼</h2>
+<h3>6-1. 로고 변형 (15-brand-identity §1-2)</h3>
+<table>
+<thead>
+<tr>
+<th>변형</th>
+<th>사용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>메인 컬러 (금색)</td>
+<td>일반</td>
+</tr>
+<tr>
+<td>흰색 단색</td>
+<td>어두운 배경</td>
+</tr>
+<tr>
+<td>검은색 단색</td>
+<td>밝은 배경</td>
+</tr>
+<tr>
+<td>모노톤 도장</td>
+<td>작은 사이즈</td>
+</tr>
+</tbody></table>
+<h3>6-2. 키 비주얼 (07-marketing-assets §5)</h3>
+<ul>
+<li>메인 키 비주얼 (1장, 4K)</li>
+<li>캐릭터 일러스트 (8장)</li>
+<li>카드 일러스트 (광패 3장 highlight)</li>
+</ul>
+<h3>6-3. 파일 패키지</h3>
+<pre><code>press-kit-images.zip
+├── logo/
+│   ├── logo_color.png       (4K)
+│   ├── logo_white.png
+│   ├── logo_black.png
+│   └── logo_seal.svg
+├── key_visual/
+│   ├── main_kv_4k.png
+│   └── main_kv_1080.png
+├── screenshots/
+│   ├── 01_mainmenu_ko.png
+│   ├── 01_mainmenu_en.png
+│   ├── 02_gwangddaeng_ko.png
+│   └── ... (모두)
+└── characters/
+    ├── boss_01_dalsamee.png
+    ├── ...
+    └── boss_08_namgungcheon.png
+</code></pre>
+<hr>
+<h2>7. 개발자 인터뷰 Q&amp;A (예시)</h2>
+<h3>Q1. 왜 한국 섯다인가요?</h3>
+<pre><code>한국 섯다는 단순히 도박 게임이 아닌, 한국 도박판의 정서와
+한국 사회의 한 단면을 담는 카드 게임입니다.
+
+발라트로 같은 인디 카드 게임이 글로벌하게 사랑받는 시대에,
+한국 전통 카드 게임의 무게감을 글로벌 사용자에게 전하고 싶었습니다.
+
+또한 한국 화투는 한국 가정 / 마을 모임의 추억과
+어두운 도박 문화의 양면을 모두 담고 있어, 게임의 톤으로
+풍부한 소재였습니다.
+</code></pre>
+<h3>Q2. 발라트로와의 차이점은?</h3>
+<pre><code>발라트로는 포커 + 조커 시스템의 빌딩 즐거움이 메인입니다.
+K-Sutda 는:
+
+1. 한국 정통 2단계 베팅 — 카드 1장 보고 1차, 2장 완성 후 2차.
+   결정의 깊이가 2배.
+2. 한국 화투의 시각·정서 — 차분하고 진중한 한국 도박판 톤.
+3. 8 단계 보스 — 각 캐릭터의 한국적 백스토리 + 패턴.
+4. 블러프 시스템 — 약한 패로 raise → 상대 다이 유도.
+
+발라트로의 빌딩 매력 + 한국 섯다의 심리전 = K-Sutda.
+</code></pre>
+<h3>Q3. 사행성 모사 문제는 어떻게 회피했나요?</h3>
+<pre><code>한국 게임산업법 제33조의3 및 글로벌 게임 윤리에 따라:
+
+1. 명성치 = 게임 내 가상 점수 (실제 환금성 X)
+2. 모든 화면에 disclaimer (&quot;게임 내 가상 점수입니다&quot;)
+3. 도박 미화 어휘 회피 (&quot;이긴다 / 대박&quot; X, &quot;광 보임 / 결단&quot; O)
+4. 화려한 카지노 톤 회피 (한국 전통 도박판 톤)
+5. 광고 / 인앱결제 / 가챠 없음
+
+도박 게임이 아닌, 한국 전통 카드 게임을 모티프로 한
+전략 카드 게임입니다.
+</code></pre>
+<h3>Q4. 가장 자랑하는 시스템은?</h3>
+<pre><code>2단계 베팅 시스템과 블러프 보상입니다.
+
+한 판이 1차 + 2차 두 번의 결정으로 진행되어, 결정의 깊이가
+2배로 늘어납니다. 약한 패로 1차 raise → 상대 dia 유도 →
+&quot;블러프 성공&quot; 보상까지 — 단순한 운 게임이 아닌, 진짜 심리전을
+구현하고자 했습니다.
+
+이건 한국 한게임 섯다의 정통 흐름이기도 합니다.
+</code></pre>
+<h3>Q5. 다인 플레이 계획은?</h3>
+<pre><code>출시 6개월 후 다인 플레이 모드 (4~6인) 추가 예정입니다.
+
+- 로컬 다인 (같은 PC) 우선
+- 온라인 다인 (P2P 또는 매칭) — 시점 검토 중
+- 한국 + 글로벌 매칭 (인프라 결정)
+
+다인 플레이는 K-Sutda 의 본질 — 한국 섯다는 본래
+다인 게임이고, 정보 비대칭과 메모리 게임이 깊이를
+크게 더할 것입니다.
+</code></pre>
+<h3>Q6. 향후 IP 확장 비전은?</h3>
+<pre><code>[25-future-vision 참조 — 짧게]
+
+장기 비전:
+- 후속작 (K-Mapa — 액션/스토리 위주) 또는 K-Sutda 2 (다인 메인)
+- 모바일 확장 (캐주얼 모바일)
+- 콘솔 (Nintendo Switch / Steam Deck)
+- IP 확장 (웹툰 / 영상 / 보드게임)
+
+한국 인디 게임의 한 축으로 자리잡고 싶습니다.
+</code></pre>
+<hr>
+<h2>8. 미디어 컨택 리스트 (예시)</h2>
+<h3>8-1. 한국 미디어</h3>
+<table>
+<thead>
+<tr>
+<th>매체</th>
+<th>종류</th>
+<th>담당</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>인벤</strong></td>
+<td>한국 게임 미디어 1위</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>디스이즈게임</strong></td>
+<td>한국 게임 매거진</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>게임메카</strong></td>
+<td>한국 게임 미디어</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>루리웹 인디 게시판</strong></td>
+<td>한국 인디 커뮤니티</td>
+<td>사용자 직접</td>
+</tr>
+<tr>
+<td><strong>DC인사이드 인디게임갤</strong></td>
+<td>한국 인디 코어</td>
+<td>사용자 직접</td>
+</tr>
+<tr>
+<td><strong>카카오TV / 네이버TV</strong></td>
+<td>게임 영상</td>
+<td>인플루언서 컨택</td>
+</tr>
+</tbody></table>
+<h3>8-2. 글로벌 미디어</h3>
+<table>
+<thead>
+<tr>
+<th>매체</th>
+<th>종류</th>
+<th>담당</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PC Gamer</strong></td>
+<td>글로벌 PC 게임 미디어</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>Eurogamer</strong></td>
+<td>유럽 게임 미디어</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>Polygon</strong></td>
+<td>미국 게임 미디어</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>IGN</strong></td>
+<td>글로벌 메인 미디어</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>Rock Paper Shotgun</strong></td>
+<td>인디 친화 PC 게임</td>
+<td>기자 컨택</td>
+</tr>
+<tr>
+<td><strong>Reddit r/Roguelike</strong></td>
+<td>글로벌 인디 커뮤니티</td>
+<td>사용자 직접</td>
+</tr>
+</tbody></table>
+<h3>8-3. 인플루언서 (22-community §6 참조)</h3>
+<ul>
+<li>한국 카드 게임 / 인디 스트리머</li>
+<li>글로벌 발라트로 시청자 보유 채널</li>
+</ul>
+<hr>
+<h2>9. PR 캠페인 일정</h2>
+<h3>9-1. 출시 전 (6주 ~ 1주 전)</h3>
+<pre><code>[6주 전] Press Kit 완성 + Steam 페이지 공개
+        → Steam Page Launch + 위시리스트 캠페인
+
+[4주 전] 메인 트레일러 공개
+        → YouTube + Twitter + Discord
+
+[3주 전] 인플루언서 키 배포 (50명+)
+        → 영상 / 스트림 일정 조율
+
+[2주 전] 한국 미디어 보도자료 (인벤 / 디스이즈게임)
+        → 기사 게재 요청
+
+[1주 전] 글로벌 미디어 보도자료 (PC Gamer / IGN 등)
+        → 기사 게재 요청
+
+[3일 전] Last Push — Discord / SNS / 인플루언서 한 번 더
+</code></pre>
+<h3>9-2. 출시 당일</h3>
+<pre><code>[D-Day]
+- 한국 시간 오전 10시 출시 (글로벌 친화 시각)
+- 트위터 / Discord / Steam 공지
+- 한국 + 글로벌 미디어 기사 동시 배포
+- 인플루언서 영상 동시 공개
+- 출시 기념 트레일러 (옵션)
+</code></pre>
+<h3>9-3. 출시 후 (1주 ~ 1개월)</h3>
+<pre><code>[D+1주] 첫 주 리뷰 모니터링 + 응답
+       → 한국 / 글로벌 리뷰 모두
+
+[D+2주] 첫 패치 (밸런스 / 버그)
+       → 패치 노트 + SNS 공지
+
+[D+1개월] 한 달 결산 + 다음 계획
+         → Discord AMA + 인터뷰
+</code></pre>
+<hr>
+<h2>10. 미디어 응대 가이드</h2>
+<h3>10-1. 기자 응대</h3>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>행동</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>컨택 받음</td>
+<td>24시간 내 답변 (가능한 경우)</td>
+</tr>
+<tr>
+<td>인터뷰 요청</td>
+<td>형식 / 일정 / 질문 사전 공유 요청</td>
+</tr>
+<tr>
+<td>부정적 리뷰</td>
+<td>정중히 인정 + 개선 의지</td>
+</tr>
+<tr>
+<td>사실 오류</td>
+<td>정중히 정정 요청 + 자료 제공</td>
+</tr>
+</tbody></table>
+<h3>10-2. 인터뷰 톤</h3>
+<ul>
+<li>✅ 진중함 + 한국 정체성</li>
+<li>✅ 짧고 명확한 답변</li>
+<li>✅ 인디 게임 응원 (다른 인디 게임 / 한국 게임 멘션)</li>
+<li>❌ 발라트로 비교 자만 / 비하</li>
+<li>❌ 한국 도박 문화 미화 / 비하</li>
+<li>❌ 정치 / 종교 / 사회 이슈 발언</li>
+</ul>
+<h3>10-3. 영문 응대</h3>
+<ul>
+<li>한국적 톤 보존 (&quot;Sutda is a Korean traditional game...&quot;)</li>
+<li>한국 어휘 유지 (Sutda / Mapa / Gwangddaeng)</li>
+<li>발라트로 비교 — 긍정적 (&quot;If you liked Balatro, you may enjoy...&quot;)</li>
+</ul>
+<hr>
+<h2>11. 미디어 키트 페이지 (자체 사이트)</h2>
+<h3>11-1. 권장 페이지 구조</h3>
+<pre><code>press.ksutda.com (또는 ksutda.com/press)
+
+├── 게임 소개 (한+영)
+├── 팩트시트
+├── 다운로드
+│   ├── 보도자료 (PDF 한+영)
+│   ├── 스크린샷 팩 (ZIP)
+│   ├── 로고 / 키 비주얼 (ZIP)
+│   └── 트레일러 (MP4)
+├── 개발자 소개 + Q&amp;A
+├── 인용 가능 카피
+├── 인터뷰 요청 폼
+└── 연락처
+</code></pre>
+<h3>11-2. 호스팅 옵션</h3>
+<ul>
+<li><strong>GitHub Pages</strong> — 무료, 정적 페이지</li>
+<li><strong>Vercel</strong> — 무료, 빠름</li>
+<li><strong>자체 도메인</strong> — ksutda.com 또는 ksutda.kr</li>
+</ul>
+<hr>
+<h2>12. 라이선스 / 사용권</h2>
+<h3>12-1. 미디어 자유 사용</h3>
+<pre><code>[K-Sutda 미디어 자유 사용 정책]
+
+기자 / 리뷰어 / 인플루언서 / 영상 작가는 다음 자료를
+별도 허락 없이 자유롭게 사용 가능:
+
+- 트레일러 (전체 또는 부분)
+- 스크린샷 / 로고 / 키 비주얼
+- 보도자료 텍스트 (인용)
+- 게임플레이 영상 (자기 채널 영상 제작)
+- Steam 페이지 정보
+
+조건:
+- 출처 표기 (&quot;K-Sutda&quot; 또는 게임 페이지 링크)
+- 의도된 무단 변형 ❌ (예: 로고 변형 / 캐릭터 변형)
+- 광고 / 상업 사용 시 사전 컨택 (옵션)
+</code></pre>
+<h3>12-2. 인플루언서 / 스트리머</h3>
+<ul>
+<li>게임 영상 / 스트림 = 자유 (모네타이즈 가능)</li>
+<li>사전 동의 / 키 배포 (22-community)</li>
+<li>출시 전 1주 freeze (스포일러 X)</li>
+</ul>
+<h3>12-3. 미디어 자료 갱신</h3>
+<ul>
+<li>분기별 미디어 키트 갱신 (큰 업데이트 시)</li>
+<li>새 스크린샷 / 트레일러 추가</li>
+<li>보도자료 갱신 (새 콘텐츠 / 마일스톤)</li>
+</ul>
+<hr>
+<h2>13. 결론</h2>
+<pre><code>좋은 미디어 키트 = 기자 / 인플루언서가 자기 글 / 영상에
+필요한 모든 정보를 한 곳에서.
+
+K-Sutda 미디어 키트:
+1. 보도자료 (한+영) — 게임 소개 즉시 사용
+2. 팩트시트 — 객관적 정보
+3. 인용 카피 — 영상 / 글 자막
+4. 스크린샷 / 트레일러 — 즉시 사용 가능
+5. 개발자 Q&amp;A — 인터뷰 준비
+6. 컨택 정보 — 추가 자료 요청 쉬움
+
+목표: 미디어 키트를 받은 기자가 1시간 안에 글 작성 가능.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>26-press-kit.md</code>
+</div>
+</body>
+</html>

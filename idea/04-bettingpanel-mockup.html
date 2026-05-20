@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — BettingPanel Mockup</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 40px;
+    background: #131313;
+    color: #F2F2F2;
+    line-height: 1.7;
+    font-size: 16px; /* base font 명시 */
+  }
+  h1 { font-size: 38px; margin-top: 0; border-bottom: 2px solid #F3C72E; padding-bottom: 18px; color: #F3C72E; } /* 32 → 38 */
+  h2 { font-size: 26px; margin-top: 48px; color: #F5EBD1; } /* 20 → 26 */
+  h3 { font-size: 18px; margin-top: 28px; color: #F5EBD1; font-weight: 600; } /* 15 → 18, 색 ↑ */
+  .container { max-width: 1200px; margin: 0 auto; }
+  .intro { color: #F5EBD1; margin-bottom: 32px; font-size: 17px; } /* 색 ↑ */
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-size: 15px; /* 13 → 15 */
+    color: #F5EBD1;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  /* BettingPanel 컴포넌트 — 배경을 먹색으로 (빨강 가독성 ↑) */
+  .betting-panel {
+    background: #0D2619; /* 먹색 — 빨강·금색 모두 가독성 ↑ */
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+    max-width: 800px;
+    border: 2px solid #D93333; /* 1차 — 주홍 전체 보더 */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+  .betting-panel.second {
+    border: 2px solid #F3C72E; /* 2차 — 금색 전체 보더 */
+  }
+  .betting-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .betting-label {
+    color: #FF5252; /* 더 밝은 주홍 — 가독성 ↑ */
+    font-size: 22px; /* 18 → 22 */
+    font-weight: 700;
+  }
+  .betting-label.second { color: #F3C72E; }
+  .betting-prestige {
+    color: #F2F2F2;
+    font-size: 17px; /* 14 → 17 */
+    background: rgba(245, 235, 209, 0.08);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .betting-prestige.danger {
+    color: #FF5252;
+    background: rgba(217, 51, 51, 0.18);
+    border: 1px solid rgba(255, 82, 82, 0.4);
+  }
+
+  /* Slider (2차 전용) */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .slider-label {
+    color: #F5EBD1;
+    font-size: 17px; /* 14 → 17 */
+    min-width: 100px;
+    font-weight: 600;
+  }
+  .slider-track {
+    flex: 1;
+    height: 10px;
+    background: #1a1a1a;
+    border-radius: 5px;
+    position: relative;
+    border: 1px solid rgba(243, 199, 46, 0.2);
+  }
+  .slider-fill {
+    height: 100%;
+    width: 30%;
+    background: #F3C72E;
+    border-radius: 5px;
+  }
+  .slider-handle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #F3C72E;
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  }
+  .slider-value {
+    color: #F3C72E;
+    font-size: 18px; /* 14 → 18 */
+    font-weight: 700;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  /* 버튼 — 전반 폰트 + 패딩 키움 */
+  .betting-buttons { display: flex; gap: 12px; }
+  .bet-btn {
+    flex: 1;
+    padding: 18px 0; /* 14 → 18 */
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 18px; /* 14 → 18 */
+    font-family: inherit;
+    transition: all 0.12s;
+    letter-spacing: 0.5px;
+  }
+  .bet-btn:hover { transform: scale(1.03); }
+  .btn-call { background: #F5EBD1; color: #0D2619; }
+  .btn-raise-1st {
+    background: rgba(243, 199, 46, 0.08);
+    color: #F3C72E;
+    border: 2px solid #F3C72E;
+  }
+  .btn-dia {
+    background: rgba(255, 82, 82, 0.12); /* 살짝 빨강 채움 — 가독성 ↑ */
+    color: #FF5252; /* 더 밝은 주홍 */
+    border: 2px solid #FF5252;
+  }
+  .btn-allin {
+    background: #F3C72E;
+    color: #0D2619;
+    box-shadow: 0 0 12px rgba(243, 199, 46, 0.3);
+  }
+  .btn-fold {
+    background: rgba(255, 82, 82, 0.12);
+    color: #FF5252;
+    border: 2px solid #FF5252;
+  }
+
+  /* 버튼 상태 */
+  .btn-states {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    background: #0D2619; /* 먹색 — 버튼 가독성 ↑ */
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .btn-state-card {
+    text-align: center;
+  }
+  .btn-state-label {
+    color: #F5EBD1;
+    font-size: 13px; /* 11 → 13 */
+    margin-bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+  .bet-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .bet-btn.hover {
+    background: rgba(245, 235, 209, 0.95);
+    color: #0D2619;
+    transform: scale(1.03);
+  }
+  .bet-btn.pressed {
+    transform: scale(0.97);
+  }
+
+  /* 한글 라벨 표 */
+  .label-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 15px; /* 13 → 15 */
+  }
+  .label-table th, .label-table td {
+    padding: 14px 18px; /* 10 14 → 14 18 */
+    text-align: left;
+    border-bottom: 1px solid rgba(166, 166, 178, 0.15);
+  }
+  .label-table th {
+    background: rgba(245, 235, 209, 0.08);
+    color: #F5EBD1;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .label-table .first { color: #FF5252; font-weight: 600; } /* 더 밝은 주홍 */
+  .label-table .second { color: #F3C72E; font-weight: 600; }
+
+  /* 결정 박스 */
+  .decision-box {
+    background: linear-gradient(135deg, rgba(243, 199, 46, 0.12), rgba(217, 51, 51, 0.06));
+    border: 2px solid #F3C72E;
+    border-radius: 10px;
+    padding: 28px;
+    margin-top: 48px;
+    font-size: 16px; /* 본문 키움 */
+  }
+  .decision-box h3 { color: #F3C72E; margin-top: 0; font-size: 22px; }
+  .decision-box ul { padding-left: 24px; }
+  .decision-box li { margin: 10px 0; line-height: 1.6; }
+
+  /* Nav */
+  .nav-links { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 16px; }
+  .nav-links a { color: #F3C72E; text-decoration: none; margin-right: 24px; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🃏 BettingPanel Mockup — 1차/2차 색 구분</h1>
+<p class="intro">첫 미팅 의제 5. K-Sutda 의 핵심 차별화 — 1차 (주홍, 작은 결정) vs 2차 (금색, 본격 베팅) 색 코드.</p>
+
+<!-- ====== 1차 베팅 모드 ====== -->
+<div class="section">
+<h2>1. 1차 베팅 모드 (🃏 First Bet)</h2>
+<div class="section-label">발동 시점: 첫 카드 1장 받은 직후. 작은 commit (5명성치) — 다이도 -5만 손실.</div>
+
+<div class="betting-panel">
+  <div class="betting-header">
+    <span class="betting-label">🃏 1차 베팅 (콜 5)</span>
+    <span class="betting-prestige">명성치: 245</span>
+  </div>
+  <div class="betting-buttons">
+    <button class="bet-btn btn-call">콜 (1차 5)</button>
+    <button class="bet-btn btn-raise-1st">1차 레이즈 (+5)</button>
+    <button class="bet-btn btn-dia">다이 (-5)</button>
+  </div>
+</div>
+
+<div class="section-label" style="margin-top: 12px;">
+색 의도: 주홍 보더 = 위험 / 결단 / 한국 도박판 톤. "다이 (-5)" 명확한 손실 표시.
+</div>
+</div>
+
+<!-- ====== 2차 베팅 모드 ====== -->
+<div class="section">
+<h2>2. 2차 베팅 모드 (🎴 Second Bet)</h2>
+<div class="section-label">발동 시점: 두 번째 카드 받은 후. 본격 베팅 (콜/레이즈/올인/폴드 모두 가능).</div>
+
+<div class="betting-panel second">
+  <div class="betting-header">
+    <span class="betting-label second">🎴 2차 베팅 (콜 10)</span>
+    <span class="betting-prestige">명성치: 240</span>
+  </div>
+  <div class="slider-row">
+    <span class="slider-label">레이즈:</span>
+    <div class="slider-track">
+      <div class="slider-fill"></div>
+      <div class="slider-handle"></div>
+    </div>
+    <span class="slider-value">30</span>
+  </div>
+  <div class="betting-buttons">
+    <button class="bet-btn btn-call">콜</button>
+    <button class="bet-btn btn-raise-1st">레이즈</button>
+    <button class="bet-btn btn-allin">올인</button>
+    <button class="bet-btn btn-fold">폴드</button>
+  </div>
+</div>
+
+<div class="section-label" style="margin-top: 12px;">
+색 의도: 금색 보더 = 본격 베팅 / 강조. 슬라이더로 레이즈 금액 조절. 올인 = 가장 강조 (금색 채움).
+</div>
+</div>
+
+<!-- ====== 위험 영역 ====== -->
+<div class="section">
+<h2>3. 명성치 위험 영역 표시</h2>
+<div class="section-label">명성치 &lt; 0 (위험) / &lt; -100 (게임오버 임박). prestige 라벨 빨강 + 펄스 (모션 M-07).</div>
+
+<div class="betting-panel">
+  <div class="betting-header">
+    <span class="betting-label">🃏 1차 베팅 (콜 5)</span>
+    <span class="betting-prestige danger">⚠️ 명성치: -120 (게임오버 임박: -150)</span>
+  </div>
+  <div class="betting-buttons">
+    <button class="bet-btn btn-call disabled">콜 (1차 5)</button>
+    <button class="bet-btn btn-raise-1st disabled">1차 레이즈 (+5)</button>
+    <button class="bet-btn btn-dia">다이 (-5)</button>
+  </div>
+</div>
+
+<div class="section-label" style="margin-top: 12px;">
+잔액 부족 시 콜 / 레이즈 비활성 (alpha 0.4). 다이만 활성. 게임오버 위험 시각 강조.
+</div>
+</div>
+
+<!-- ====== 버튼 상태 ====== -->
+<div class="section">
+<h2>4. 버튼 상태 (4종) — 모든 버튼 일관</h2>
+<div class="section-label">default → hover → pressed → disabled. 모든 버튼 4 상태 시안.</div>
+
+<h3>📦 Primary 버튼 (콜)</h3>
+<div class="btn-states">
+  <div class="btn-state-card">
+    <div class="btn-state-label">default</div>
+    <button class="bet-btn btn-call">콜 (1차 5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">hover (PC)</div>
+    <button class="bet-btn btn-call hover">콜 (1차 5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">pressed</div>
+    <button class="bet-btn btn-call pressed">콜 (1차 5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">disabled</div>
+    <button class="bet-btn btn-call disabled">콜 (1차 5)</button>
+  </div>
+</div>
+
+<h3>📦 Success 버튼 (레이즈)</h3>
+<div class="btn-states">
+  <div class="btn-state-card">
+    <div class="btn-state-label">default</div>
+    <button class="bet-btn btn-raise-1st">1차 레이즈 (+5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">hover</div>
+    <button class="bet-btn btn-raise-1st" style="background: rgba(243, 199, 46, 0.1); transform: scale(1.03);">1차 레이즈 (+5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">pressed</div>
+    <button class="bet-btn btn-raise-1st" style="transform: scale(0.97);">1차 레이즈 (+5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">disabled</div>
+    <button class="bet-btn btn-raise-1st disabled">1차 레이즈 (+5)</button>
+  </div>
+</div>
+
+<h3>📦 Danger 버튼 (다이 / 폴드)</h3>
+<div class="btn-states">
+  <div class="btn-state-card">
+    <div class="btn-state-label">default</div>
+    <button class="bet-btn btn-dia">다이 (-5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">hover</div>
+    <button class="bet-btn btn-dia" style="background: rgba(217, 51, 51, 0.1); transform: scale(1.03);">다이 (-5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">pressed</div>
+    <button class="bet-btn btn-dia" style="transform: scale(0.97);">다이 (-5)</button>
+  </div>
+  <div class="btn-state-card">
+    <div class="btn-state-label">disabled</div>
+    <button class="bet-btn btn-dia disabled">다이 (-5)</button>
+  </div>
+</div>
+</div>
+
+<!-- ====== 한글 라벨 표 ====== -->
+<div class="section">
+<h2>5. 한글 라벨 (10-localization 일관)</h2>
+
+<table class="label-table">
+<thead><tr>
+  <th>액션</th>
+  <th class="first">1차 모드</th>
+  <th class="second">2차 모드</th>
+  <th>영문 (Localization)</th>
+</tr></thead>
+<tbody>
+<tr><td>콜</td>      <td class="first">콜 (1차 5)</td>   <td class="second">콜</td>     <td>Call (1st: 5) / Call</td></tr>
+<tr><td>레이즈</td>  <td class="first">1차 레이즈 (+5)</td> <td class="second">레이즈</td> <td>1st Raise (+5) / Raise</td></tr>
+<tr><td>올인</td>    <td class="first">(없음)</td>     <td class="second">올인</td>   <td>— / All-In</td></tr>
+<tr><td>다이/폴드</td><td class="first">다이 (-5)</td>  <td class="second">폴드</td>   <td>Fold (-5) / Fold</td></tr>
+<tr><td>label</td>   <td class="first">🃏 1차 베팅 (콜 N)</td> <td class="second">🎴 2차 베팅 (콜 N)</td> <td>🃏 1st Bet / 🎴 2nd Bet</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 결정 박스 -->
+<div class="decision-box">
+<h3>✅ 결정 항목 — BettingPanel</h3>
+<ul>
+  <li><strong>1차 vs 2차 색 구분</strong>: 주홍 (1차) ↔ 금색 (2차) — 충분히 구분되나? 더 강한 시각 차이 필요?</li>
+  <li><strong>이모지 사용</strong>: 🃏 (1차) / 🎴 (2차) — 정식 아이콘 (SVG) 으로 교체?</li>
+  <li><strong>다이 손실 표시</strong>: "다이 (-5)" — 손실 즉시 노출 (현재) vs 단순 "다이" (별도 hint)?</li>
+  <li><strong>1차 레이즈 fixed</strong>: 항상 +5 (현재) — 옵션 (사용자 선택) 도 가능?</li>
+  <li><strong>2차 슬라이더</strong>: 항상 표시 (현재) vs 사용자 "레이즈" 클릭 후 나타남?</li>
+  <li><strong>버튼 4 상태</strong>: default / hover / pressed / disabled 시각 차이 충분?</li>
+  <li><strong>모바일</strong>: 4 버튼 가로 배치 (현재) vs 2×2 격자? (12-mobile-ui 참조)</li>
+  <li><strong>위험 영역 강조</strong>: 명성치 라벨만 (현재) vs 전체 패널 빨강 글로우?</li>
+</ul>
+<p style="margin-top: 16px; color: #A6A6B2;">
+  📌 <strong>핵심</strong>: 사용자가 "지금 1차인가 2차인가" 즉시 인지 가능?
+  버튼 라벨 "다이 (-5)" vs "1차 레이즈 (+5)" 손익 명확?
+</p>
+</div>
+
+<div class="nav-links">
+<a href="03-board-mockup.html">← 03. Board</a>
+<a href="README.md">README</a>
+<a href="05-card-mockup.html">05. Card →</a>
+</div>
+
+</div>
+</body>
+</html>

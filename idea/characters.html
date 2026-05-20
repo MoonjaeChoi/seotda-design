@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 캐릭터 일러스트 프롬프트 (웹툰 스타일 개정판)</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 캐릭터 일러스트 프롬프트 (웹툰 스타일 개정판)</h1>
+<blockquote>
+<p>플레이어 1명 + 보스 8명 캐릭터 일러스트 프롬프트 모음.
+상세 캐릭터 spec: <a href="../../design-handoff/03-characters.md"><code>design-handoff/03-characters.md</code></a></p>
+<p><strong>2026-05-20 개정</strong>: 영화 포스터 톤 → 한국 웹툰(만화) 스타일로 전환.
+서사의 무게는 유지하되 캐릭터 접근성과 표정 풍부함을 높인다.</p>
+</blockquote>
+<hr>
+<h2>0. 개요</h2>
+<h3>0-1. 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>해상도</td>
+<td>600 × 900 px @1x (1200 × 1800 @2x)</td>
+</tr>
+<tr>
+<td>형식</td>
+<td>PNG (투명 배경)</td>
+</tr>
+<tr>
+<td>저장 경로</td>
+<td><code>assets/characters/{파일명}.png</code></td>
+</tr>
+<tr>
+<td>노출 영역</td>
+<td>Board 화면 우상단 / OpponentArea — 상반신</td>
+</tr>
+</tbody></table>
+<h3>0-2. 스타일 전환 배경</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>이전 (v1)</th>
+<th>현재 (v2)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>참고 톤</td>
+<td>영화 마패(2006) 포스터</td>
+<td>한국 웹툰 / 만화(manhwa)</td>
+</tr>
+<tr>
+<td>비율</td>
+<td>사실체 7~8등신</td>
+<td><strong>5~6등신</strong> — 치비 아님, 리얼 아님</td>
+</tr>
+<tr>
+<td>눈</td>
+<td>사실적</td>
+<td>크고 디테일, 하이라이트 있음</td>
+</tr>
+<tr>
+<td>선</td>
+<td>회화적</td>
+<td><strong>굵은 아웃라인 + 선 굵기 변화</strong></td>
+</tr>
+<tr>
+<td>색감</td>
+<td>먹 + 금, 어둡고 채도 낮음</td>
+<td>먹 + 금 유지하되 <strong>캐릭터 색은 선명</strong></td>
+</tr>
+<tr>
+<td>표정</td>
+<td>무겁고 절제됨</td>
+<td><strong>즉시 읽히는 개성, 과장 없이 풍부함</strong></td>
+</tr>
+<tr>
+<td>분위기</td>
+<td>무겁고 침묵</td>
+<td><strong>캐릭터 고유 감성이 첫눈에 전달</strong></td>
+</tr>
+</tbody></table>
+<h3>0-3. 웹툰 스타일 핵심 원칙</h3>
+<pre><code>1. 5~6등신 비율 — 친근함과 개성의 균형
+2. 굵고 자신감 있는 아웃라인 — 선 굵기 변화로 입체감
+3. 캐릭터 시그니처 색상 1가지 — 첫눈에 누구인지 식별
+4. 표정이 성격을 말한다 — 대사 없이도 캐릭터가 읽힘
+5. 한국 배경 요소는 사실적으로 — 의상·소품은 고증, 캐릭터만 스타일화
+6. 배경은 어둡게, 캐릭터는 선명하게 — 대비로 존재감 강조
+</code></pre>
+<h3>0-4. 파일명 목록</h3>
+<pre><code>player_mumyeong.png        (플레이어 — 무명)
+boss_1_dalsamee.png        (단계 1 — 박달삼)
+boss_2_yeongja.png         (단계 2 — 오영자)
+boss_3_dojin.png           (단계 3 — 강도진)
+boss_4_gangsu.png          (단계 4 — 최강수)
+boss_5_hyunmuk.png         (단계 5 — 현묵)
+boss_6_chaerin.png         (단계 6 — 한채린)
+boss_7_talchum.png         (단계 7 — 탈춤 영감)
+boss_8_namgungcheon.png    (단계 8 — 남궁천)
+</code></pre>
+<h3>0-5. Tier 우선순위</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>캐릭터</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔴 Tier 1</td>
+<td>달삼이 (boss_1), 남궁천 (boss_8)</td>
+<td>첫인상 + 최종 보스</td>
+</tr>
+<tr>
+<td>🟡 Tier 2</td>
+<td>도진 (boss_3), 현묵 (boss_5), 탈춤 영감 (boss_7)</td>
+<td>패턴 변화 명확</td>
+</tr>
+<tr>
+<td>🟢 Tier 3</td>
+<td>영자 (boss_2), 강수 (boss_4), 채린 (boss_6)</td>
+<td>보강</td>
+</tr>
+<tr>
+<td>⚪ Tier 4</td>
+<td>무명 (player)</td>
+<td>베타 후</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>1. 공통 스타일 가이드</h2>
+<h3>1-1. 공통 베이스 프롬프트 (모든 캐릭터에 추가)</h3>
+<pre><code>[Style]
+Korean manhwa (webtoon) illustration.
+Clean bold outlines with variable line weight.
+5-to-6 head-height proportions — stylized NOT chibi NOT realistic.
+Expressive face: large detailed eyes with iris highlights, readable emotion.
+Cel-shading with soft gradients, no photorealistic rendering.
+Vibrant character colors against deep ink background #0D2619.
+600x900 vertical portrait, upper-body or 3/4 view.
+
+[Color System]
+Background: deep ink #0D2619
+Accent gold: #F3C72E (for highlights, jewelry, card glow)
+Hanji beige: #F5EBD1 (skin warm tone, paper elements)
+Crimson: #D93333 (danger, energy accents)
+Each character has ONE signature color that defines their silhouette instantly.
+
+[Negative]
+photorealistic, 3D render, CGI, chibi, super-deformed,
+Western comic, Disney, Pixar, anime oversized moe eyes,
+Japanese manga screentone, casino imagery, plain white background,
+full action pose, cropped too tight, watermark
+</code></pre>
+<h3>1-2. 웹툰 캐릭터 아키타입 참고</h3>
+<table>
+<thead>
+<tr>
+<th>캐릭터</th>
+<th>웹툰 아키타입</th>
+<th>참고 감성</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>달삼이</td>
+<td>허당형 조력자 — 알고 보면 실력자</td>
+<td>동네 아저씨 웹툰의 따뜻한 조연</td>
+</tr>
+<tr>
+<td>오영자</td>
+<td>카리스마 아줌마 — 말 한마디가 무기</td>
+<td>시장 배경 인간극장</td>
+</tr>
+<tr>
+<td>강도진</td>
+<td>적대적 라이벌 — 미워할 수 없는 오만함</td>
+<td>액션 웹툰의 2번 보스</td>
+</tr>
+<tr>
+<td>최강수</td>
+<td>군필 베테랑 — 과묵하지만 무너지는 순간이 있음</td>
+<td>밀리터리 웹툰 주연</td>
+</tr>
+<tr>
+<td>현묵</td>
+<td>과거 있는 현자 — 침묵 속 폭풍</td>
+<td>무협 웹툰의 은퇴한 고수</td>
+</tr>
+<tr>
+<td>한채린</td>
+<td>냉혹한 지략가 — 모든 걸 계산하는 여자</td>
+<td>스릴러 웹툰의 두뇌형 빌런</td>
+</tr>
+<tr>
+<td>탈춤 영감</td>
+<td>정체불명 광대 — 탈 뒤의 진짜 얼굴</td>
+<td>미스터리 웹툰의 와일드카드</td>
+</tr>
+<tr>
+<td>남궁천</td>
+<td>전설적 최종 보스 — 존재만으로 압도</td>
+<td>무협/판타지 웹툰의 라스트 보스</td>
+</tr>
+<tr>
+<td>무명</td>
+<td>정체불명 주인공 — 독자 자기투영</td>
+<td>이세계/성장 웹툰 주인공</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 캐릭터별 프롬프트</h2>
+<hr>
+<h3>2-1. 단계 1 보스 — 달삼이 (박달삼)</h3>
+<p><strong>웹툰 아키타입</strong>: 허당형 조력자 / 첫 번째 벽<br><strong>시그니처 색</strong>: 따뜻한 크림-아이보리 (<code>#F0EBE0</code>)</p>
+<pre><code>K-Sutda Stage 1 Boss &quot;달삼이&quot; — Korean manhwa illustration.
+
+[Character]
+Korean man, 40s. Round friendly face, slightly chubby cheeks.
+White collared shirt + suspenders (멜빵바지) — rumpled, lived-in.
+Cigarette at the corner of his mouth, thin wisp of smoke.
+Expression: wide easy grin, crow&#39;s feet, the laugh that says &quot;I&#39;ve lost again and it&#39;s fine.&quot;
+One hand resting on a low wooden bench (평상), hwatu cards loosely held.
+
+[Manhwa Style Notes]
+- Eyes: curved happy crescents when smiling, but one eyebrow slightly raised — he&#39;s not as dumb as he looks
+- Face: round with soft jaw, laugh lines visible, warm tan skin
+- Proportions: 5.5 head-heights — friendly and approachable
+- Signature detail: the cigarette smoke curling up is always present
+
+[Color]
+Background: deep ink #0D2619 with warm amber glow (twilight street)
+Shirt: aged cream #F0EBE0
+Suspenders: dark navy
+Skin: warm tan
+Cigarette smoke: faint white wisp
+
+[Composition]
+600x900, slight downward angle, 3/4 view, smile facing viewer.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: suit, villain look, dark atmosphere, young face, anime style, chibi
+</code></pre>
+<hr>
+<h3>2-2. 단계 2 보스 — 오영자 (영자 누님)</h3>
+<p><strong>웹툰 아키타입</strong>: 카리스마 아줌마 / 정 있는 고수<br><strong>시그니처 색</strong>: 시장 파란 앞치마 + 금반지</p>
+<pre><code>K-Sutda Stage 2 Boss &quot;오영자&quot; — Korean manhwa illustration.
+
+[Character]
+Korean woman, 50s. Sharp calculating eyes, competent energy.
+Market vendor apron (시장 앞치마) over casual clothes, hair tightly tied back.
+Both hands prominently displayed — GOLD RINGS on multiple fingers, her signature.
+Expression: warm merchant smile that doesn&#39;t quite reach the eyes — she&#39;s counting everything.
+
+[Manhwa Style Notes]
+- Eyes: sharp and narrow but not cold — the classic 눈치 있는 아줌마 gaze
+- Face: strong cheekbones, slight smile lines, practical and fierce
+- Hands: must be visible with multiple chunky gold rings — this is her visual identity
+- Background hint: warm amber lantern light from night market stalls behind her
+
+[Color]
+Background: deep ink with warm amber market lantern glow
+Apron: traditional market blue-grey
+Rings: gold #F3C72E — prominent, catching light
+Skin: warm medium tone with slight weathering
+
+[Composition]
+600x900, straight or slight 3/4, hands at mid-frame showing rings.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: glamorous, young, bar hostess look, chibi, anime
+</code></pre>
+<hr>
+<h3>2-3. 단계 3 보스 — 강도진</h3>
+<p><strong>웹툰 아키타입</strong>: 적대적 라이벌 / 미워할 수 없는 오만함<br><strong>시그니처 색</strong>: 차가운 회색 셔츠 + 굵은 금반지</p>
+<pre><code>K-Sutda Stage 3 Boss &quot;강도진&quot; — Korean manhwa illustration.
+
+[Character]
+Korean man, late 20s. Lean sharp face, overconfident energy — the classic rival.
+Dress shirt unbuttoned 2-3 buttons at top, sleeves rolled up.
+Hair swept upward and back — effort disguised as casual.
+THICK GOLD RINGS on fingers, bigger than Yeongja&#39;s — he&#39;s trying too hard.
+Expression: trademark smirk with one eyebrow raised — he thinks this is already over.
+
+[Manhwa Style Notes]
+- Eyes: sharp, heavy-lidded with a glint of contempt — the classic 웹툰 라이벌 gaze
+- The smirk is the entire character: one corner up, chin slightly raised
+- Lean jaw and prominent cheekbones — the face of someone who&#39;s been told they&#39;re talented too often
+- Cool skin tone, sharp features
+
+[Color]
+Background: deep ink with faint cold underground neon tint
+Shirt: light grey, open at collar
+Rings: gaudy gold #F3C72E
+Skin: cool pale tone, sharp features
+
+[Composition]
+600x900, slight low angle to convey arrogance, 3/4 smirk facing viewer.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: gentle expression, businessman look, old, heavy jacket, chibi, anime
+</code></pre>
+<hr>
+<h3>2-4. 단계 4 보스 — 최강수</h3>
+<p><strong>웹툰 아키타입</strong>: 군필 베테랑 / 과묵한 강자<br><strong>시그니처 색</strong>: 카키 자켓 + 손등 흉터</p>
+<pre><code>K-Sutda Stage 4 Boss &quot;최강수&quot; — Korean manhwa illustration.
+
+[Character]
+Korean man, 40s. Compact muscular build, military buzz cut.
+Khaki jacket (카키 자켓) — civilian but military-adjacent.
+SCAR on the back of one hand — his most important visual detail.
+Holding a military-style lighter or hand flat on surface.
+Expression: direct unblinking stare, no smile, no theatrics — just certainty.
+
+[Manhwa Style Notes]
+- Eyes: steady, level, slightly narrowed — not aggressive, just absolutely sure of himself
+- Thick neck, wide jaw, the face of someone who has absorbed a lot of damage
+- The scar on the hand should catch light — it&#39;s a story in itself
+- Unlike Dojin who performs confidence, Gangsu simply IS confident
+
+[Color]
+Background: deep ink, minimal — he doesn&#39;t need decoration
+Jacket: khaki-olive #6B6B3A
+Skin: weathered warm tan, hand scar slightly raised
+Lighter: metallic silver-grey
+
+[Composition]
+600x900, slight upward angle — he&#39;s looking down at you, calm.
+Hand with scar in frame, subtly visible.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: full military uniform, soft expression, young face, chibi, anime
+</code></pre>
+<hr>
+<h3>2-5. 단계 5 보스 — 현묵 스님</h3>
+<p><strong>웹툰 아키타입</strong>: 과거 있는 현자 / 침묵 속 폭풍<br><strong>시그니처 색</strong>: 회색 승복 + 호박색 염주</p>
+<pre><code>K-Sutda Stage 5 Boss &quot;현묵&quot; — Korean manhwa illustration.
+
+[Character]
+Korean Buddhist monk, 60s. Shaved head, deeply serene face.
+Simple grey Korean monk robe (회색 승복) — clean and unadorned.
+Hands visible: working prayer beads (염주) between long fingers.
+Expression: the stillness of deep water — calm that has seen everything and chosen peace.
+Yet the eyes carry a memory of a different life.
+
+[Manhwa Style Notes]
+- Eyes: half-lidded and warm, but look CAREFULLY — there is something ancient in them
+- The prayer beads are always in motion between the fingers — this is his nervous tick
+- No smile, no frown — the expression that is beyond both
+- In manhwa terms: the 고수 who left the world but the world followed him back
+
+[Color]
+Background: deep ink with warm saffron/amber glow at edges (distant temple at dusk)
+Robe: quiet grey #6B6B6B
+Skin: aged warm tone, visible age lines
+Prayer beads: dark amber/sandalwood brown, catching light
+
+[Composition]
+600x900, straight-on or slight downward angle.
+Prayer beads clearly visible in hands, warm light framing the edge of his silhouette.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: action pose, angry warrior monk, young, orange robe, Japanese Buddhist, chibi, anime
+</code></pre>
+<hr>
+<h3>2-6. 단계 6 보스 — 한채린</h3>
+<p><strong>웹툰 아키타입</strong>: 냉혹한 지략가 / 모든 걸 계산하는 여자<br><strong>시그니처 색</strong>: 짙은 남색 정장 한복 + 가는 금테 안경</p>
+<pre><code>K-Sutda Stage 6 Boss &quot;한채린&quot; — Korean manhwa illustration.
+
+[Character]
+Korean woman, 30s. Precise, controlled, every element deliberate.
+Formal Korean hanbok in deep navy (정장 한복) — sharp modern cut.
+Hair neatly tied back, not a strand loose — perfectionism made visible.
+Thin-framed elegant glasses — gold or silver, catching light.
+One hand lightly touching the edge of a card or resting on a surface.
+Expression: slight measured smile — she already knows your hand and she&#39;s letting you believe otherwise.
+
+[Manhwa Style Notes]
+- Eyes: sharp and clear behind the glasses — in manhwa this is the 두뇌형 female character&#39;s signature look
+- The small smile is not warm — it is information management
+- Composed posture: perfectly straight, nothing wasted
+- The glasses are her most important accessory — they must be clearly visible
+
+[Color]
+Background: deep ink with subtle dark wood texture
+Hanbok: deep navy #1A2E4A
+Glasses: thin gold #F3C72E frames — prominent
+Skin: cool precise tone, minimal blemish
+Hair: deep black
+
+[Composition]
+600x900, straight-on or slight 3/4.
+Glasses catching light, composed posture — stillness as dominance.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: warm expression, revealing hanbok, young innocent girl, chibi, anime, casual clothes
+</code></pre>
+<hr>
+<h3>2-7. 단계 7 보스 — 탈춤 영감</h3>
+<p><strong>웹툰 아키타입</strong>: 정체불명 광대 / 혼돈의 와일드카드<br><strong>시그니처 색</strong>: 하얀 탈 + 색동 소매</p>
+<pre><code>K-Sutda Stage 7 Boss &quot;탈춤 영감&quot; — Korean manhwa illustration.
+
+[Character]
+A figure wearing a YANGBAN TAL (양반탈) — Korean traditional noble mask, hanji white with red #D93333 and black painted features.
+Body suggests 50-60s beneath the costume.
+SAEKDONG (색동) hanbok with vivid rainbow striped sleeves — the most colorful element.
+One hand extending a traditional folded Korean fan (부채).
+Posture: slightly theatrical, weight shifted, performer&#39;s stance.
+
+[Manhwa Style Notes]
+- The MASK is the face. In manhwa, this creates mystery with a twist: the mask&#39;s painted expression
+  appears to shift slightly depending on the angle — happy mask, but is it really smiling?
+- The body language is expressive what the face cannot be
+- The saekdong sleeves are the most vivid visual element — maximum color contrast against dark background
+- In manhwa terms: the chaos character whose alignment you can never read
+
+[Color]
+Background: near-black #0D2619, single cold spotlight from above
+Mask: hanji cream with red #D93333 markings and black lines
+Saekdong sleeves: vivid rainbow stripes — red, yellow, green, blue, purple
+Fan: traditional paper fan, cream/hanji color
+
+[Composition]
+600x900, theatrical 3/4 pose.
+Mask fills upper 40% of frame — primary focal point.
+Saekdong sleeves visible and vivid, fan extended.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: horror mask, Japanese Noh mask, face visible, plain clothes, dark palette only, chibi, anime
+</code></pre>
+<hr>
+<h3>2-8. 단계 8 보스 — 남궁천 (최종 보스)</h3>
+<p><strong>웹툰 아키타입</strong>: 전설적 라스트 보스 / 존재만으로 압도<br><strong>시그니처 색</strong>: 순백 머리카락 + 흑색 정장 한복</p>
+<pre><code>K-Sutda Stage 8 Boss &quot;남궁천&quot; — Korean manhwa illustration. FINAL BOSS.
+
+[Character]
+Korean man, 70s. White hair neatly combed — strikingly pure white against the dark.
+Black formal Korean hanbok (검은 정장 한복) — impeccable, not a crease.
+Long slender elegant fingers — both hands on a low table or one holding cards.
+Face: deeply lined, every line earned over 50 years of mastery.
+Expression: quiet, composed, the faintest hint of knowing — not a smile exactly,
+but the look of someone who has already seen how this ends.
+
+[Manhwa Style Notes]
+- In manhwa, the final boss is NOT scary — he is GRAVITY.
+  He doesn&#39;t threaten. He simply exists and everything else bends toward him.
+- White hair against black hanbok = the primary visual contrast. This must be striking.
+- The lines on his face are the story — do not smooth them
+- Eyes: clear, steady, looking THROUGH you not AT you — the 고수 gaze taken to its extreme
+
+[Color]
+Background: deep ink #0D2619, nearly bare
+Hanbok: deep black #1A1A1A with subtle fabric sheen
+Hair: pure white #FFFFFF — the most important color in this image
+Skin: aged sepia, deeply lined
+Optional: faint gold #F3C72E rim light on the edges
+
+[Composition]
+600x900, STRAIGHT-ON facing viewer — the only character who looks directly at you.
+White hair against dark = primary contrast.
+Long fingers visible on table or with cards.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: action pose, young face, casual clothes, wild hair, Western wizard, chibi, anime
+</code></pre>
+<hr>
+<h3>2-9. 플레이어 — 무명 (無名)</h3>
+<p><strong>웹툰 아키타입</strong>: 정체불명 주인공 / 독자 자기투영<br><strong>시그니처 색</strong>: 검은 도포 + 갓 그림자</p>
+<pre><code>K-Sutda Player Character &quot;무명&quot; — Korean manhwa illustration.
+
+[Character]
+A figure in traditional Korean black robe (흑색 도포) and gat (갓).
+Appears early 30s, lean.
+Face: LOWER HALF only visible — jaw, neutral set mouth, hint of determination.
+Upper face hidden by hat shadow — INTENTIONAL. Player self-projection.
+One hand extending two hwatu cards fanned (3월 벚꽃 광 + 8월 달 광).
+Posture: 3/4 view, slightly leaning forward, measured energy.
+
+[Manhwa Style Notes]
+- In manhwa protagonist terms: the 0-information face that readers project onto
+- The gold light from the gwang cards illuminates the lower jaw and hand — this is the only warmth
+- The hat shadow is precise and deliberate, not accidental
+- The black robe has clean webtoon folds and volume — not flat
+
+[Color]
+Background: deep ink #0D2619, dark gambling table texture hint
+Robe: near-black #1A1A2E with visible fabric folds
+Hat (gat): black with grey highlight rim
+Skin: warm sepia on jaw and hand only
+Cards: hanji beige with gold 光 glow, warm gold #F3C72E light
+
+[Composition]
+600x900, centered 3/4 view.
+Hat shadow cutting precisely across upper face.
+Two cards visible in extended hand, glowing warm gold.
+
+Korean manhwa illustration, clean bold outline, variable line weight,
+cel-shading, expressive large eyes, 5-6 head proportions, NOT chibi NOT realistic.
+Negative: full face visible, samurai, ninja, Western robe, anime protagonist, chibi
+</code></pre>
+<hr>
+<h2>3. 스타일 비교 — 이전 vs 현재</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>v1 영화 포스터</th>
+<th>v2 웹툰 (현재)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>비율</td>
+<td>사실체</td>
+<td>5~6등신</td>
+</tr>
+<tr>
+<td>눈 표현</td>
+<td>절제, 작음</td>
+<td>크고 풍부, 즉시 읽힘</td>
+</tr>
+<tr>
+<td>선 스타일</td>
+<td>회화적 브러시</td>
+<td>굵은 아웃라인, 선 굵기 변화</td>
+</tr>
+<tr>
+<td>색감</td>
+<td>먹+금, 저채도</td>
+<td>먹+금 유지, 캐릭터 색 선명</td>
+</tr>
+<tr>
+<td>감정 전달</td>
+<td>무거운 침묵</td>
+<td>첫눈에 개성 읽힘</td>
+</tr>
+<tr>
+<td>Steam 썸네일 가독성</td>
+<td>어두워서 묻힘</td>
+<td>아웃라인 + 시그니처 색으로 눈에 띔</td>
+</tr>
+<tr>
+<td>서사 무게</td>
+<td>높음</td>
+<td><strong>높음 유지</strong> — 만화 비율이어도 사연은 살아있음</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 생성 명령어</h2>
+<pre><code class="language-bash"># Tier 1 먼저 (달삼이 + 남궁천)
+python3 scripts/tools/generate_characters.py --tier 1
+
+# Tier 2 (도진 + 현묵 + 탈춤)
+python3 scripts/tools/generate_characters.py --tier 2
+
+# 전체
+python3 scripts/tools/generate_characters.py
+
+# 특정 캐릭터 재시도
+python3 scripts/tools/generate_characters.py --only boss_1_dalsamee
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>characters.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>

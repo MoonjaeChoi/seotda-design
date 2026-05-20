@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>29. 물리 카드 덱 — 디자인 DNA 재설정 브레인스토밍</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>29. 물리 카드 덱 — 디자인 DNA 재설정 브레인스토밍</h1>
+<blockquote>
+<p>작성일: 2026-05-20<br>목적: 보드게임 전용 물리 카드 덱 출시를 위한 디자인 방향 탐색<br>상태: <strong>검토 중 — 결정 없음</strong><br>관련 문서: <code>design-handoff/02-asset-spec.md</code>, <code>design-handoff/idea/mapa-cards.md</code> (디지털 DNA)</p>
+</blockquote>
+<hr>
+<h2>현황: 디지털 DNA 요약</h2>
+<p>현재 마패 카드 시스템은 <strong>완전히 디지털 전용</strong>으로 설계되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>구성 요소</th>
+<th>수량</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>화투 카드</td>
+<td>40장</td>
+<td>10월 × 4종(광·단·열·피)</td>
+</tr>
+<tr>
+<td>마패 카드</td>
+<td>120장</td>
+<td>5등급, 8가지 효과 타입</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>160장</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>현재 디지털 DNA의 핵심 가정들:</p>
+<table>
+<thead>
+<tr>
+<th>DNA 요소</th>
+<th>현재 값</th>
+<th>물리 제작 시 충돌 여부</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경색</td>
+<td><code>#0D2619</code> 진한 잉크 블랙</td>
+<td>⚠️ 잉크 도포율 ~80%, 고비용</td>
+</tr>
+<tr>
+<td>텍스트·효과</td>
+<td>런타임 코드 오버레이</td>
+<td>❌ 물리 인쇄에 존재 불가</td>
+</tr>
+<tr>
+<td>보더·희귀도 색</td>
+<td>코드 자동 적용</td>
+<td>❌ 디자인에 포함되어야 함</td>
+</tr>
+<tr>
+<td>색상 공간</td>
+<td>RGB</td>
+<td>⚠️ CMYK 변환 시 색상 변질</td>
+</tr>
+<tr>
+<td>카드 뒷면</td>
+<td>존재하지 않음</td>
+<td>❌ 물리 덱의 핵심 요소</td>
+</tr>
+<tr>
+<td>카드 크기</td>
+<td>200×280 px (비율 기준)</td>
+<td>⚠️ 표준 규격 재검토 필요</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Part 1. 반드시 해결해야 할 구조적 충돌 6가지</h2>
+<p>어느 방향을 택하든 이 여섯 가지는 결정이 필요하다.</p>
+<hr>
+<h3>충돌 1. 텍스트 처리</h3>
+<p><strong>현재:</strong> 카드명·효과 텍스트·타이밍 정보가 모두 게임 코드가 런타임에 화면 위에 그린다.<br><strong>물리:</strong> 모든 정보가 인쇄물에 직접 포함되어야 한다.</p>
+<p>선택지:</p>
+<ul>
+<li><strong>A.</strong> 카드 하단 정보 밴드 추가 (CCG 구조 — MTG, 하스스톤 방식)</li>
+<li><strong>B.</strong> 텍스트 최소화 — 카드명만, 효과는 별도 룰카드 참조</li>
+<li><strong>C.</strong> 텍스트 없음 — 아이콘 전용 + 두꺼운 룰북</li>
+</ul>
+<hr>
+<h3>충돌 2. 보더 &amp; 희귀도 표시</h3>
+<p><strong>현재:</strong> 코드가 희귀도에 따라 보더 색을 자동 적용한다 (회색/청/자주/주황/주홍).<br><strong>물리:</strong> 인쇄물에는 그 구분이 없다.</p>
+<p>선택지:</p>
+<ul>
+<li><strong>A.</strong> 인쇄 후가공 — Common 없음 / Uncommon 은박 / Rare 금박 / Legendary 홀로그램 / Boss 빨간 포일</li>
+<li><strong>B.</strong> 카드 디자인에 희귀도 심볼 삽입 (단마패·삼마패·오마패·무쌍 아이콘)</li>
+<li><strong>C.</strong> 희귀도별 다른 카드 재질·코팅 (Common 무광 / Rare 유광 / Legendary 엠보싱)</li>
+<li><strong>D.</strong> 뒷면 색상으로 등급 구분 (단, 게임 중 정보 유출 문제)</li>
+</ul>
+<hr>
+<h3>충돌 3. 배경색</h3>
+<p><strong>현재:</strong> <code>#0D2619</code> — 잉크 도포율 약 80%.<br><strong>물리:</strong> 고잉크 배경은 카드 뒤틀림, 인쇄비 증가, 잉크 번짐 위험.</p>
+<p>선택지:</p>
+<ul>
+<li><strong>A.</strong> 유지 — 프리미엄 인쇄소, 고비용 감수</li>
+<li><strong>B.</strong> 차콜 그레이로 완화 — 도포율 ~50%로 낮춤</li>
+<li><strong>C.</strong> 밝은 한지 베이지로 반전 — 전통 인쇄 미학, 완전한 재설계</li>
+<li><strong>D.</strong> 카드 타입별 분리 — 화투는 밝음, 마패는 어두움</li>
+</ul>
+<hr>
+<h3>충돌 4. 색상 공간 (RGB → CMYK)</h3>
+<p><strong>현재:</strong> 모든 색이 RGB 기준이다.<br><strong>물리:</strong> 인쇄는 CMYK. 변환 시 주요 색상이 크게 달라진다.</p>
+<p>문제가 되는 색들:</p>
+<table>
+<thead>
+<tr>
+<th>색 이름</th>
+<th>RGB</th>
+<th>CMYK 근사</th>
+<th>변질 수준</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경 <code>#0D2619</code></td>
+<td>진한 녹-흑</td>
+<td>C60 M30 Y30 K90</td>
+<td>중간 (재현 가능)</td>
+</tr>
+<tr>
+<td>자주 <code>#9B59B6</code></td>
+<td>선명한 보라</td>
+<td>C40 M65 Y0 K0</td>
+<td><strong>높음</strong> (CMYK 보라는 탁함)</td>
+</tr>
+<tr>
+<td>청명 <code>#5BA4D9</code></td>
+<td>선명한 하늘</td>
+<td>C60 M20 Y0 K0</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>황금 <code>#F3C72E</code></td>
+<td>선명한 금</td>
+<td>C0 M20 Y85 K0</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>연금 <code>#9DB85A</code></td>
+<td>연두빛 금</td>
+<td>C40 M0 Y65 K15</td>
+<td>낮음</td>
+</tr>
+</tbody></table>
+<p>→ 특히 <code>bluff_synergy</code> 강조색(자주 계열)이 CMYK에서 크게 탁해진다.</p>
+<hr>
+<h3>충돌 5. 카드 뒷면</h3>
+<p><strong>현재:</strong> 존재하지 않는다.<br><strong>물리:</strong> 게임에서 사용한다면 패 숨기기 기능 필수. 브랜드 정체성의 핵심 요소.</p>
+<p>선택지:</p>
+<ul>
+<li><strong>A.</strong> 화투 전통 문양 재해석 — K-Sutda 세계관 요소 삽입</li>
+<li><strong>B.</strong> 단청 운문 패턴 다크 버전</li>
+<li><strong>C.</strong> 마패(馬牌) 문양 — 말 모티프 중심</li>
+<li><strong>D.</strong> 미니멀 — 로고 + 단색 배경</li>
+<li><strong>E.</strong> 화투용·마패용 뒷면 각각 다르게</li>
+</ul>
+<hr>
+<h3>충돌 6. 제품 범위</h3>
+<p><strong>현재:</strong> 화투 40장 + 마패 120장 = 160장.<br><strong>물리:</strong> 160장은 일반 보드게임 덱(52~110장)보다 많다.</p>
+<p>선택지:</p>
+<ul>
+<li><strong>A.</strong> 전량 — 160장 완전판</li>
+<li><strong>B.</strong> 화투 40장만 — 아트 덱 재해석</li>
+<li><strong>C.</strong> 마패 큐레이션 — 희귀도별 대표 카드 (예: 각 등급 10장씩 = 50장)</li>
+<li><strong>D.</strong> 스타터 세트 — 40+30장 구성으로 게임 가능한 최소 세트</li>
+<li><strong>E.</strong> 모듈형 — 기본판(화투 40장) + 마패 확장팩 별도 판매</li>
+</ul>
+<hr>
+<h2>Part 2. 디자인 방향 — 6가지 관점</h2>
+<p>아래 6가지 의견은 방향의 다양성을 탐색하기 위한 것으로, <strong>어느 것도 최종 결정이 아니다.</strong></p>
+<hr>
+<h3>관점 A. 디지털 유산 보존</h3>
+<blockquote>
+<p>&quot;다크 배경을 포기하지 말 것. 비용을 감수하고 프리미엄으로 가라.&quot;</p>
+</blockquote>
+<p>K-Sutda의 시각 정체성은 <code>#0D2619</code> 위에 세워져 있다. 이것을 바꾸면 &quot;다른 게임의 카드&quot;가 된다. 고급 인쇄물 시장(Kickstarter, 보드게임 긱)에서는 오히려 다크 배경이 프리미엄의 기준이다.</p>
+<p><strong>제안하는 DNA 변경:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>현재</th>
+<th>변경안</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경색</td>
+<td><code>#0D2619</code> RGB</td>
+<td>CMYK 재정의: C60 M30 Y30 K90</td>
+</tr>
+<tr>
+<td>텍스트</td>
+<td>코드 오버레이</td>
+<td>카드 하단 정보 밴드 (배경 <code>#1A3020</code>)</td>
+</tr>
+<tr>
+<td>보더·희귀도</td>
+<td>코드 자동 색</td>
+<td>후가공: Common 없음 → Legendary 홀로그램</td>
+</tr>
+<tr>
+<td>카드 뒷면</td>
+<td>없음</td>
+<td>단청 운문 패턴 다크 버전</td>
+</tr>
+<tr>
+<td>색상 공간</td>
+<td>RGB</td>
+<td>처음부터 CMYK로 재지정</td>
+</tr>
+<tr>
+<td>카드 크기</td>
+<td>디지털 비율</td>
+<td>타로 사이즈 70×120mm 권장</td>
+</tr>
+</tbody></table>
+<p><strong>장점:</strong> 브랜드 100% 일관성, 강력한 비주얼 차별화, 프리미엄 포지셔닝<br><strong>단점:</strong> 인쇄 단가 2~3배, 최소 발주 수량(MOQ) 높음, POD 불가<br><strong>적합 제품:</strong> Kickstarter 한정판 콜렉터 덱</p>
+<hr>
+<h3>관점 B. 한국 전통 인쇄 미학</h3>
+<blockquote>
+<p>&quot;물리 카드는 다른 매체다. 한지·목판화로 완전히 재해석하라.&quot;</p>
+</blockquote>
+<p>화투 자체가 원래 밝은 배경의 물리 카드다. 디지털에서 흉내 냈던 &quot;먹과 한지 느낌&quot;을 물리에서 <strong>진짜로 구현</strong>하는 역전이 가능하다.</p>
+<p><strong>제안하는 DNA 변경:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>현재</th>
+<th>변경안</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경색</td>
+<td><code>#0D2619</code> 잉크 블랙</td>
+<td>한지 베이지 <code>#F5EBD1</code></td>
+</tr>
+<tr>
+<td>모티프 톤</td>
+<td>밝은 모티프 / 어두운 배경</td>
+<td>짙은 먹 모티프 / 밝은 배경 (양음 전환)</td>
+</tr>
+<tr>
+<td>선 스타일</td>
+<td>균일한 두꺼운 윤곽선</td>
+<td>불균일한 목판화 느낌 선</td>
+</tr>
+<tr>
+<td>강조색 팔레트</td>
+<td>8가지 디지털 색</td>
+<td>전통 오방색: 진사(辰砂)·군청(群靑)·황금·먹·흰</td>
+</tr>
+<tr>
+<td>보더</td>
+<td>코드 자동</td>
+<td>단청·매듭 문양 인쇄 보더</td>
+</tr>
+<tr>
+<td>질감</td>
+<td>플랫 (텍스처 없음)</td>
+<td>무광 코팅 또는 실제 한지 재질</td>
+</tr>
+<tr>
+<td>카드 뒷면</td>
+<td>없음</td>
+<td>능화문·연화문 전통 패턴</td>
+</tr>
+</tbody></table>
+<p><strong>오방색 → effect_type 재매핑 (안):</strong></p>
+<table>
+<thead>
+<tr>
+<th>effect_type</th>
+<th>디지털 강조색</th>
+<th>오방색 대응</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mult_immediate</td>
+<td>황금 <code>#F3C72E</code></td>
+<td>황(黃) — 변화 없음</td>
+</tr>
+<tr>
+<td>mult_accumulate</td>
+<td>연금 <code>#9DB85A</code></td>
+<td>청(靑) — 생장·축적</td>
+</tr>
+<tr>
+<td>info_reveal</td>
+<td>청명 <code>#5BA4D9</code></td>
+<td>흑(黑) — 지혜·깊이</td>
+</tr>
+<tr>
+<td>deck_manipulation</td>
+<td>자주 <code>#9B59B6</code></td>
+<td>백(白) — 변환·순수</td>
+</tr>
+<tr>
+<td>economy</td>
+<td>동 <code>#C8921A</code></td>
+<td>황(黃) — 재물</td>
+</tr>
+<tr>
+<td>bluff_synergy</td>
+<td>흑+백 이중</td>
+<td>흑·백 이중 — 동일</td>
+</tr>
+<tr>
+<td>psychological_pressure</td>
+<td>주홍 <code>#D93333</code></td>
+<td>적(赤) — 변화 없음</td>
+</tr>
+</tbody></table>
+<p><strong>장점:</strong> 인쇄 비용 절감, 한국 전통 공예품 포지셔닝, POD·소량 가능, 글로벌 K-culture 어필<br><strong>단점:</strong> 디지털 게임과 시각적으로 완전히 달라짐, 별도 아트워크 100% 필요<br><strong>적합 제품:</strong> 독립 보드게임 패키지, 문화상품</p>
+<hr>
+<h3>관점 C. 보드게임 산업 표준</h3>
+<blockquote>
+<p>&quot;제조·유통의 표준을 따르면 모든 것이 쉬워진다.&quot;</p>
+</blockquote>
+<p>Stonemaier, CMON, BGG Store 등 메이저 보드게임 유통 채널에는 컴포넌트 표준이 있다. 포커 사이즈(63×88mm), 슬리브 호환성, CMYK 가이드라인, 최소 텍스트 크기 등. 이 표준을 맞추면 제조 견적, 글로벌 유통, Kickstarter 풀필먼트 업체 선택이 모두 쉬워진다.</p>
+<p><strong>제안하는 DNA 변경:</strong></p>
+<p><strong>카드 레이아웃 구조 (CCG 방식):</strong></p>
+<pre><code>┌─────────────────────┐  ← 카드명 영역 (한국어 + 영어 서브)
+│  [카드명]  [등급♦]   │
+├─────────────────────┤
+│                     │
+│    [일러스트 영역]    │  ← 현재 마패 일러스트 (55~65% 높이)
+│                     │
+├─────────────────────┤
+│ [타이밍 아이콘] T2   │
+│ [효과 텍스트 ·····]  │  ← 정보 밴드 (카드 하단 35%)
+│ [조건 텍스트 ·····]  │
+└─────────────────────┘
+</code></pre>
+<p><strong>타이밍 아이콘 시스템 (신설 필요):</strong></p>
+<table>
+<thead>
+<tr>
+<th>타이밍</th>
+<th>게임 의미</th>
+<th>아이콘 아이디어</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td>판 시작·앤티</td>
+<td>해 ☀</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>패 확인 직후</td>
+<td>눈 👁</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>베팅</td>
+<td>주먹 ✊</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>패 공개 직전</td>
+<td>모래시계 ⏳</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>특정 족보 조건</td>
+<td>별 ★</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>판 종료 후</td>
+<td>달 🌙</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>변경안</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>카드 크기</td>
+<td>포커 사이즈 63×88mm (슬리브 표준)</td>
+</tr>
+<tr>
+<td>배경</td>
+<td>차콜 그레이 (<code>#2A2A2A</code>) — 도포율 ~50%로 완화</td>
+</tr>
+<tr>
+<td>텍스트</td>
+<td>카드 하단 정보 밴드, 최소 8pt 인쇄 기준</td>
+</tr>
+<tr>
+<td>희귀도</td>
+<td>하단 희귀도 심볼 (단마패 ◆ / 삼마패 ◆◆◆ / 오마패 ◆◆◆◆◆ / 무쌍 ∞)</td>
+</tr>
+<tr>
+<td>아이콘</td>
+<td>T1~T6 타이밍 아이콘 신설</td>
+</tr>
+</tbody></table>
+<p><strong>장점:</strong> 제조 견적 쉬움, 글로벌 유통 가능, 슬리브 호환, 플레이어에게 친숙<br><strong>단점:</strong> K-Sutda 고유 미학 희석, &quot;또 다른 CCG&quot; 처럼 보일 위험<br><strong>적합 제품:</strong> 글로벌 보드게임 유통, 확장팩 형태</p>
+<hr>
+<h3>관점 D. 이중 DNA 공존</h3>
+<blockquote>
+<p>&quot;디지털과 물리는 같은 세계관을 공유하되, 각자의 매체 언어를 쓴다.&quot;</p>
+</blockquote>
+<p>발라트로의 디지털 UI와 굿즈·카드 상품은 시각적으로 다르다. 이것이 정상이다. &quot;K-Sutda 물리 덱&quot;은 디지털 게임의 복제품이 아닌 <strong>같은 세계관의 다른 표현</strong>으로 포지셔닝한다.</p>
+<p><strong>두 DNA의 분기 지점:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>디지털 DNA</th>
+<th>물리 DNA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경</td>
+<td><code>#0D2619</code> 잉크 블랙</td>
+<td>낡은 한지 <code>#D4C4A0</code></td>
+</tr>
+<tr>
+<td>선 스타일</td>
+<td>균일한 굵은 윤곽선</td>
+<td>불균일한 목판화 느낌 선</td>
+</tr>
+<tr>
+<td>색 팔레트</td>
+<td>8가지 효과 타입 강조색</td>
+<td>조선 오방색 계열로 재매핑</td>
+</tr>
+<tr>
+<td>텍스트</td>
+<td>코드 오버레이</td>
+<td>목판 인쇄체 느낌 한글 활자</td>
+</tr>
+<tr>
+<td>보더</td>
+<td>코드 자동 희귀도 색</td>
+<td>매듭(馬牌) 문양 인쇄 보더</td>
+</tr>
+<tr>
+<td>아이덴티티</td>
+<td>&quot;K-Sutda 게임 UI&quot;</td>
+<td>&quot;조선 암행어사의 마패 세트&quot;</td>
+</tr>
+</tbody></table>
+<p><strong>절대 변하지 않는 공유 요소:</strong></p>
+<ul>
+<li>카드명 (한국어 표기)</li>
+<li>모티프 주제 (같은 모티프, 다른 배경 위에)</li>
+<li>10개 모티프 군 체계 (G1~G10)</li>
+<li>마패 등급 세계관 (단마패·삼마패·오마패·무쌍)</li>
+<li>세트 보너스 마이크로 모티프</li>
+</ul>
+<p><strong>장점:</strong> 두 제품이 서로 강화, 물리 덱이 디지털 게임의 문화 상품이 됨<br><strong>단점:</strong> 아트워크 두 벌 제작 필요, 일관성 관리 복잡도 증가<br><strong>적합 제품:</strong> 디지털 게임 출시 기념 굿즈 + 독립 보드게임 동시 운영</p>
+<hr>
+<h3>관점 E. 화투 재창조</h3>
+<blockquote>
+<p>&quot;K-Sutda의 핵심은 화투다. 물리 덱 = 재해석된 화투 덱 그 자체.&quot;</p>
+</blockquote>
+<p>세상에는 화투를 재해석한 수십 종의 아트 덱이 있다. 하지만 K-Sutda 세계관의 스토리텔링이 담긴 화투는 없다. 화투 40장을 K-Sutda 로그라이크 세계관으로 재창조하면 게임 컴포넌트이자 독립 아트 상품이 된다.</p>
+<p><strong>각 화투 카드 타입별 세계관 레이어:</strong></p>
+<table>
+<thead>
+<tr>
+<th>화투 타입</th>
+<th>K-Sutda 레이어</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>광(光) 카드 (12장)</td>
+<td>해당 월 보스 캐릭터 실루엣 삽입</td>
+</tr>
+<tr>
+<td>단(段) 카드 (10장)</td>
+<td>해당 월 연결 마패 카드 모티프 힌트</td>
+</tr>
+<tr>
+<td>열(列) 카드 (10장)</td>
+<td>족보 힌트 삽화 (끗 숫자 암시)</td>
+</tr>
+<tr>
+<td>피(皮) 카드 (20장)</td>
+<td>배경 세계관 요소 미니멀 표현</td>
+</tr>
+</tbody></table>
+<p><strong>DNA 변경:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>변경안</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경</td>
+<td>화투 전통 = 밝은 배경 유지 (월별 고유 색)</td>
+</tr>
+<tr>
+<td>카드 크기</td>
+<td>전통 화투 2배 확대 — 108×68mm (실용적)</td>
+</tr>
+<tr>
+<td>보더</td>
+<td>월별 고유 컬러 보더 (1월=청, 3월=분홍, 8월=은 등)</td>
+</tr>
+<tr>
+<td>마패 마크</td>
+<td>각 카드 귀퉁이에 극히 작은 마패 문양 워터마크</td>
+</tr>
+<tr>
+<td>제품 범위</td>
+<td>화투 40장 중심, 마패는 별도 확장</td>
+</tr>
+</tbody></table>
+<p><strong>장점:</strong> 진정성 있는 한국 문화 상품, 화투를 아는 사람에게 강한 감동, 컴팩트<br><strong>단점:</strong> 마패 시스템 120장을 물리로 표현 불가, 별도 룰북 없이 게임 불가<br><strong>적합 제품:</strong> 문화 상품, 해외 K-culture 굿즈, 미술관·문구점 유통</p>
+<hr>
+<h3>관점 F. 프리미엄 오브제</h3>
+<blockquote>
+<p>&quot;카드 게임이 아니라 수집품(Object)으로 포지셔닝하면 모든 제약이 기회가 된다.&quot;</p>
+</blockquote>
+<p>160장은 보드게임 컴포넌트로는 너무 많지만, 럭셔리 아트 덱(타로 덱, 아티스트 플레잉 카드)으로는 적당한 수량이다.</p>
+<p><strong>DNA 변경:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>변경안</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경</td>
+<td><code>#0D2619</code> 유지</td>
+<td>이 포지셔닝에서는 오히려 고급감의 근거</td>
+</tr>
+<tr>
+<td>텍스트</td>
+<td>카드명만, 효과 없음</td>
+<td>별도 룰카드 참조</td>
+</tr>
+<tr>
+<td>보더</td>
+<td>없음 (풀 블리드)</td>
+<td>단, Legendary/Boss는 금박 테두리</td>
+</tr>
+<tr>
+<td>카드 크기</td>
+<td>타로 사이즈 70×120mm</td>
+<td>일러스트 감상 최적</td>
+</tr>
+<tr>
+<td>카드 뒷면</td>
+<td>전체 동일 통합 디자인</td>
+<td>게임용 아님 — 패 숨기기 불필요</td>
+</tr>
+</tbody></table>
+<p><strong>후가공 등급 체계:</strong></p>
+<table>
+<thead>
+<tr>
+<th>희귀도</th>
+<th>후가공</th>
+<th>단가 영향</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Common 49장</td>
+<td>무광 코팅</td>
+<td>기준</td>
+</tr>
+<tr>
+<td>Uncommon 36장</td>
+<td>부분 유광 스팟 UV</td>
+<td>+15%</td>
+</tr>
+<tr>
+<td>Rare 22장</td>
+<td>엠보싱</td>
+<td>+30%</td>
+</tr>
+<tr>
+<td>Legendary 7장</td>
+<td>홀로그램 포일</td>
+<td>+80%</td>
+</tr>
+<tr>
+<td>Boss 6장</td>
+<td>레드 포일 + 엠보싱</td>
+<td>+80%</td>
+</tr>
+</tbody></table>
+<p><strong>패키징:</strong> 에나멜 슬리브 케이스 또는 마패 형태 케이스</p>
+<p><strong>장점:</strong> 고마진, 소량 생산 가능, 아트 커뮤니티 어필, 제2의 수익원<br><strong>단점:</strong> 보드게임으로 사용 불가, 핵심 타겟과 어긋날 수 있음<br><strong>적합 제품:</strong> Kickstarter 리워드, 게임 출시 기념 한정판, 굿즈샵</p>
+<hr>
+<h2>Part 3. 결정 전 공통 질문 5가지</h2>
+<p>어느 방향을 택하든 이 다섯 가지 질문에 먼저 답해야 한다.</p>
+<hr>
+<h3>Q1. 이 제품의 목적은 무엇인가?</h3>
+<table>
+<thead>
+<tr>
+<th>선택지</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(A) 디지털 게임 홍보·굿즈</td>
+<td>디지털 게임 구매자에게 물리적 보조 소품 제공</td>
+</tr>
+<tr>
+<td>(B) 독립 물리 보드게임</td>
+<td>디지털 게임 없이도 완전히 플레이 가능한 독립 게임</td>
+</tr>
+<tr>
+<td>(C) 수집용 아트 오브제</td>
+<td>게임 가능 여부 부차적, 소장 가치가 핵심</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>Q2. 어떤 카드를 포함하는가?</h3>
+<table>
+<thead>
+<tr>
+<th>선택지</th>
+<th>구성</th>
+<th>장수</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(A) 화투 40장만</td>
+<td>아트 덱 재해석</td>
+<td>40장</td>
+</tr>
+<tr>
+<td>(B) 마패 120장만</td>
+<td>보조 덱</td>
+<td>120장</td>
+</tr>
+<tr>
+<td>(C) 화투 40 + 마패 큐레이션</td>
+<td>각 등급 대표작</td>
+<td>~80장</td>
+</tr>
+<tr>
+<td>(D) 스타터 세트</td>
+<td>게임 가능 최소 구성</td>
+<td>~70장</td>
+</tr>
+<tr>
+<td>(E) 완전판</td>
+<td>화투 + 마패 전량</td>
+<td>160장</td>
+</tr>
+<tr>
+<td>(F) 모듈형</td>
+<td>기본판 + 확장팩 분리</td>
+<td>유동적</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>Q3. 게임 가능 여부?</h3>
+<table>
+<thead>
+<tr>
+<th>수준</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Level 0</td>
+<td>감상만 — 게임 룰 없음</td>
+</tr>
+<tr>
+<td>Level 1</td>
+<td>기존 섯다 룰로 플레이 가능 (화투만)</td>
+</tr>
+<tr>
+<td>Level 2</td>
+<td>K-Sutda 보드게임 버전으로 완전 플레이 가능</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>디지털 게임과 연동 (QR 코드 등)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>Q4. 언어 정책?</h3>
+<table>
+<thead>
+<tr>
+<th>선택지</th>
+<th>적합 시장</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>한국어 전용</td>
+<td>국내 시장</td>
+</tr>
+<tr>
+<td>한국어 + 영어 병기</td>
+<td>아시아 주요 시장</td>
+</tr>
+<tr>
+<td>영어 전용</td>
+<td>글로벌 보드게임 시장</td>
+</tr>
+<tr>
+<td>3개 언어+</td>
+<td>글로벌 K-culture 팬</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>Q5. 생산 방식?</h3>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>최소 수량</th>
+<th>단가</th>
+<th>리드타임</th>
+<th>리스크</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POD (MakePlayingCards 등)</td>
+<td>1장~</td>
+<td>높음</td>
+<td>2~3주</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>디지털 단기 인쇄</td>
+<td>50~500장</td>
+<td>중간</td>
+<td>3~4주</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>오프셋 단기</td>
+<td>500~2000장</td>
+<td>낮음</td>
+<td>6~8주</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>Kickstarter 오프셋</td>
+<td>1000장+</td>
+<td>최저</td>
+<td>3~6개월</td>
+<td>높음</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>관점별 포지셔닝 비교표</h2>
+<table>
+<thead>
+<tr>
+<th>관점</th>
+<th>비용</th>
+<th>제조 난이도</th>
+<th>브랜드 일관성</th>
+<th>게임 기능성</th>
+<th>문화 진정성</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A. 디지털 유산 보존</td>
+<td>●●●●○</td>
+<td>●●●●○</td>
+<td>●●●●●</td>
+<td>●●●○○</td>
+<td>●●●○○</td>
+</tr>
+<tr>
+<td>B. 한국 전통 인쇄</td>
+<td>●●○○○</td>
+<td>●●●○○</td>
+<td>●●○○○</td>
+<td>●●●○○</td>
+<td>●●●●●</td>
+</tr>
+<tr>
+<td>C. 보드게임 표준</td>
+<td>●●○○○</td>
+<td>●●○○○</td>
+<td>●●●○○</td>
+<td>●●●●●</td>
+<td>●●○○○</td>
+</tr>
+<tr>
+<td>D. 이중 DNA 공존</td>
+<td>●●●●○</td>
+<td>●●●●○</td>
+<td>●●●●○</td>
+<td>●●●●○</td>
+<td>●●●●○</td>
+</tr>
+<tr>
+<td>E. 화투 재창조</td>
+<td>●●○○○</td>
+<td>●●●○○</td>
+<td>●●○○○</td>
+<td>●●○○○</td>
+<td>●●●●●</td>
+</tr>
+<tr>
+<td>F. 프리미엄 오브제</td>
+<td>●●●●●</td>
+<td>●●●●●</td>
+<td>●●●●●</td>
+<td>○○○○○</td>
+<td>●●●○○</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>● 많을수록 해당 항목에 유리 / 비용은 ●가 많을수록 높음</p>
+</blockquote>
+<hr>
+<p><em>결정 없음 — 방향 확정 후 <code>design-handoff/02-asset-spec.md</code> 업데이트 필요</em></p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>29-physical-card-deck-dna.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 분석 / KPI / 메트릭 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 분석 / KPI / 메트릭 가이드</h1>
+<blockquote>
+<p>KPI 정의 / 추적 이벤트 / 대시보드 디자인 / 베타 vs 정식 출시 측정. 사용자 행동 / 게임 디자인 / 마케팅 성과.</p>
+</blockquote>
+<hr>
+<h2>0. 분석 전략</h2>
+<h3>0-1. 왜 분석인가</h3>
+<ul>
+<li><strong>솔로 개발자</strong> → 직관 ≠ 사용자 행동. 데이터로 검증 필수</li>
+<li><strong>베타 → 정식 출시</strong> → 베타 데이터 = 정식 출시 결정 기반</li>
+<li><strong>밸런스 / 디자인</strong> → 데이터 기반 개선 (감 ❌)</li>
+<li><strong>마케팅</strong> → 어떤 채널이 효과적인지 측정</li>
+</ul>
+<h3>0-2. 추적 원칙</h3>
+<ul>
+<li>✅ <strong>사용자 동의 후 익명 데이터만</strong></li>
+<li>✅ 개인정보 (이메일 / 실명) 추적 ❌</li>
+<li>✅ 게임 행동 (세션 / 단계 / 베팅) 위주</li>
+<li>❌ 광고 / 마케팅 추적 (페이스북 픽셀 등) ❌ — 인디 게임 톤</li>
+<li>✅ 한국 개인정보보호법 / GDPR 준수</li>
+</ul>
+<hr>
+<h2>1. 핵심 KPI (Key Performance Indicators)</h2>
+<h3>1-1. 사용자 KPI</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>정의</th>
+<th>목표 (베타 / 정식)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DAU</strong> (Daily Active Users)</td>
+<td>하루 게임 실행자</td>
+<td>베타 30 / 정식 500+</td>
+</tr>
+<tr>
+<td><strong>WAU</strong> (Weekly Active)</td>
+<td>1주일 게임 실행자</td>
+<td>베타 80 / 정식 1,500+</td>
+</tr>
+<tr>
+<td><strong>MAU</strong> (Monthly Active)</td>
+<td>1개월 게임 실행자</td>
+<td>베타 100 / 정식 3,000+</td>
+</tr>
+<tr>
+<td><strong>DAU/MAU</strong></td>
+<td>스티키니스 (얼마나 자주 돌아오나)</td>
+<td>0.2 (보통) → 0.4 (좋음)</td>
+</tr>
+<tr>
+<td><strong>신규 가입</strong></td>
+<td>신규 사용자 수</td>
+<td>베타 일 5명 / 정식 일 30명</td>
+</tr>
+<tr>
+<td><strong>재방문율</strong> (Retention)</td>
+<td>Day 1 / 7 / 30 재플레이</td>
+<td>D1: 40% / D7: 20% / D30: 10%</td>
+</tr>
+</tbody></table>
+<h3>1-2. 게임플레이 KPI</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>정의</th>
+<th>목표</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>세션 길이</strong></td>
+<td>평균 1회 플레이 시간</td>
+<td>20~30분</td>
+</tr>
+<tr>
+<td><strong>세션 / 사용자</strong></td>
+<td>1주일 평균 세션 수</td>
+<td>3~5회</td>
+</tr>
+<tr>
+<td><strong>런 완주율</strong></td>
+<td>단계 1 시작 → 단계 8 클리어</td>
+<td>5~15% (어려운 게임)</td>
+</tr>
+<tr>
+<td><strong>단계별 통과율</strong></td>
+<td>각 단계 통과 %</td>
+<td>1: 80%+ / 8: 5~10%</td>
+</tr>
+<tr>
+<td><strong>평균 단계 도달</strong></td>
+<td>run 당 도달 단계 평균</td>
+<td>3~4 단계</td>
+</tr>
+<tr>
+<td><strong>마패 카드 사용</strong></td>
+<td>가장 자주 장착된 카드 TOP 10</td>
+<td>매주 측정</td>
+</tr>
+<tr>
+<td><strong>블러프 시도율</strong></td>
+<td>약한 패로 raise 한 라운드 %</td>
+<td>5~15%</td>
+</tr>
+<tr>
+<td><strong>mulligan 사용율</strong></td>
+<td>두 번째 카드 받은 후 재배분 %</td>
+<td>20~30%</td>
+</tr>
+<tr>
+<td><strong>게임오버 / 명성치 -150</strong></td>
+<td>한도 도달 %</td>
+<td>5~10%</td>
+</tr>
+</tbody></table>
+<h3>1-3. 수익 KPI (정식 출시 후)</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>첫 주 판매</strong></td>
+<td>출시 첫 주 판매 수</td>
+</tr>
+<tr>
+<td><strong>누적 판매</strong></td>
+<td>전체 판매</td>
+</tr>
+<tr>
+<td><strong>환불율</strong></td>
+<td>Steam 환불 % (&lt; 5% 목표)</td>
+</tr>
+<tr>
+<td><strong>DLC 전환</strong></td>
+<td>OST / Art Pack DLC 구매 %</td>
+</tr>
+<tr>
+<td><strong>굿즈 판매</strong></td>
+<td>굿즈 매출 (보조)</td>
+</tr>
+<tr>
+<td><strong>ARPU</strong> (Average Revenue per User)</td>
+<td>사용자당 평균 매출</td>
+</tr>
+</tbody></table>
+<h3>1-4. 마케팅 KPI</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Steam 페이지 조회</strong></td>
+<td>일별</td>
+</tr>
+<tr>
+<td><strong>위시리스트</strong></td>
+<td>가입자 수 / 가입율</td>
+</tr>
+<tr>
+<td><strong>트레일러 조회</strong></td>
+<td>YouTube / Twitter</td>
+</tr>
+<tr>
+<td><strong>인플루언서 키 사용율</strong></td>
+<td>영상 / 스트림 1회 이상 %</td>
+</tr>
+<tr>
+<td><strong>SNS 팔로워</strong></td>
+<td>Twitter / Discord</td>
+</tr>
+<tr>
+<td><strong>리뷰 점수</strong></td>
+<td>Steam / App Store / Google Play</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 추적 이벤트 (Event Tracking)</h2>
+<h3>2-1. 게임 진행 이벤트</h3>
+<pre><code class="language-javascript">// 추적할 이벤트 (예시 — 실제 구현은 Godot + 자체 백엔드 또는 Mixpanel 등)
+
+// 세션
+session_start { user_id, platform, version }
+session_end { user_id, duration_s }
+
+// 런
+run_start { seed, starting_mapa[3] }
+run_end {
+  status: &quot;victory&quot; | &quot;defeated&quot; | &quot;abandoned&quot;,
+  final_prestige: int,
+  stage_reached: int,
+  duration_s: int,
+  rounds_played: int
+}
+
+// 단계
+stage_start { stage: int }
+stage_clear { stage: int, prestige_at_end: int }
+
+// 라운드 (집계 — 너무 많으면 부담)
+round_summary {
+  stage: int,
+  result: &quot;win&quot; | &quot;lose&quot; | &quot;draw&quot;,
+  ending: &quot;showdown&quot; | &quot;fold&quot; | &quot;first_dia&quot;,
+  player_bluffed: bool,
+  player_first_action: &quot;call&quot; | &quot;raise&quot; | &quot;dia&quot;,
+  mulligan_used: bool
+}
+
+// 시장
+market_visited { stage: int }
+mapa_purchased { mapa_id, rarity, price }
+mapa_swapped { from_slot, to_slot }
+soul_card_discovered { mapa_id }  // Legendary 5% 확률
+
+// UI
+help_opened { source: &quot;main_menu&quot; | &quot;in_game&quot; }
+daily_activity_viewed
+leaderboard_viewed
+
+// 위험 영역
+prestige_danger_entered { stage: int }
+prestige_imminent_entered { stage: int }
+gameover_triggered { stage: int, final_prestige: int }
+</code></pre>
+<h3>2-2. 사용자 행동 이벤트</h3>
+<pre><code class="language-javascript">nickname_set { length }
+language_changed { from, to }
+audio_settings_changed { bgm_volume, se_volume }
+reduced_motion_enabled
+help_dismissed { tutorial_step }
+</code></pre>
+<h3>2-3. 에러 / 크래시 이벤트</h3>
+<pre><code class="language-javascript">crash { type, stack_trace_hash, platform, version }
+error_save_load { reason }
+network_error { endpoint, error_code }
+</code></pre>
+<hr>
+<h2>3. 데이터 수집 방식</h2>
+<h3>3-1. 옵션 1 — Supabase (현재 사용 중)</h3>
+<pre><code>[장점]
+- 이미 leaderboard 에 사용 — 인프라 확장 쉬움
+- PostgreSQL — SQL 쿼리 가능
+- 무료 tier 충분 (베타 100명)
+
+[단점]
+- 분석 대시보드 별도 구축 필요
+- 시각화 도구 (Metabase / Grafana) 별도
+
+[구현]
+events 테이블:
+  id, user_id (anon), event_type, timestamp, payload (JSON), platform
+</code></pre>
+<h3>3-2. 옵션 2 — Mixpanel / PostHog</h3>
+<pre><code>[장점]
+- 분석 전용 SaaS — 대시보드 강력
+- 코호트 / 퍼널 / 리텐션 분석 자동
+
+[단점]
+- 무료 tier 제한 (월 X 이벤트)
+- 외부 서비스 의존
+
+[구현]
+HTTP API 호출 (Godot HTTPRequest)
+</code></pre>
+<h3>3-3. 옵션 3 — Steam 자체 분석</h3>
+<pre><code>[장점]
+- Steam 통합 (자동 추적 일부)
+- DAU / 세션 / 환불 / 리뷰 자동
+
+[단점]
+- 자세한 게임 내 이벤트 추적 X
+- 모바일 / 다른 플랫폼 X
+
+[사용]
+Steam Workshop / Stats API
+</code></pre>
+<h3>3-4. 추천 — Hybrid</h3>
+<ul>
+<li><strong>Steam</strong> (PC 자동) — DAU / 세션 / 판매</li>
+<li><strong>Supabase</strong> (자체) — 게임 내 이벤트 / 통계</li>
+<li><strong>Mixpanel</strong> (옵션) — 퍼널 / 코호트 (예산 여유 시)</li>
+</ul>
+<hr>
+<h2>4. 대시보드 디자인</h2>
+<h3>4-1. 대시보드 도구</h3>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Metabase</strong> (오픈소스)</td>
+<td>Supabase 와 잘 어울림, 무료</td>
+</tr>
+<tr>
+<td><strong>Grafana</strong></td>
+<td>시계열 강함, 학습 곡선</td>
+</tr>
+<tr>
+<td><strong>Mixpanel UI</strong></td>
+<td>SaaS 자체</td>
+</tr>
+<tr>
+<td><strong>Notion 대시보드</strong></td>
+<td>간단한 KPI 추적</td>
+</tr>
+<tr>
+<td><strong>Google Sheets + Charts</strong></td>
+<td>가장 단순, 베타 초기 OK</td>
+</tr>
+</tbody></table>
+<h3>4-2. 메인 대시보드 (개발자용)</h3>
+<pre><code>┌─────────────────────────────────────┐
+│ K-Sutda Dashboard — 2026-05-16      │
+├─────────────────────────────────────┤
+│                                     │
+│ 📊 사용자 (오늘)                    │
+│   DAU: 47  WAU: 142  MAU: 256       │
+│   신규: 8명                         │
+│                                     │
+│ 🎮 게임플레이                       │
+│   세션 평균: 24분                   │
+│   런 완주: 3/47 (6%)                │
+│   평균 단계: 3.5                    │
+│   blue heart 단계별 통과율 (차트)   │
+│                                     │
+│ 💀 게임오버 / 위험                  │
+│   게임오버: 9건 (-150 도달)         │
+│   위험 영역 진입: 23건              │
+│                                     │
+│ 🃏 블러프 / 메커니즘                │
+│   블러프 성공: 12건                 │
+│   mulligan 사용: 18건                │
+│                                     │
+│ 🛍 굿즈 (정식 출시 후)              │
+│   판매: 0  /  위시리스트: 1,234     │
+│                                     │
+│ 📡 SNS / 커뮤니티                   │
+│   Discord: 87명  Twitter: 234       │
+└─────────────────────────────────────┘
+</code></pre>
+<h3>4-3. 단계별 통과율 차트</h3>
+<pre><code>[차트 — 단계별 통과율 (전체 베타 사용자)]
+
+목표선: 80~95%
+
+단계 1  ████████████████████  92% (목표 ✅)
+단계 2  ██████████████████░░  84% (목표 ✅)
+단계 3  ██████████░░░░░░░░░░  52% (목표 미달 ⚠)
+단계 4  ███████░░░░░░░░░░░░░  35% (목표 미달 ⚠)
+단계 5  ████░░░░░░░░░░░░░░░░  22%
+단계 6  ███░░░░░░░░░░░░░░░░░  15%
+단계 7  ██░░░░░░░░░░░░░░░░░░   8%
+단계 8  █░░░░░░░░░░░░░░░░░░░   4%
+
+→ 단계 3~4 통과율 부족 → 다음 sprint 균형 재조정
+</code></pre>
+<h3>4-4. 코호트 분석 (재방문)</h3>
+<pre><code>[코호트 — 가입 주차별 재방문]
+
+가입 주 → Day 1 / 7 / 30 / 90
+
+Week 1 (5/9~)  100%  45%  22%  -
+Week 2 (5/16~) 100%  52%  28%  -
+Week 3 (5/23~) 100%  48%  -    -
+
+→ Week 2 재방문 ↑ (튜토리얼 개선 효과)
+</code></pre>
+<hr>
+<h2>5. 퍼널 분석 (Funnel Analysis)</h2>
+<h3>5-1. 신규 사용자 퍼널</h3>
+<pre><code>1. 게임 첫 실행                  100% (1,000명)
+2. MainMenu 진입                  95%   (950)
+3. &quot;새 런 시작&quot; 클릭              85%   (850)
+4. 단계 1 첫 라운드 완료          70%   (700)
+5. 단계 1 클리어                  60%   (600)
+6. Market 진입                    58%   (580)
+7. 단계 2 진입                    52%   (520)
+8. 단계 3+ 도달                   30%   (300)
+9. 게임 종료 (자연)               25%   (250)
+10. 재방문 (Day 1)               20%   (200)
+
+→ 가장 큰 이탈: 3 → 4 (튜토리얼 완료 전 종료)
+→ 개선: 튜토리얼 강화 (17-in-game-help)
+</code></pre>
+<h3>5-2. 결제 퍼널 (정식 출시)</h3>
+<pre><code>1. Steam 페이지 방문        100%
+2. 트레일러 시청             40%
+3. 위시리스트 추가           15%
+4. 구매                       5%
+
+→ 위시리스트 → 구매 전환: 33%
+</code></pre>
+<hr>
+<h2>6. A/B 테스트 (베타 후)</h2>
+<h3>6-1. 테스트 가능한 변수</h3>
+<table>
+<thead>
+<tr>
+<th>변수</th>
+<th>변형</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>단계 3 target</td>
+<td>A: 580 / B: 520</td>
+</tr>
+<tr>
+<td>1차 ante</td>
+<td>A: 5 / B: 7</td>
+</tr>
+<tr>
+<td>mulligan cost</td>
+<td>A: 8 / B: 10</td>
+</tr>
+<tr>
+<td>Tutorial 길이</td>
+<td>A: 5단계 / B: 3단계</td>
+</tr>
+<tr>
+<td>광패 글로우 강도</td>
+<td>A: 부드러움 / B: 강함</td>
+</tr>
+</tbody></table>
+<h3>6-2. A/B 테스트 워크플로우</h3>
+<pre><code>1. 가설 — &quot;1차 ante 7 이면 1차 dia 빈도 ↑ → 깊이 ↑&quot;
+2. 사용자 50% A, 50% B (시드 또는 user_id 기반)
+3. 2주간 데이터 수집
+4. 측정: 1차 dia 빈도 / 단계 통과율 / 재방문
+5. 결과 분석 + 결정
+</code></pre>
+<p>→ 베타 후 (정식 출시 전) 가치.</p>
+<hr>
+<h2>7. 사용자 세그먼트</h2>
+<h3>7-1. 세그먼트 정의</h3>
+<table>
+<thead>
+<tr>
+<th>세그먼트</th>
+<th>정의</th>
+<th>비중 (예상)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>신규</strong></td>
+<td>가입 &lt; 1일</td>
+<td>30%</td>
+</tr>
+<tr>
+<td><strong>활성</strong></td>
+<td>주 3+ 세션</td>
+<td>25%</td>
+</tr>
+<tr>
+<td><strong>휴면</strong></td>
+<td>7일 무접속</td>
+<td>30%</td>
+</tr>
+<tr>
+<td><strong>이탈</strong></td>
+<td>30일 무접속</td>
+<td>15%</td>
+</tr>
+<tr>
+<td><strong>코어</strong></td>
+<td>100+ 런 완료</td>
+<td>5% (P1/P6)</td>
+</tr>
+</tbody></table>
+<h3>7-2. 세그먼트별 행동 차이</h3>
+<pre><code>[활성 vs 신규 — 평균 세션]
+활성:  35분 (단계 5+ 도달)
+신규:   15분 (단계 2~3 도달)
+
+[코어 vs 일반 — 블러프 빈도]
+코어:  20% 라운드에서 블러프
+일반:   5% 라운드에서 블러프
+
+→ 신규 사용자에게 블러프 튜토리얼 강화 (17)
+</code></pre>
+<hr>
+<h2>8. 한국 / 글로벌 분리 분석</h2>
+<h3>8-1. 지역별 KPI</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>한국</th>
+<th>글로벌</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>평균 세션</td>
+<td>25분</td>
+<td>30분</td>
+</tr>
+<tr>
+<td>모바일 비중</td>
+<td>40%</td>
+<td>15%</td>
+</tr>
+<tr>
+<td>단계 8 클리어</td>
+<td>8%</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>한국어 사용</td>
+<td>100%</td>
+<td>5% (한국 거주 글로벌)</td>
+</tr>
+<tr>
+<td>블러프 빈도</td>
+<td>12%</td>
+<td>8%</td>
+</tr>
+</tbody></table>
+<h3>8-2. 인사이트</h3>
+<ul>
+<li>한국 사용자 = 모바일 + 짧은 세션 (P2/P5)</li>
+<li>글로벌 사용자 = PC + 긴 세션 (P1/P3)</li>
+<li>한국 사용자 블러프 ↑ (한국 도박판 친숙)</li>
+</ul>
+<p>→ 마케팅 / 디자인 결정에 영향.</p>
+<hr>
+<h2>9. 디자인 결정 → 데이터 검증</h2>
+<h3>9-1. 가설 → 검증 사이클</h3>
+<pre><code>[가설] 단계 3~4 통과율 ↑ 위해 target 하향
+↓
+[변경] Sprint 3.14 — 단계 4 target 1500 → 1400
+↓
+[측정] 2주 베타 데이터
+↓
+[결과] 통과율 36% → 41.5% (+5.5%p)
+↓
+[결정] 변경 유지 + 단계 5도 추가 하향 검토
+</code></pre>
+<h3>9-2. 사용자 인사이트 → 새 기능</h3>
+<pre><code>[관찰] mulligan 사용율 30% — 활용 활발
+↓
+[가설] mulligan cost 8 → 7 로 ↓ 시 사용 ↑ + 깊이 ↑
+↓
+[A/B 테스트] 2주
+↓
+[결과] 사용율 30% → 42%, 단계 통과율 변화 X
+↓
+[결정] cost 7 적용
+</code></pre>
+<hr>
+<h2>10. 베타 vs 정식 출시 측정</h2>
+<h3>10-1. 베타 단계 (1~2개월)</h3>
+<table>
+<thead>
+<tr>
+<th>측정</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>단계별 통과율</td>
+<td>밸런스 조정</td>
+</tr>
+<tr>
+<td>평균 세션</td>
+<td>적정 게임 길이</td>
+</tr>
+<tr>
+<td>사용자 페르소나 분포</td>
+<td>마케팅 검증</td>
+</tr>
+<tr>
+<td>Critical 버그</td>
+<td>즉시 hotfix</td>
+</tr>
+<tr>
+<td>디자인 일관성</td>
+<td>audit</td>
+</tr>
+<tr>
+<td>인플루언서 영상 도달</td>
+<td>마케팅 채널 효과</td>
+</tr>
+</tbody></table>
+<h3>10-2. 정식 출시 (첫 1개월)</h3>
+<table>
+<thead>
+<tr>
+<th>측정</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>첫 주 판매</td>
+<td>매출</td>
+</tr>
+<tr>
+<td>환불율</td>
+<td>사용자 만족</td>
+</tr>
+<tr>
+<td>Steam 리뷰 점수</td>
+<td>평판</td>
+</tr>
+<tr>
+<td>위시리스트 → 구매 전환</td>
+<td>마케팅</td>
+</tr>
+<tr>
+<td>지역별 판매</td>
+<td>글로벌 전략</td>
+</tr>
+<tr>
+<td>추천 / 입소문 (organic)</td>
+<td>자생적 성장</td>
+</tr>
+</tbody></table>
+<h3>10-3. 정식 출시 후 1년</h3>
+<table>
+<thead>
+<tr>
+<th>측정</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>누적 판매</td>
+<td>장기 매출</td>
+</tr>
+<tr>
+<td>1년 재방문율</td>
+<td>게임 장수</td>
+</tr>
+<tr>
+<td>업데이트 채택율</td>
+<td>사용자 잠재력</td>
+</tr>
+<tr>
+<td>굿즈 / DLC 전환</td>
+<td>보조 매출</td>
+</tr>
+<tr>
+<td>커뮤니티 활성도</td>
+<td>자생적</td>
+</tr>
+<tr>
+<td>후속작 / 확장 의사</td>
+<td>다음 게임</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>11. 윤리적 데이터 사용</h2>
+<h3>11-1. 개인정보 보호 (한국 개보법 / GDPR)</h3>
+<ul>
+<li>이메일 / 실명 / 위치 추적 ❌</li>
+<li>익명 ID 만 (UUID — 사용자 끄기 옵션)</li>
+<li>데이터 수집 동의 (첫 실행 시)</li>
+<li>데이터 삭제 권리 (옵션 메뉴)</li>
+</ul>
+<h3>11-2. 데이터 사용 정책</h3>
+<pre><code>[K-Sutda 데이터 수집 정책]
+
+수집 항목:
+- 익명 게임 행동 (세션 / 단계 / 베팅)
+- 디바이스 정보 (OS / 화면 크기 — 기술 지원)
+
+수집 안 함:
+- 이메일 / 실명 / 위치
+- 광고 추적
+- 외부 서비스 공유
+
+사용 목적:
+- 게임 개선 (밸런스 / 버그)
+- 통계 (집계 데이터만)
+
+권리:
+- 언제든 수집 거부 (옵션 메뉴)
+- 데이터 삭제 요청 (이메일 문의)
+</code></pre>
+<h3>11-3. 투명성</h3>
+<ul>
+<li>모든 추적 이벤트 공개 (이 가이드)</li>
+<li>분기 1회 사용 통계 공개 (커뮤니티 공유)</li>
+</ul>
+<hr>
+<h2>12. 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Steam 자동 분석 (DAU / 세션)</li>
+<li><input disabled="" type="checkbox"> Supabase events 테이블 생성</li>
+<li><input disabled="" type="checkbox"> Godot → Supabase 이벤트 전송 (session_start / run_end)</li>
+<li><input disabled="" type="checkbox"> 데이터 수집 동의 UI</li>
+</ul>
+<h3>Tier 2 — 베타 운영 중</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Metabase 대시보드 셋업 (메인 KPI)</li>
+<li><input disabled="" type="checkbox"> 단계별 통과율 차트 자동</li>
+<li><input disabled="" type="checkbox"> 코호트 분석 (재방문)</li>
+<li><input disabled="" type="checkbox"> 주간 리포트 자동 (개발자 메일)</li>
+</ul>
+<h3>Tier 3 — 정식 출시 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Mixpanel 또는 PostHog 통합 (퍼널 / A/B)</li>
+<li><input disabled="" type="checkbox"> A/B 테스트 인프라</li>
+<li><input disabled="" type="checkbox"> 사용자 세그먼트 자동</li>
+<li><input disabled="" type="checkbox"> 글로벌 vs 지역 분리 분석</li>
+</ul>
+<hr>
+<h2>13. 인사이트 활용 — 회고 (분기 1회)</h2>
+<pre><code>[분기 분석 — 2026 Q2]
+
+✅ 잘 됨:
+- 단계 1 통과율 92% (목표 ✅)
+- DAU 47 (베타 30 목표 초과)
+- 블러프 시도율 12% (활발)
+
+⚠ 개선 필요:
+- 단계 3~4 통과율 35~52% (목표 80% 미달)
+- D7 재방문 22% (목표 30%)
+
+🔄 다음 분기:
+- 단계 3~4 추가 균형 (target 하향)
+- D7 재방문 위해 푸시 알림 (모바일) 검토
+- 코어 사용자 (5%) 위한 도전과제 추가
+</code></pre>
+<hr>
+<h2>14. 도구</h2>
+<table>
+<thead>
+<tr>
+<th>도구</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Supabase</strong></td>
+<td>데이터 수집 / SQL 쿼리</td>
+</tr>
+<tr>
+<td><strong>Metabase</strong> (또는 Grafana)</td>
+<td>대시보드 시각화</td>
+</tr>
+<tr>
+<td><strong>Mixpanel</strong> (옵션)</td>
+<td>퍼널 / 코호트 / A/B</td>
+</tr>
+<tr>
+<td><strong>Steam 자체</strong></td>
+<td>PC 자동</td>
+</tr>
+<tr>
+<td><strong>Google Sheets</strong></td>
+<td>간단 KPI 추적 (베타 초기)</td>
+</tr>
+<tr>
+<td><strong>Notion</strong></td>
+<td>인사이트 정리 / 회고</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>15. 결론</h2>
+<pre><code>좋은 분석 = 직관 X, 데이터 ✓.
+
+K-Sutda 분석 핵심:
+1. 게임 행동 (단계 / 베팅 / 블러프) — 디자인 결정
+2. 사용자 (DAU / 리텐션 / 세그먼트) — 마케팅 결정
+3. 한국 vs 글로벌 — 지역 전략
+4. 베타 → 정식 출시 → 1년 단계별 다른 측정
+5. 윤리적 (익명 / 동의 / 권리)
+
+데이터는 자유의 토대 — 자신 있게 결정.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>23-analytics-kpi.md</code>
+</div>
+</body>
+</html>

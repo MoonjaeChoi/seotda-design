@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 마패 카드 일러스트 프롬프트 v2</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 마패 카드 일러스트 프롬프트 v2</h1>
+<blockquote>
+<p>작성일: 2026-05-20 (v2 — 4-레이어 비주얼 DNA 시스템 도입)
+Nano Banana 2 ($0.08/img 권장) 로 마패 카드 120종 이미지 생성 가이드.
+템플릿 시스템으로 대량 생산 가능 — 개별 Legendary 7종 + Boss 6종은 §8·§9 개별 프롬프트 첨부.</p>
+</blockquote>
+<hr>
+<h2>0. 개요</h2>
+<h3>0-1. 마패 카드 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>해상도</td>
+<td>200 × 280 px @1x / 400 × 560 @2x</td>
+</tr>
+<tr>
+<td>형식</td>
+<td>PNG (투명 배경)</td>
+</tr>
+<tr>
+<td>저장 경로</td>
+<td><code>assets/mapa/{id}.png</code></td>
+</tr>
+<tr>
+<td>보더</td>
+<td>코드 자동 적용 — 일러스트에 보더 불필요</td>
+</tr>
+<tr>
+<td>텍스트</td>
+<td>카드명/효과 텍스트는 코드 overlay — 일러스트에 텍스트 불필요</td>
+</tr>
+</tbody></table>
+<h3>0-2. 희귀도별 보더 색 (코드 자동, 디자이너 참고용)</h3>
+<table>
+<thead>
+<tr>
+<th>희귀도</th>
+<th>보더 색</th>
+<th>수량</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Common</td>
+<td><code>#8C8C8C</code> 회색</td>
+<td>49종</td>
+</tr>
+<tr>
+<td>Uncommon</td>
+<td><code>#338CD9</code> 청</td>
+<td>36종</td>
+</tr>
+<tr>
+<td>Rare</td>
+<td><code>#C74DD9</code> 자주</td>
+<td>22종</td>
+</tr>
+<tr>
+<td>Legendary</td>
+<td><code>#F39C2E</code> 주황 + 글로우</td>
+<td>7종</td>
+</tr>
+<tr>
+<td>Boss</td>
+<td><code>#D93333</code> 주홍 + 글로우</td>
+<td>6종</td>
+</tr>
+</tbody></table>
+<h3>0-3. 4-레이어 비주얼 DNA 시스템 개요</h3>
+<p><strong>일관성은 하위 레이어(1·2)가, 다양성은 상위 레이어(3·4)가 담당한다.</strong></p>
+<pre><code>레이어 4: 모티프 (WHAT you see)         ← 120종 전부 다름
+레이어 3: 효과 타입 색 시그니처           ← 8가지 고정 강조색
+레이어 2: 희귀도 조명 분위기              ← 5단계 조명 레시피
+레이어 1: 스타일 DNA                    ← 절대 변하지 않음
+</code></pre>
+<p>프롬프트를 작성할 때 <strong>레이어 1은 항상 포함</strong>, <strong>레이어 2·3은 해당 카드에 맞게 선택</strong>, <strong>레이어 4는 카드마다 교체</strong>한다.</p>
+<h3>0-4. 워크플로우</h3>
+<pre><code>STEP 1. §1 레이어 1 DNA 블록 숙지
+STEP 2. effect_type별 앵커 카드 7종 먼저 생성 (§6-1)
+STEP 3. 앵커를 reference로 첨부하여 같은 effect_type 카드 양산
+STEP 4. §4 모티프 배분표로 각 카드 모티프 확인
+STEP 5. §8·§9 Legendary/Boss 개별 프롬프트로 고등급 생성
+STEP 6. 200×280 리사이즈 후 §6-4 체크리스트 확인
+STEP 7. assets/mapa/{id}.png 저장 → Godot 자동 import
+</code></pre>
+<p><strong>예상 비용</strong>: Common+Uncommon+Rare (107종) × $0.039 ≈ $4.2 / Legendary+Boss (13종) × $0.08 ≈ $1.0 / <strong>총 ~$5 USD</strong></p>
+<hr>
+<h2>1. 레이어 1: 스타일 DNA (절대 불변)</h2>
+<p>모든 프롬프트에 반드시 포함하는 고정 블록. <strong>절대 수정하지 않는다.</strong></p>
+<pre><code>[Style DNA — include in EVERY card prompt, never modify]
+- Flat bold Korean folk art (민화 / minhwa) illustration
+- Thick uniform black ink outlines — same line weight throughout
+- Background: EXACTLY deep ink black #0D2619 — no variation
+- Flat fills only — NO gradients, NO airbrush, NO soft shadows
+- Limited palette: background + ONE accent color family + pure black
+- No text, no numbers, no card border, no white background
+- Safe zone: leave 10% margin from all edges (card border is added by code)
+- Motif occupies 55–75% of total frame area
+- Output: square 1:1 ratio, 1024×1024 PNG
+
+Absolute negatives (every card):
+anime, manga, K-pop idol, photorealistic 3D render, watercolor wash,
+Western medieval fantasy, Japanese Ukiyo-e, Japanese Hanafuda,
+casino chips, Las Vegas aesthetic, Chinese opera, text, numbers,
+card borders, white or light background, gradient fills
+</code></pre>
+<hr>
+<h2>2. 레이어 2: 희귀도별 조명 레시피</h2>
+<p>베이스 DNA에 <strong>추가</strong>하는 블록. 희귀도가 올라갈수록 조명이 복잡해진다.</p>
+<h3>2-1. Common (49종) — 조명 없음, 형태로 승부</h3>
+<pre><code>[Common rarity — add to prompt]
+- NO glow, NO lighting effect — shape alone defines the motif
+- One central motif, minimal decorative elements
+- Flat silhouette: motif brightness ~40% above background
+- Feels like a worn, familiar everyday object
+- Muted: one accent color, used sparingly (20% of frame area or less)
+</code></pre>
+<h3>2-2. Uncommon (36종) — 하단 ambient glow</h3>
+<pre><code>[Uncommon rarity — add to prompt]
+- Faint warm ambient glow rising from BELOW the motif (not a spotlight)
+- Motif brightness ~55% above background
+- One small decorative accent element allowed (knot, brush stroke, scroll)
+- Feels special but not extraordinary
+- Accent color budget: 30% of frame area
+</code></pre>
+<h3>2-3. Rare (22종) — 단일 강한 광원 + 단청 ghost</h3>
+<pre><code>[Rare rarity — add to prompt]
+- SINGLE strong directional light source — upper-left 45° angle
+- Deep shadows on opposite side — high contrast (~70% brightness difference)
+- Background: very faint Korean dancheong pattern ghost (5% opacity only)
+- Motif silhouette feels mythic or legendary
+- Accent color budget: 40% of frame area, plus a second accent hint
+- Dramatic composition — diagonal or dynamic pose preferred
+</code></pre>
+<h3>2-4. Legendary (7종) — 신성한 전방향 후광 (개별 프롬프트 §8 참조)</h3>
+<pre><code>[Legendary rarity — add to prompt]
+- OMNIDIRECTIONAL sacred halo glow radiating from the motif
+- Background: dancheong cloud/lotus pattern ghost at 15% opacity
+- Motif feels divine and ancient
+- Two accent colors allowed (gold + one complement)
+- Brightness ~85% above background
+- Symmetric or near-symmetric composition
+</code></pre>
+<h3>2-5. Boss (6종) — 위협적 분위기 + 붉은 vignette (개별 프롬프트 §9 참조)</h3>
+<pre><code>[Boss rarity — add to prompt]
+- Ominous overhead/downward light (not from below — feels threatening)
+- Red edge vignette: #D93333 at 20% opacity fading inward from all edges
+- Atmospheric tension — something is about to happen
+- Background stays #0D2619 but the vignette adds dread
+- Motif fills 65–80% of frame (more imposing than other rarities)
+</code></pre>
+<hr>
+<h2>3. 레이어 3: 효과 타입별 색 시그니처</h2>
+<p>보더 색(희귀도)과는 별도로, <strong>일러스트 내부 강조색</strong>이 카드가 무엇을 하는지 암시한다.
+일관성 없이 아무 색이나 쓰지 말 것 — 해당 카드의 effect_type에 지정된 색만 강조색으로 사용한다.</p>
+<table>
+<thead>
+<tr>
+<th>effect_type</th>
+<th>강조색</th>
+<th>색코드</th>
+<th>심볼 에너지</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mult_immediate</code></td>
+<td><strong>황금</strong></td>
+<td><code>#F3C72E</code></td>
+<td>폭발적·즉각적·인장·광선</td>
+</tr>
+<tr>
+<td><code>mult_accumulate</code></td>
+<td><strong>연금(軟金)</strong> (연두빛 금)</td>
+<td><code>#9DB85A</code></td>
+<td>쌓이는·자라는·나이테·새싹</td>
+</tr>
+<tr>
+<td><code>info_reveal</code></td>
+<td><strong>청명(晴明)</strong> (맑은 하늘)</td>
+<td><code>#5BA4D9</code></td>
+<td>꿰뚫는·보이는·별·빛</td>
+</tr>
+<tr>
+<td><code>deck_manipulation</code></td>
+<td><strong>자주(紫朱)</strong></td>
+<td><code>#9B59B6</code></td>
+<td>흐르는·변환·소용돌이·손</td>
+</tr>
+<tr>
+<td><code>economy</code></td>
+<td><strong>동(銅)</strong> (구리·엽전)</td>
+<td><code>#C8921A</code></td>
+<td>묵직한·축적·동전 구멍</td>
+</tr>
+<tr>
+<td><code>bluff_synergy</code></td>
+<td><strong>이중: 흑+백</strong></td>
+<td><code>#F5EBD1</code> / <code>#1A1A1A</code></td>
+<td>이중적·감추는·탈·이면</td>
+</tr>
+<tr>
+<td><code>info_reveal_and_mult</code></td>
+<td><strong>청+황 혼합</strong></td>
+<td><code>#5BA4D9</code> + <code>#F3C72E</code> 병존</td>
+<td>두 에너지 교차</td>
+</tr>
+<tr>
+<td><code>psychological_pressure</code></td>
+<td><strong>주홍(朱紅)</strong></td>
+<td><code>#D93333</code></td>
+<td>위압적·긴장·공포·확장</td>
+</tr>
+</tbody></table>
+<p><strong>프롬프트 적용 예시:</strong></p>
+<blockquote>
+<p><code>mult_accumulate</code> 카드 → <code>&quot;Accent color: soft green-gold #9DB85A — used as a subtle tint on motif highlights and edges only. This color signals the accumulating, growing nature of this card.&quot;</code></p>
+</blockquote>
+<blockquote>
+<p><code>bluff_synergy</code> 카드 → <code>&quot;Two-tone contrast: hanji cream #F5EBD1 (the public face) against deep black #1A1A1A (the hidden interior). No single accent color — the duality IS the palette.&quot;</code></p>
+</blockquote>
+<hr>
+<h2>4. 레이어 4: 모티프 라이브러리</h2>
+<h3>4-1. 10개 모티프 군 (Group)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>모티프 군</th>
+<th>핵심 시각 요소</th>
+<th>주 effect_type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>G1</strong></td>
+<td>노름꾼의 손·손가락</td>
+<td>손목 위 잘린 손, 손가락 끝, 반지, 손등 힘줄</td>
+<td>mult_immediate, deck_manipulation</td>
+</tr>
+<tr>
+<td><strong>G2</strong></td>
+<td>눈·시선·안경</td>
+<td>반쯤 뜬 눈, 곁눈질, 가는 안경테, 동공 안 별</td>
+<td>info_reveal, info_reveal_and_mult</td>
+</tr>
+<tr>
+<td><strong>G3</strong></td>
+<td>탈·가면·이면</td>
+<td>양반탈, 각시탈, 그림자 둘, 탈 뒤의 탈</td>
+<td>bluff_synergy, psychological_pressure</td>
+</tr>
+<tr>
+<td><strong>G4</strong></td>
+<td>민화 동물 (십장생)</td>
+<td>학, 호랑이, 거북, 봉황, 잉어, 까치, 매</td>
+<td>mult_accumulate (고가치)</td>
+</tr>
+<tr>
+<td><strong>G5</strong></td>
+<td>전통 소품·도구</td>
+<td>봉투, 엽전, 술사발, 저울, 주머니, 담뱃대</td>
+<td>economy</td>
+</tr>
+<tr>
+<td><strong>G6</strong></td>
+<td>화투 카드 자체</td>
+<td>화투패 실루엣, 光 한자, 띠·단·피 문양</td>
+<td>deck_manipulation, mult_immediate</td>
+</tr>
+<tr>
+<td><strong>G7</strong></td>
+<td>자연·사군자</td>
+<td>매화, 국화, 대나무, 솔잎, 풀잎, 실 한 가닥</td>
+<td>mult_accumulate (저가치·지속)</td>
+</tr>
+<tr>
+<td><strong>G8</strong></td>
+<td>불·빛·광원</td>
+<td>화로 불씨, 등불, 초, 광선, 동녘 빛</td>
+<td>mult_accumulate, mult_immediate</td>
+</tr>
+<tr>
+<td><strong>G9</strong></td>
+<td>먹·붓·서예</td>
+<td>먹향 연기, 붓끝, 한지, 대담한 획</td>
+<td>mult_accumulate (boss/rare)</td>
+</tr>
+<tr>
+<td><strong>G10</strong></td>
+<td>하늘·별·달·무한</td>
+<td>별자리 지도, 달 실루엣, 나선 은하, 무한 리본</td>
+<td>info_reveal (high), legendary</td>
+</tr>
+</tbody></table>
+<h3>4-2. 타이밍(T1~T6) 구도 언어 (선택적 레이어)</h3>
+<p>발동 타이밍이 <strong>구도 방향</strong>으로 암시된다. 이 규칙은 강제가 아니지만 적용하면 세트 일관성이 높아진다.</p>
+<table>
+<thead>
+<tr>
+<th>타이밍</th>
+<th>게임 내 의미</th>
+<th>구도 방향</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>T1</strong> 판 시작·앤티</td>
+<td>준비·세팅</td>
+<td>정면 대칭 구도 — &quot;대기 중&quot;</td>
+</tr>
+<tr>
+<td><strong>T2</strong> 패 확인 직후</td>
+<td>각성·인식</td>
+<td>중앙 집중 + 미약한 빛 — &quot;방금 본 것&quot;</td>
+</tr>
+<tr>
+<td><strong>T3</strong> 베팅</td>
+<td>결단·밀어붙임</td>
+<td>강한 대각선 구도 — &quot;앞으로&quot;</td>
+</tr>
+<tr>
+<td><strong>T4</strong> 패 공개 직전</td>
+<td>긴장·절정</td>
+<td>화면 가득 클로즈업 — &quot;바로 지금&quot;</td>
+</tr>
+<tr>
+<td><strong>T5</strong> 특정 족보 조건</td>
+<td>조건부·비밀</td>
+<td>부분 가려진 모티프 — &quot;드러나는 중&quot;</td>
+</tr>
+<tr>
+<td><strong>T6</strong> 판 종료 후</td>
+<td>정산·축적</td>
+<td>원형·나선·안정 구도 — &quot;쌓인 것들&quot;</td>
+</tr>
+</tbody></table>
+<h3>4-3. 전체 카드 모티프 배분표 (120종)</h3>
+<blockquote>
+<p>모티프 군(G#) + 타이밍(T#) + 색 시그니처(§3) 를 조합하여 프롬프트 작성.</p>
+</blockquote>
+<h4>Common 49종</h4>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>id</th>
+<th>effect_type</th>
+<th>T</th>
+<th>G</th>
+<th>모티프 핵심 아이디어</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>풍운아의 직감</td>
+<td>noroom_jikgam</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G1</td>
+<td>한 손, 인장 들어올리는 순간</td>
+</tr>
+<tr>
+<td>운수의 봉투</td>
+<td>unsoo_bongtu</td>
+<td>mult_immediate</td>
+<td>T1</td>
+<td>G5</td>
+<td>봉인된 봉투, 앞면에 엽전 흔적</td>
+</tr>
+<tr>
+<td>손맛</td>
+<td>sonmat</td>
+<td>mult_immediate</td>
+<td>T6</td>
+<td>G1</td>
+<td>화투패 한 장 내려치는 손</td>
+</tr>
+<tr>
+<td>빠른 손</td>
+<td>ppareun_son</td>
+<td>mult_immediate</td>
+<td>T1</td>
+<td>G1</td>
+<td>가볍게 편 손, 손가락 세 개 펼침</td>
+</tr>
+<tr>
+<td>한 잔의 술</td>
+<td>han_jan_eul</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G5</td>
+<td>막걸리 사발, 파문 일렁임</td>
+</tr>
+<tr>
+<td>작은 행운</td>
+<td>jageun_haengun</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G7</td>
+<td>풀잎 끝 이슬 한 방울</td>
+</tr>
+<tr>
+<td>떨림</td>
+<td>tteollim</td>
+<td>mult_immediate</td>
+<td>T3</td>
+<td>G1</td>
+<td>긴장한 손가락 끝, 미세한 진동선</td>
+</tr>
+<tr>
+<td>따뜻한 손</td>
+<td>ttatteut_han_son</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G1</td>
+<td>손바닥 전면, 온기 표현</td>
+</tr>
+<tr>
+<td>끈기의 띠</td>
+<td>kkeungi_tti</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>풀잎 줄기에 감긴 가는 실</td>
+</tr>
+<tr>
+<td>화로의 불씨</td>
+<td>hwaro_bulssi</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G8</td>
+<td>화로 안 마지막 불씨 한 점</td>
+</tr>
+<tr>
+<td>매화의 인내</td>
+<td>maehwa_innae</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>매화 가지 하나, 꽃 세 송이</td>
+</tr>
+<tr>
+<td>작은 발걸음</td>
+<td>jageun_balgeoreum</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>진흙 위 작은 발자국 두 개</td>
+</tr>
+<tr>
+<td>솔잎의 기운</td>
+<td>soljipe_giun</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>솔잎 묶음, 날카로운 선들</td>
+</tr>
+<tr>
+<td>학의 침착</td>
+<td>haki_chimchak</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>학 한 마리, 한 발로 서 있음</td>
+</tr>
+<tr>
+<td>등불의 의지</td>
+<td>deungbul_uiji</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G8</td>
+<td>등불 하나, 바람에 흔들리지 않음</td>
+</tr>
+<tr>
+<td>풀잎의 끈기</td>
+<td>puljipe_kkeungi</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>돌 틈새 뚫고 나온 풀잎</td>
+</tr>
+<tr>
+<td>봄의 인내</td>
+<td>bom_innae</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>눈 속 매화 꽃봉오리</td>
+</tr>
+<tr>
+<td>거친 손마디</td>
+<td>geochin_sonmadi</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G9</td>
+<td>굳은살 가득한 손마디 클로즈업</td>
+</tr>
+<tr>
+<td>흘낏</td>
+<td>heulkkit</td>
+<td>info_reveal</td>
+<td>T2</td>
+<td>G2</td>
+<td>반쯤 닫힌 눈, 곁눈질</td>
+</tr>
+<tr>
+<td>직감의 떨림</td>
+<td>jikgame_tteollim</td>
+<td>info_reveal</td>
+<td>T2</td>
+<td>G2</td>
+<td>감은 눈, 미간 집중</td>
+</tr>
+<tr>
+<td>손가락 끝의 감각</td>
+<td>songarakkkeut_gamgak</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G1</td>
+<td>화투패 모서리 집는 손가락 끝</td>
+</tr>
+<tr>
+<td>가벼운 손길</td>
+<td>gabyeoun_songil</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G1</td>
+<td>가볍게 내려놓는 손, 아래로 향함</td>
+</tr>
+<tr>
+<td>작은 주머니</td>
+<td>jageun_jumoni</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>묶인 작은 주머니</td>
+</tr>
+<tr>
+<td>나그네의 노자</td>
+<td>noroomggun_pundon</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>엽전 두 닢, 먼지 속에 놓인</td>
+</tr>
+<tr>
+<td>인색한 손</td>
+<td>insaek_han_son</td>
+<td>economy</td>
+<td>T3</td>
+<td>G5</td>
+<td>엽전을 꽉 쥔 손, 내놓기 싫은</td>
+</tr>
+<tr>
+<td>엽전의 소리</td>
+<td>dongjeon_jjalrangim</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>엽전 세 닢, 구멍 뚜렷</td>
+</tr>
+<tr>
+<td>푼돈의 모음</td>
+<td>pundon_moeum</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>작은 동전 더미, 위에서 본 구도</td>
+</tr>
+<tr>
+<td>막걸리 한 사발</td>
+<td>makgeolli_sabal</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>사발 가득 막걸리, 거품</td>
+</tr>
+<tr>
+<td>손때 묻은 엽전</td>
+<td>sontaeggin_dongjeon</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>낡은 엽전 하나, 손때로 광이 남</td>
+</tr>
+<tr>
+<td>절약의 미덕</td>
+<td>jeolyak_midok</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>봉투 실로 꼼꼼히 묶음</td>
+</tr>
+<tr>
+<td>허세의 불꽃</td>
+<td>heomchi_bul</td>
+<td>bluff_synergy</td>
+<td>T3</td>
+<td>G3</td>
+<td>탈 뒤 폭발하는 불꽃 (약한 불꽃)</td>
+</tr>
+<tr>
+<td>담대한 기운</td>
+<td>damdae_giun</td>
+<td>bluff_synergy</td>
+<td>T4</td>
+<td>G3</td>
+<td>탈 그림자만 보임, 얼굴은 없음</td>
+</tr>
+<tr>
+<td>허세의 맛</td>
+<td>heom_son_mat</td>
+<td>bluff_synergy</td>
+<td>T1</td>
+<td>G3</td>
+<td>빈 손, 하지만 자신감 있는 포즈</td>
+</tr>
+<tr>
+<td>거짓의 기개</td>
+<td>geo_jissi_giga</td>
+<td>bluff_synergy</td>
+<td>T5</td>
+<td>G3</td>
+<td>탈 뒤집어 쓴 실루엣, 반쪽만 보임</td>
+</tr>
+<tr>
+<td>손빠르기</td>
+<td>son_bbaelgi</td>
+<td>deck_manipulation</td>
+<td>T2</td>
+<td>G1</td>
+<td>빠른 손동작 잔상 (모션 라인)</td>
+</tr>
+<tr>
+<td>패 바워</td>
+<td>pae_bawo</td>
+<td>deck_manipulation</td>
+<td>T3</td>
+<td>G6</td>
+<td>화투패 두 장 교차, 위아래 교체</td>
+</tr>
+<tr>
+<td>손 발림</td>
+<td>son_ballim</td>
+<td>deck_manipulation</td>
+<td>T5</td>
+<td>G1</td>
+<td>손등에 화투패 한 장 올려놓은 묘기</td>
+</tr>
+<tr>
+<td>행운의 패</td>
+<td>haeng_un_pae</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G6</td>
+<td>화투패 한 장, 밝게 빛남</td>
+</tr>
+<tr>
+<td>땡의 기쁨</td>
+<td>ddaeng_gi_ppum</td>
+<td>mult_immediate</td>
+<td>T3</td>
+<td>G6</td>
+<td>같은 무늬 화투패 두 장, 찰싹 붙음</td>
+</tr>
+<tr>
+<td>눈치의 팜</td>
+<td>nunchi_pam</td>
+<td>info_reveal</td>
+<td>T3</td>
+<td>G2</td>
+<td>눈 크게 뜨고 주시하는 클로즈업</td>
+</tr>
+<tr>
+<td>냉정한 침착</td>
+<td>naengchim</td>
+<td>info_reveal</td>
+<td>T1</td>
+<td>G2</td>
+<td>차갑고 고요한 눈, 눈물 없음</td>
+</tr>
+<tr>
+<td>화투 절기</td>
+<td>hwatu_jeolgi</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G6</td>
+<td>계절별 화투패 4장 사각 배치</td>
+</tr>
+<tr>
+<td>땡 돌파</td>
+<td>ddaeng_dolpa</td>
+<td>mult_immediate</td>
+<td>T5</td>
+<td>G6</td>
+<td>화투패 두 장이 벽을 뚫는 느낌</td>
+</tr>
+<tr>
+<td>승자의 주머니</td>
+<td>seungja_jumoni</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>불룩한 주머니, 실로 묶임</td>
+</tr>
+<tr>
+<td>행복 주머니</td>
+<td>haengbok_jumoni</td>
+<td>economy</td>
+<td>T3</td>
+<td>G5</td>
+<td>주머니에 작은 꽃 수놓음</td>
+</tr>
+<tr>
+<td>노름 주머니</td>
+<td>noeum_jumoni</td>
+<td>economy</td>
+<td>T4</td>
+<td>G5</td>
+<td>내기 물건 담긴 주머니, 막 열리는</td>
+</tr>
+<tr>
+<td>승자의 기</td>
+<td>seungja_gi</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>매 한 마리, 날개 펼침</td>
+</tr>
+<tr>
+<td>운수의 불</td>
+<td>unsu_bul</td>
+<td>mult_accumulate</td>
+<td>T5</td>
+<td>G8</td>
+<td>초 한 자루, 흔들리는 불꽃</td>
+</tr>
+<tr>
+<td>눈치 배수</td>
+<td>nunchi_baesu</td>
+<td>info_reveal_and_mult</td>
+<td>T3</td>
+<td>G2</td>
+<td>한쪽 눈 감고 패 보는 클로즈업</td>
+</tr>
+</tbody></table>
+<h4>Uncommon 36종</h4>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>id</th>
+<th>effect_type</th>
+<th>T</th>
+<th>G</th>
+<th>모티프 핵심 아이디어</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>패 읽는 눈</td>
+<td>pae_iknun</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G2</td>
+<td>패를 읽는 예리한 눈빛</td>
+</tr>
+<tr>
+<td>광꾼의 시선</td>
+<td>gwangggun_sison</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G2</td>
+<td>광 카드 향해 꽂히는 시선</td>
+</tr>
+<tr>
+<td>승부사의 미소</td>
+<td>seungbusa_misso</td>
+<td>mult_immediate</td>
+<td>T3</td>
+<td>G2</td>
+<td>한쪽 입술만 올라간 미소 눈</td>
+</tr>
+<tr>
+<td>차가운 손</td>
+<td>chagaun_son</td>
+<td>mult_immediate</td>
+<td>T3</td>
+<td>G1</td>
+<td>얼음처럼 차가운 손, 서리 표현</td>
+</tr>
+<tr>
+<td>얼굴마담</td>
+<td>eolgul_madam</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G3</td>
+<td>아름답지만 속을 모르는 가면 얼굴</td>
+</tr>
+<tr>
+<td>광의 누적</td>
+<td>gwange_nujeok</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G8</td>
+<td>광 카드 실루엣에서 빛이 겹침</td>
+</tr>
+<tr>
+<td>땡의 누적</td>
+<td>ddaengae_nujeok</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G6</td>
+<td>같은 화투패 두 장이 서서히 합쳐짐</td>
+</tr>
+<tr>
+<td>호랑이의 의지</td>
+<td>horangi_uiji</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>호랑이 눈 클로즈업, 금빛 눈동자</td>
+</tr>
+<tr>
+<td>거북의 인내</td>
+<td>geobukui_innae</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>거북 등껍질 문양, 위에서 본 구도</td>
+</tr>
+<tr>
+<td>봉황의 자취</td>
+<td>bonghwang_jachui</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>봉황 깃털 한 가닥, 바닥에 떨어진</td>
+</tr>
+<tr>
+<td>호기심의 길</td>
+<td>hogisim_gil</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>풀숲 사이 실처럼 가는 길</td>
+</tr>
+<tr>
+<td>도전자의 기상</td>
+<td>dojeonja_gisang</td>
+<td>mult_accumulate</td>
+<td>T1</td>
+<td>G4</td>
+<td>호랑이 앞발 들어올림, 위협자세</td>
+</tr>
+<tr>
+<td>천리안</td>
+<td>cheonrian</td>
+<td>info_reveal</td>
+<td>T2</td>
+<td>G2</td>
+<td>별자리 담긴 거대한 눈</td>
+</tr>
+<tr>
+<td>마음 읽기</td>
+<td>maeum_ikgi</td>
+<td>info_reveal</td>
+<td>T3</td>
+<td>G2</td>
+<td>눈 두 개 겹쳐 보임 (내 눈+상대 눈)</td>
+</tr>
+<tr>
+<td>점쟁이의 속삭임</td>
+<td>jeomjaengie_soksagim</td>
+<td>info_reveal</td>
+<td>T6</td>
+<td>G10</td>
+<td>별 하나에서 속삭임 물결</td>
+</tr>
+<tr>
+<td>시장 정찰병</td>
+<td>sijang_jeongchalbyeong</td>
+<td>info_reveal</td>
+<td>T6</td>
+<td>G2</td>
+<td>작은 눈 구멍으로 엿보는 구도</td>
+</tr>
+<tr>
+<td>역지의 눈</td>
+<td>yeokji_nun</td>
+<td>info_reveal</td>
+<td>T2</td>
+<td>G2</td>
+<td>거울에 비친 눈 (자기 눈=상대 눈)</td>
+</tr>
+<tr>
+<td>내부 청보</td>
+<td>naebu_cheongbo</td>
+<td>info_reveal</td>
+<td>T4</td>
+<td>G2</td>
+<td>닫힌 문 열쇠 구멍으로 보이는 눈</td>
+</tr>
+<tr>
+<td>청보대</td>
+<td>cheong_bo_dae</td>
+<td>info_reveal_and_mult</td>
+<td>T4</td>
+<td>G2</td>
+<td>쌍안경으로 보는 눈+황금빛 동시</td>
+</tr>
+<tr>
+<td>패의 재편</td>
+<td>paee_jaepyeon</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G6</td>
+<td>화투패 여러 장 소용돌이</td>
+</tr>
+<tr>
+<td>신중한 손</td>
+<td>sinjunghan_son</td>
+<td>deck_manipulation</td>
+<td>T2</td>
+<td>G1</td>
+<td>천천히 내려놓는 손, 정지 순간</td>
+</tr>
+<tr>
+<td>카드 마법사</td>
+<td>kadeu_mabopsa</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G6</td>
+<td>화투패 공중 회전, 자주빛 광</td>
+</tr>
+<tr>
+<td>조심스러운 손</td>
+<td>josim_son</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G1</td>
+<td>패 가장자리 살짝 잡은 손끝</td>
+</tr>
+<tr>
+<td>검토의 손</td>
+<td>geomto_son</td>
+<td>deck_manipulation</td>
+<td>T4</td>
+<td>G1</td>
+<td>패 위에 손가락 두 개 살며시</td>
+</tr>
+<tr>
+<td>패 순배</td>
+<td>pae_sunbae</td>
+<td>deck_manipulation</td>
+<td>T4</td>
+<td>G6</td>
+<td>화투패 3장 부채꼴 배열</td>
+</tr>
+<tr>
+<td>큰 주머니</td>
+<td>keun_jumoni</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>풍선처럼 부풀어오른 큰 주머니</td>
+</tr>
+<tr>
+<td>시장의 친구</td>
+<td>sijange_chingu</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>저울 한쪽에 동전, 한쪽에 패</td>
+</tr>
+<tr>
+<td>시장 뜬 주머니</td>
+<td>sijang_tteum_jumoni</td>
+<td>economy</td>
+<td>T6</td>
+<td>G5</td>
+<td>주머니가 가게 천장에 걸려 있음</td>
+</tr>
+<tr>
+<td>도승 뜸</td>
+<td>do_seung_tteum</td>
+<td>economy</td>
+<td>T5</td>
+<td>G5</td>
+<td>향 연기 피어오름, 아래 엽전</td>
+</tr>
+<tr>
+<td>누름 눈빛</td>
+<td>nureum_nunbit</td>
+<td>bluff_synergy</td>
+<td>T2</td>
+<td>G3</td>
+<td>상대방 압도하는 강한 눈빛</td>
+</tr>
+<tr>
+<td>내심 대전</td>
+<td>naesim_daejeon</td>
+<td>bluff_synergy</td>
+<td>T2</td>
+<td>G3</td>
+<td>탈 두 개 마주 보고 있음</td>
+</tr>
+<tr>
+<td>마패 기개</td>
+<td>mapa_gi_gae</td>
+<td>bluff_synergy</td>
+<td>T5</td>
+<td>G3</td>
+<td>탈 실루엣 뒤에 기 에너지</td>
+</tr>
+<tr>
+<td>광의 빛</td>
+<td>gwang_ui_bit</td>
+<td>mult_immediate</td>
+<td>T2</td>
+<td>G8</td>
+<td>광 카드에서 터지는 섬광</td>
+</tr>
+<tr>
+<td>금파 시선</td>
+<td>geumpa_sison</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G2</td>
+<td>황금빛 눈동자, 파동</td>
+</tr>
+<tr>
+<td>땡의 의지</td>
+<td>ddaeng_uiji</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G6</td>
+<td>두 장의 화투패 겹쳐 서 있음</td>
+</tr>
+<tr>
+<td>열승의 불</td>
+<td>yeolseung_bul</td>
+<td>mult_accumulate</td>
+<td>T5</td>
+<td>G8</td>
+<td>연속 승리 표시 불꽃 10개</td>
+</tr>
+</tbody></table>
+<h4>Rare 22종</h4>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>id</th>
+<th>effect_type</th>
+<th>T</th>
+<th>G</th>
+<th>모티프 핵심 아이디어</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>광땡 사냥꾼</td>
+<td>gwangddaeng_sanyangggun</td>
+<td>mult_immediate</td>
+<td>T5</td>
+<td>G4</td>
+<td>매가 광 카드를 낚아채는 순간</td>
+</tr>
+<tr>
+<td>승부의 기</td>
+<td>seungbu_ui_gi</td>
+<td>mult_immediate</td>
+<td>T4</td>
+<td>G4</td>
+<td>호랑이 포효, 황금빛 기 방출</td>
+</tr>
+<tr>
+<td>땡 새벽</td>
+<td>ddaeng_saebyeok</td>
+<td>mult_immediate</td>
+<td>T5</td>
+<td>G8</td>
+<td>새벽빛 속 화투패 두 장 같은 무늬</td>
+</tr>
+<tr>
+<td>싸늘한 눈</td>
+<td>ssineul_nun</td>
+<td>info_reveal_and_mult</td>
+<td>T3</td>
+<td>G2</td>
+<td>빙점 눈빛, 속을 꿰뚫는 푸른 홍채</td>
+</tr>
+<tr>
+<td>신의 눈</td>
+<td>sini_nun</td>
+<td>info_reveal</td>
+<td>T2</td>
+<td>G2</td>
+<td>거대한 눈, 홍채 안에 별자리 지도</td>
+</tr>
+<tr>
+<td>우주의 비밀</td>
+<td>ujue_bimil</td>
+<td>info_reveal</td>
+<td>T1</td>
+<td>G10</td>
+<td>별자리 지도 위 마패 하나</td>
+</tr>
+<tr>
+<td>마패 마음 읽기</td>
+<td>mapa_maeum_ikgi</td>
+<td>info_reveal</td>
+<td>T3</td>
+<td>G2</td>
+<td>마패 들고 상대 눈 들여다보는 구도</td>
+</tr>
+<tr>
+<td>운명의 패</td>
+<td>unmyeongui_pae</td>
+<td>deck_manipulation</td>
+<td>T4</td>
+<td>G6</td>
+<td>화투패 한 장이 빛나며 선택됨</td>
+</tr>
+<tr>
+<td>신의 손길</td>
+<td>siniui_songil</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G1</td>
+<td>손가락 끝에서 화투패 생성</td>
+</tr>
+<tr>
+<td>단계별 손길</td>
+<td>dan_gye_songil</td>
+<td>deck_manipulation</td>
+<td>T1</td>
+<td>G1</td>
+<td>손이 계단식으로 쌓인 패 정돈</td>
+</tr>
+<tr>
+<td>명약의 손</td>
+<td>myeongyak_son</td>
+<td>deck_manipulation</td>
+<td>T4</td>
+<td>G1</td>
+<td>손이 패 위에 약을 바르는 듯</td>
+</tr>
+<tr>
+<td>보물의 길</td>
+<td>bomulgi_gil</td>
+<td>economy</td>
+<td>T1</td>
+<td>G10</td>
+<td>산길 따라 엽전 흔적, 목적지 빛남</td>
+</tr>
+<tr>
+<td>단계 보상</td>
+<td>dan_gye_bo_sang</td>
+<td>economy</td>
+<td>T1</td>
+<td>G5</td>
+<td>계단 위에 놓인 커다란 주머니</td>
+</tr>
+<tr>
+<td>운명의 끈</td>
+<td>unmyeong_kkeun</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G7</td>
+<td>붉은 실 한 가닥, 공중에 팽팽히</td>
+</tr>
+<tr>
+<td>전설의 손(rare)</td>
+<td>jeonseolui_son</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G1</td>
+<td>늙은 손, 화투패 꽉 쥐고 있음</td>
+</tr>
+<tr>
+<td>강철의 의지</td>
+<td>gangcheol_uiji</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G4</td>
+<td>호랑이 발톱, 강철처럼 날카로움</td>
+</tr>
+<tr>
+<td>무한의 길</td>
+<td>muhane_gil</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G10</td>
+<td>나선 경로, 끝이 안 보임</td>
+</tr>
+<tr>
+<td>광땡의 불꽃</td>
+<td>gwang_ttaeng_bul</td>
+<td>mult_accumulate</td>
+<td>T6</td>
+<td>G8</td>
+<td>광+땡 두 카드 실루엣에서 화염</td>
+</tr>
+<tr>
+<td>불연의 파</td>
+<td>bul_yeon_pa</td>
+<td>mult_accumulate</td>
+<td>T5</td>
+<td>G8</td>
+<td>불꽃 파동, 연속성 표현</td>
+</tr>
+<tr>
+<td>구라쟁이</td>
+<td>gurajaengi</td>
+<td>bluff_synergy</td>
+<td>T6</td>
+<td>G3</td>
+<td>탈 하나가 다른 탈을 감추고 있음</td>
+</tr>
+<tr>
+<td>마패의 웃음</td>
+<td>mapa_useum</td>
+<td>bluff_synergy</td>
+<td>T3</td>
+<td>G3</td>
+<td>마패 들고 웃는 탈, 속임수</td>
+</tr>
+<tr>
+<td>그림자 마패</td>
+<td>geu_rimja_mapa</td>
+<td>bluff_synergy</td>
+<td>T4</td>
+<td>G3</td>
+<td>마패의 그림자만 보임, 실물 없음</td>
+</tr>
+</tbody></table>
+<h4>Legendary 7종 — 개별 프롬프트 §8 참조</h4>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>id</th>
+<th>effect_type</th>
+<th>G</th>
+<th>색 시그니처</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>전설의 마패</td>
+<td>jeonseolui_mapa</td>
+<td>mult_accumulate</td>
+<td>G1</td>
+<td>연금 #9DB85A + 황금 #F3C72E</td>
+</tr>
+<tr>
+<td>무한 배수</td>
+<td>muhan_baesu</td>
+<td>mult_accumulate</td>
+<td>G10</td>
+<td>연금 #9DB85A</td>
+</tr>
+<tr>
+<td>천기누설</td>
+<td>cheongi_nuseol</td>
+<td>info_reveal</td>
+<td>G10</td>
+<td>청명 #5BA4D9</td>
+</tr>
+<tr>
+<td>광의 신</td>
+<td>gwange_sin</td>
+<td>deck_manipulation</td>
+<td>G6</td>
+<td>자주 #9B59B6 + 황금 #F3C72E</td>
+</tr>
+<tr>
+<td>황금의 길</td>
+<td>hwangeumui_gil</td>
+<td>economy</td>
+<td>G10</td>
+<td>동 #C8921A + 황금 #F3C72E</td>
+</tr>
+<tr>
+<td>천의 마패</td>
+<td>cheon_ui_mapa</td>
+<td>mult_immediate</td>
+<td>G6</td>
+<td>황금 #F3C72E</td>
+</tr>
+<tr>
+<td>불사의 손</td>
+<td>bulsaui_son</td>
+<td>mult_accumulate</td>
+<td>G1+G8</td>
+<td>연금 #9DB85A + 불꽃 #D93333</td>
+</tr>
+</tbody></table>
+<h4>Boss 6종 — 개별 프롬프트 §9 참조</h4>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>id</th>
+<th>effect_type</th>
+<th>G</th>
+<th>색 시그니처</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>염주의 인내</td>
+<td>yeomju_inrye</td>
+<td>mult_immediate</td>
+<td>G5</td>
+<td>황금 #F3C72E + 호박 #7A4A1A</td>
+</tr>
+<tr>
+<td>정보의 안경</td>
+<td>jeongbo_angyeong</td>
+<td>info_reveal_and_mult</td>
+<td>G2</td>
+<td>청명 #5BA4D9 + 황금 #F3C72E</td>
+</tr>
+<tr>
+<td>양반탈의 가면</td>
+<td>yangban_tal</td>
+<td>bluff_synergy</td>
+<td>G3</td>
+<td>흑백 이중</td>
+</tr>
+<tr>
+<td>각시탈의 미소</td>
+<td>gakshi_tal</td>
+<td>psychological_pressure</td>
+<td>G3</td>
+<td>주홍 #D93333</td>
+</tr>
+<tr>
+<td>전설의 손(boss)</td>
+<td>jeonseol_son</td>
+<td>mult_immediate</td>
+<td>G1</td>
+<td>황금 #F3C72E</td>
+</tr>
+<tr>
+<td>묵향의 호흡</td>
+<td>mukhyang_hohup</td>
+<td>mult_accumulate</td>
+<td>G9</td>
+<td>연금 #9DB85A</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. 세트 보너스 시각 연결</h2>
+<p><code>data/set_bonuses.json</code>에 정의된 특정 카드 조합이 장착되면 시너지가 발동한다.
+이 카드 쌍들에게 <strong>공유 마이크로 모티프</strong>를 부여하면, 플레이어가 &quot;이 두 카드 어디서 본 무늬인데?&quot; 하고 시너지를 직관적으로 발견하는 경험을 만든다.</p>
+<h3>5-1. 마이크로 모티프 원칙</h3>
+<ul>
+<li>주요 모티프의 <strong>10% 이하 크기</strong>로 배경에 극히 미약하게 배치</li>
+<li>투명도 5~10% — 의식적으로 찾아야 보임 (부활절 달걀)</li>
+<li>세트 카드끼리만 공유 — 다른 카드에 절대 사용 금지</li>
+</ul>
+<h3>5-2. 세트별 마이크로 모티프 정의</h3>
+<table>
+<thead>
+<tr>
+<th>세트 id</th>
+<th>세트명</th>
+<th>포함 카드</th>
+<th>공유 마이크로 모티프</th>
+<th>배경 배치</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ssang_angyeong</code></td>
+<td>쌍안경</td>
+<td>흘낏 + 냉정한 침착</td>
+<td>가는 안경테 실루엣 두 개</td>
+<td>우상단</td>
+</tr>
+<tr>
+<td><code>bluff_saminbang</code></td>
+<td>블러프 삼인방</td>
+<td>구라쟁이 + 얼굴마담 + 내심 대전</td>
+<td>작은 탈 세 개 나란히</td>
+<td>하단 중앙</td>
+</tr>
+<tr>
+<td><code>cheol_du_gidung</code></td>
+<td>철의 두 기둥</td>
+<td>학의 침착 + 강철의 의지</td>
+<td>수직선 두 가닥</td>
+<td>좌우 대칭</td>
+</tr>
+<tr>
+<td><code>unmyeong_ssangpae</code></td>
+<td>운명의 쌍패</td>
+<td>운명의 패 + 운명의 끈</td>
+<td>붉은 실 한 가닥</td>
+<td>하단 대각선</td>
+</tr>
+<tr>
+<td><code>hwanggeum_gil</code></td>
+<td>황금 길</td>
+<td>보물의 길 + 황금의 길</td>
+<td>작은 황금 발자국 두 개</td>
+<td>하단 중앙</td>
+</tr>
+</tbody></table>
+<p><strong>프롬프트 적용 예시 (흘낏):</strong></p>
+<pre><code>Hidden micro-motif for set bonus &quot;쌍안경&quot;:
+Very faint thin glasses frame silhouette in upper-right corner,
+5% opacity, barely visible. DO NOT make it prominent.
+</code></pre>
+<hr>
+<h2>6. 앵커 카드 &amp; 양산 전략</h2>
+<h3>6-1. 앵커 카드 7종 선정</h3>
+<p>effect_type별로 먼저 완성할 레퍼런스 카드. 나머지 카드는 이 이미지를 style reference로 첨부한다.</p>
+<table>
+<thead>
+<tr>
+<th>effect_type</th>
+<th>앵커 카드</th>
+<th>id</th>
+<th>선정 이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mult_immediate</td>
+<td>빠른 손</td>
+<td>ppareun_son</td>
+<td>가장 단순한 손 모티프 — 베이스라인</td>
+</tr>
+<tr>
+<td>mult_accumulate</td>
+<td>화로의 불씨</td>
+<td>hwaro_bulssi</td>
+<td>누적 에너지를 불씨로 직관적 표현</td>
+</tr>
+<tr>
+<td>info_reveal</td>
+<td>흘낏</td>
+<td>heulkkit</td>
+<td>단순한 눈 모티프 — 청명색 레퍼런스</td>
+</tr>
+<tr>
+<td>deck_manipulation</td>
+<td>패의 재편</td>
+<td>paee_jaepyeon</td>
+<td>화투 소용돌이 — 자주색 레퍼런스</td>
+</tr>
+<tr>
+<td>economy</td>
+<td>엽전의 소리</td>
+<td>dongjeon_jjalrangim</td>
+<td>엽전 단독 — 동색 레퍼런스</td>
+</tr>
+<tr>
+<td>bluff_synergy</td>
+<td>허세의 불꽃</td>
+<td>heomchi_bul</td>
+<td>가장 단순한 블러프 카드</td>
+</tr>
+<tr>
+<td>psychological_pressure</td>
+<td>각시탈의 미소</td>
+<td>gakshi_tal</td>
+<td>유일한 1종 (Boss §9-4)</td>
+</tr>
+</tbody></table>
+<h3>6-2. 배치 생성 방법</h3>
+<pre><code>1. 앵커 카드를 먼저 단독 생성 (§7 베이스 템플릿 사용)
+2. 검증: 200×280 리사이즈 후 §6-4 체크리스트 통과 확인
+3. 앵커 이미지를 style reference로 첨부 후 같은 effect_type 5~10장 배치 생성
+4. 프롬프트에 추가: &quot;Use the EXACT same art style as the reference image.
+   Same dark background (#0D2619), same flat bold ink outlines, same limited palette.
+   ONLY the motif changes — everything else must match the reference.&quot;
+5. 5장마다 검증 (스타일 드리프트 확인)
+6. effect_type 완료 후 다음 effect_type 앵커로 전환
+</code></pre>
+<h3>6-3. 일관성 유지 문구 (매 배치 세션 추가)</h3>
+<pre><code>[Consistency lock — paste at top of every session]
+Maintain absolute visual consistency:
+- Background: EXACTLY #0D2619 — never lighter, never different
+- Same flat bold illustration style as reference
+- Same thick black outline weight throughout
+- Same limited palette: 2-3 colors maximum + pure black
+- Same motif size: 55-75% of total frame
+- Only the motif subject changes — background, style, outlines are IDENTICAL
+</code></pre>
+<h3>6-4. 소형 가독성 체크리스트 (200×280 px)</h3>
+<p>생성 결과를 반드시 200×280 으로 리사이즈해서 확인:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 1초 안에 모티프가 무엇인지 파악되는가?</li>
+<li><input disabled="" type="checkbox"> 효과 타입 강조색이 그 크기에서도 보이는가?</li>
+<li><input disabled="" type="checkbox"> 배경 #0D2619 와 모티프 사이 명도 차이가 충분한가?</li>
+<li><input disabled="" type="checkbox"> 세부 디테일이 뭉개졌는가? (OK — 소형에선 안 보여도 됨)</li>
+<li><input disabled="" type="checkbox"> 보더 영역(10% 마진)에 내용이 침범하지 않는가?</li>
+<li><input disabled="" type="checkbox"> 마이크로 모티프(세트 보너스용)가 배경에서 과도하게 튀지 않는가?</li>
+</ul>
+<hr>
+<h2>7. 베이스 프롬프트 템플릿</h2>
+<p>각 카드마다 <code>{...}</code> 변수만 교체. §1 스타일 DNA + §2 희귀도 블록 + §3 색 시그니처 + §4 모티프를 조합.</p>
+<pre><code>K-Sutda Mapa card illustration — &quot;{CARD_NAME_KO}&quot; ({RARITY}).
+Card art for a Korean traditional card game roguelike.
+
+[Motif — Layer 4]
+- Central subject: {MOTIF_DESCRIPTION}
+- Motif group: {G#} — {GROUP_DESCRIPTION}
+- Composition: {TIMING_COMPOSITION from §4-2}
+
+[Effect Color Signature — Layer 3]
+- Accent color: {COLOR_HEX} ({COLOR_NAME}) — used on motif highlights only
+- {COLOR_MEANING_FROM_§3}
+
+[Rarity Atmosphere — Layer 2]
+{PASTE RELEVANT RARITY BLOCK FROM §2}
+
+[Style DNA — Layer 1, never change]
+- Flat bold Korean folk art (민화) illustration
+- Thick uniform black ink outlines
+- Background: EXACTLY deep ink black #0D2619
+- Flat fills only — no gradients
+- Limited palette: background + ONE accent color + black
+- Motif fills 55–75% of frame
+- Square 1:1 output (1024×1024 PNG)
+- Safe zone: 10% margin all edges
+
+{IF SET BONUS CARD — paste §5 micro-motif instruction}
+
+Negative: anime, manga, photorealistic 3D, watercolor, Western fantasy,
+Japanese Ukiyo-e, casino chips, Las Vegas, text, numbers, card border,
+white background, gradient fills, multiple accent colors
+</code></pre>
+<hr>
+<h2>8. Legendary 7종 개별 프롬프트</h2>
+<blockquote>
+<p>저장 경로: <code>assets/mapa/{id}.png</code> / 모델: Nano Banana 2</p>
+</blockquote>
+<p>각 프롬프트에 §1 스타일 DNA, §2-4 Legendary 레이어, 해당 색 시그니처가 모두 적용되어 있다.</p>
+<h3>8-1. 전설의 마패 (<code>jeonseolui_mapa.png</code>)</h3>
+<p>효과: 이번 런 전체 모든 내재 효과 ×2 | effect_type: mult_accumulate | G1+G6</p>
+<pre><code>K-Sutda Mapa card &quot;전설의 마패&quot; (Legendary) — &quot;The Legendary Mapa&quot;.
+Effect: all equipped mapa effects doubled this run.
+
+[Motif]
+- Ancient wrinkled HANDS (both hands) holding two hwatu cards (gwang — &quot;光&quot; visible)
+- Hands belong to an old master: aged, powerful, deliberate — stylized thick ink lines
+- Faint green-gold aura (#9DB85A) from fingertips accumulating around the cards
+- Outer golden halo (#F3C72E) radiating from the cards themselves
+
+[Effect Color Signature]
+- Primary accent: soft green-gold #9DB85A (accumulated power from mult_accumulate)
+- Secondary accent: blazing gold #F3C72E (Legendary aura)
+
+[Rarity: Legendary]
+- Omnidirectional sacred halo glow
+- Background: dancheong cloud pattern ghost at 15% opacity
+- Symmetric composition — both hands centered, balanced
+
+[Style DNA]
+- Flat bold Korean folk art illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+- Motif fills 60-70% of frame
+
+Negative: young hands, anime, Western wizard, photorealistic,
+text, numbers, borders, white background, more than 2 cards
+</code></pre>
+<h3>8-2. 무한 배수 (<code>muhan_baesu.png</code>)</h3>
+<p>효과: 매 판 후 누적 배수 ×1.05 (영구 복리) | effect_type: mult_accumulate | G10</p>
+<pre><code>K-Sutda Mapa card &quot;무한 배수&quot; (Legendary) — &quot;Infinite Multiplier&quot;.
+Effect: permanent compounding ×1.05 after each round.
+
+[Motif]
+- An INFINITY SYMBOL (∞) made of spiraling green-gold ribbons or growing vines
+- Inside the symbol: a nautilus shell logarithmic spiral
+- Center crossing point: a small Korean 매듭 (decorative knot)
+- Background: dark ink cosmos with faint star points
+
+[Effect Color Signature]
+- Accent: soft green-gold #9DB85A — the color of accumulating growth
+- The infinity symbol itself IS the accent color
+
+[Rarity: Legendary]
+- Omnidirectional sacred glow from the infinity symbol
+- Star points in background (very faint)
+- Symmetric composition
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+- Infinity symbol fills 55-65% of frame
+
+Negative: casino roulette, lottery balls, plain math symbol,
+Western fantasy, anime, text, numbers, card borders, photorealistic
+</code></pre>
+<h3>8-3. 천기누설 (<code>cheongi_nuseol.png</code>)</h3>
+<p>효과: 이번 런 모든 정보 노출 | effect_type: info_reveal | G10</p>
+<pre><code>K-Sutda Mapa card &quot;천기누설&quot; (Legendary) — &quot;Revealing Heaven&#39;s Secrets&quot;.
+Effect: all information revealed this run.
+
+[Motif]
+- A single OPEN EYE, stylized in Korean folk art
+- Iris: a star map / constellation chart — delicate white lines on sky-blue
+- Around the eye: scattered face-down hwatu card silhouettes with faint glowing edges
+- Background: flowing cloud wisps (운문 pattern)
+
+[Effect Color Signature]
+- Accent: sky-blue #5BA4D9 — the clear-sky color of revelation and knowledge
+- Iris, star lines, glow all use this color
+
+[Rarity: Legendary]
+- Omnidirectional sacred glow from the eye
+- Cloud pattern in background at 15% opacity
+- Eye centered — symmetric composition
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+- Eye occupies 50-60% of frame
+
+Negative: Western pyramid/Illuminati, anime eye, horror eye,
+text, numbers, photorealistic, Western fantasy
+</code></pre>
+<h3>8-4. 광의 신 (<code>gwange_sin.png</code>)</h3>
+<p>효과: 이번 런 모든 패가 광 효과 부여 | effect_type: deck_manipulation | G6</p>
+<pre><code>K-Sutda Mapa card &quot;광의 신&quot; (Legendary) — &quot;God of Gwang&quot;.
+Effect: all hands gain gwang effect this run.
+
+[Motif]
+- A radiant sun-burst made of overlapping gwang card silhouettes
+- Center: the Chinese character &quot;光&quot; in massive golden calligraphy
+- Purple-gold light beams radiating outward from &quot;光&quot;
+- Around the halo: Korean lotus pattern border
+
+[Effect Color Signature]
+- Primary: purple #9B59B6 (deck_manipulation — transformation)
+- Secondary: blazing gold #F3C72E (Legendary power)
+- Light beams: the two colors interweave
+
+[Rarity: Legendary]
+- Divine radiant halo, full omnidirectional glow
+- &quot;光&quot; centered, fills 40% of frame
+- Light beams radiate to all edges
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: Western sun god, anime halo, Easter imagery,
+multiple Hanja characters (only &quot;光&quot;), text labels, card borders, photorealistic
+</code></pre>
+<h3>8-5. 황금의 길 (<code>hwangeumui_gil.png</code>)</h3>
+<p>효과: 획득 시 1회 명성치 +200 | effect_type: economy | G10</p>
+<pre><code>K-Sutda Mapa card &quot;황금의 길&quot; (Legendary) — &quot;The Golden Path&quot;.
+Effect: one-time +200 prestige on acquisition.
+
+[Motif]
+- A winding GOLDEN PATH in Korean traditional mountain landscape (산수화 style)
+- Copper-toned 엽전 (traditional coins with square holes) scattered along the path
+- Layered mountain silhouettes in dark ink — simplified, flat
+- Horizon glows with warm copper-gold light
+
+[Effect Color Signature]
+- Accent: copper-gold #C8921A (economy — the color of traditional coin wealth)
+- Path and coins use this color, NOT bright yellow gold
+
+[Rarity: Legendary]
+- Omnidirectional warm glow from the horizon
+- Dancheong mountain-cloud pattern ghost in background
+- Diagonal composition: path from bottom-left to top-right
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+[Set Bonus micro-motif — hwanggeum_gil]
+Two tiny golden footprints at the very start of the path, bottom-center,
+5% opacity — barely visible.
+
+Negative: Western fantasy road, treasure chest, anime,
+casino gold, text, numbers, card borders, photorealistic
+</code></pre>
+<h3>8-6. 천의 마패 (<code>cheon_ui_mapa.png</code>)</h3>
+<p>효과: 2차 베팅 이후 땡으로 승리 시 +18 배수 | effect_type: mult_immediate | G6</p>
+<pre><code>K-Sutda Mapa card &quot;천의 마패&quot; (Legendary) — &quot;Mapa of a Thousand&quot;.
+Effect: +18 multiplier on 땡 win after 2nd betting.
+
+[Motif]
+- TWO identical hwatu cards revealed simultaneously in a hand
+- Both cards show the same month motif — suggesting 땡 (matching pair)
+- Above the cards: bold radiating speed lines (Korean ink style, not manga)
+- The character &quot;千&quot; in calligraphic brush at top, or a thousand-petal lotus
+
+[Effect Color Signature]
+- Accent: blazing gold #F3C72E (mult_immediate — explosive instant power)
+- Radiating lines and card glow in gold
+
+[Rarity: Legendary]
+- Cards at center stage with dramatic halo
+- Radiating lines fill the background
+- Cards angled slightly upward — dynamic reveal
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: three or more cards, poker cards, Western playing cards,
+anime, photorealistic, text labels, card borders
+</code></pre>
+<h3>8-7. 불사의 손 (<code>bulsaui_son.png</code>)</h3>
+<p>효과: 쇼다운 승리 후 +3.0 배수 영구 적립 | effect_type: mult_accumulate | G1+G8</p>
+<pre><code>K-Sutda Mapa card &quot;불사의 손&quot; (Legendary) — &quot;The Undying Hand&quot;.
+Effect: permanently accumulate +3.0 multiplier after each showdown victory.
+
+[Motif]
+- A single HAND (palm facing viewer) engulfed in Korean traditional flames
+- Flames: bold, curling, decorative — Korean folk art 불꽃 style, NOT realistic
+- The hand glows from within with green-gold veins (accumulation energy)
+- In the palm center: a small 광 card outline, glowing
+
+[Effect Color Signature]
+- Primary: soft green-gold #9DB85A veins inside hand (mult_accumulate)
+- Secondary: vermillion #D93333 + orange flames (undying fire)
+- Gold tips #F3C72E at flame peaks
+
+[Rarity: Legendary]
+- Full omnidirectional halo from the hand+flame combination
+- Flame fills upper 2/3 of frame
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+- Upright palm facing viewer (NOT fist)
+
+Negative: skull, zombie, horror, Western dragon fire,
+anime energy blast, text, numbers, card borders, realistic photograph
+</code></pre>
+<hr>
+<h2>9. Boss 6종 개별 프롬프트</h2>
+<blockquote>
+<p>저장 경로: <code>assets/mapa/{id}.png</code> / 보스 마패: 단계 8 전용</p>
+</blockquote>
+<h3>9-1. 염주의 인내 (<code>yeomju_inrye.png</code>)</h3>
+<p>효과: 약패(망통~3끗) 시 ×2, 강패(장땡 이상) 시 ×3 | effect_type: mult_immediate | G5</p>
+<pre><code>K-Sutda Boss Mapa card &quot;염주의 인내&quot; — &quot;Patience of the Prayer Beads&quot;.
+Effect: ×2 on weak hands, ×3 on strong hands.
+
+[Motif]
+- A coiled PRAYER BEAD ROSARY (염주) forming a perfect circle
+- Inside the circle: two hwatu card silhouettes — one dim (weak hand), one bright (strong)
+- Optional: faint temple rooftop silhouette at bottom
+
+[Effect Color Signature]
+- Accent: gold #F3C72E at bead joints (mult_immediate)
+- Bead body: dark amber #7A4A1A (solemn, traditional)
+
+[Rarity: Boss]
+- Ominous overhead light — light comes from ABOVE the bead circle
+- Red edge vignette: #D93333 at 20% opacity from all edges
+- Bead circle fills 60-70% of frame
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: Christian rosary cross, anime monk, horror skull beads,
+photorealistic, text, numbers, card borders
+</code></pre>
+<h3>9-2. 정보의 안경 (<code>jeongbo_angyeong.png</code>)</h3>
+<p>효과: 매 판 상대 패 1장 정보 획득 + 자신 ×3.0 | effect_type: info_reveal_and_mult | G2</p>
+<pre><code>K-Sutda Boss Mapa card &quot;정보의 안경&quot; — &quot;The Information Glasses&quot;.
+Effect: see one opponent card per round + ×3.0 multiplier.
+
+[Motif]
+- A pair of THIN-FRAMED ELEGANT GLASSES positioned center, slightly angled
+- Left lens: bright — a clear hwatu card face visible inside (sky-blue tint)
+- Right lens: dark — obscured, unknown
+- Background: faint document/scroll texture
+
+[Effect Color Signature]
+- Left lens: sky-blue #5BA4D9 (info_reveal component)
+- Lens frame/rim: gold #F3C72E (mult component)
+- The two colors side-by-side = info_reveal_and_mult hybrid
+
+[Rarity: Boss]
+- Ominous downward light — shadows below the glasses
+- Red edge vignette #D93333 at 20%
+- Glasses fill 55-65% of frame
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: thick-frame geek glasses, spy gadget, anime hacker,
+photorealistic, text, numbers, card borders
+</code></pre>
+<h3>9-3. 양반탈의 가면 (<code>yangban_tal.png</code>)</h3>
+<p>효과: 베팅 시 망통/1끗이면 ×5 | effect_type: bluff_synergy | G3</p>
+<pre><code>K-Sutda Boss Mapa card &quot;양반탈의 가면&quot; — &quot;The Yangban Mask&quot;.
+Effect: ×5 multiplier when bluffing with worst hands.
+
+[Motif]
+- A YANGBAN TAL (양반탈) — close-up, filling most of frame
+- One side of the mouth smiling, other side neutral — deliberate ambiguity
+- Around mask edges: floating hwatu card corner shapes (hidden hands)
+
+[Effect Color Signature]
+- Mask base: hanji cream #F5EBD1 (the public face — bluff_synergy light)
+- Eye holes and markings: deep black #1A1A1A (the hidden truth)
+- Gold rim #F3C72E: indicates the mask&#39;s game power
+- Two-tone: the duality IS the color language
+
+[Rarity: Boss]
+- Mask slightly tilted — adds unease (unlike gakshi_tal which is centered)
+- Red vignette at edges #D93333 20%
+- Mask fills 70-80% of frame
+
+[Style DNA]
+- Flat bold Korean folk art illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: Halloween mask, horror mask, Japanese Noh/Kabuki,
+anime face, photorealistic, text, numbers, card borders
+</code></pre>
+<h3>9-4. 각시탈의 미소 (<code>gakshi_tal.png</code>)</h3>
+<p>효과: AI raise 시 플레이어에게 위협 표시 (심리 압박) | effect_type: psychological_pressure | G3</p>
+<pre><code>K-Sutda Boss Mapa card &quot;각시탈의 미소&quot; — &quot;The Bride Mask&#39;s Smile&quot;.
+Effect: psychological pressure — shows threatening display when AI raises.
+
+[Motif]
+- A GAKSHI TAL (각시탈) — close-up, perfectly centered (stillness = menace)
+- Mask wears a fixed enigmatic smile — not laughing, just... endlessly smiling
+- Around mask: faint coin/chip silhouettes suggesting enormous stakes
+- Edge of image: the red vignette is STRONGER here than other boss cards
+
+[Effect Color Signature]
+- Vermillion #D93333 — pure psychological_pressure color
+- Edge vignette is 30% opacity (stronger than other boss cards — unique exception)
+- Mask lips: #D93333 (the smile in red)
+- The red IS the message
+
+[Rarity: Boss]
+- Perfectly centered composition — the stillness makes it more threatening
+- Hair ornament: tiny gold accent #F3C72E
+- Mask fills 65-75% of frame
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+
+Negative: Halloween, horror clown, Japanese Geisha/Noh, photorealistic,
+anime, text, numbers, card borders, sad/crying expression (must be fixed smile)
+</code></pre>
+<h3>9-5. 전설의 손 (<code>jeonseol_son.png</code>)</h3>
+<p>효과: 패 공개 시 final_score 전체 ×2.5 | effect_type: mult_immediate | G1</p>
+<pre><code>K-Sutda Boss Mapa card &quot;전설의 손&quot; — &quot;The Legendary Hand&quot;.
+Effect: entire final score ×2.5 at card reveal.
+
+[Motif]
+- A SINGLE AGED HAND dramatically placing a hwatu card face-up
+- The card being revealed: gwang &quot;光&quot; symbol blazing gold
+- Motion lines (Korean ink style) suggest a sudden, decisive reveal
+- Light burst from the card — white-gold rays
+
+[Effect Color Signature]
+- Accent: blazing gold #F3C72E (mult_immediate — explosive instant power)
+- All light, rays, and card glow use this color
+
+[Rarity: Boss]
+- Ominous downward light on the hand from above
+- Red edge vignette #D93333 20%
+- Dynamic diagonal composition: bottom-right to top-left reveal
+
+[Style DNA]
+- Flat bold illustration, thick black ink outlines
+- Background: EXACTLY #0D2619
+- Card face fills 25-30% of frame (&quot;光&quot; must be legible)
+
+Negative: two hands (ONE only), young hand, ghost hand, horror,
+Western playing cards, text labels, card borders, photorealistic
+</code></pre>
+<h3>9-6. 묵향의 호흡 (<code>mukhyang_hohup.png</code>)</h3>
+<p>효과: 매 판 종료 후 영구 +×0.5 mult 누적 (단계 8 내내) | effect_type: mult_accumulate | G9</p>
+<pre><code>K-Sutda Boss Mapa card &quot;묵향의 호흡&quot; — &quot;The Breath of Ink Fragrance&quot;.
+Effect: permanently accumulate +×0.5 multiplier each round in stage 8.
+
+[Motif]
+- INK SMOKE (묵향) rising from a calligraphy brush
+- Smoke wisps are organic and abstract — NOT legible characters
+- Below the brush: a bold single brushstroke on hanji paper
+- Background: warmer dark ink than usual (hanji tone)
+
+[Effect Color Signature]
+- Accent: soft green-gold #9DB85A (mult_accumulate — gradual growth)
+- Single gold dust speck floating in the smoke
+- Brush handle: bamboo (#7A4A1A), no bright colors
+
+[Rarity: Boss]
+- Ominous top-down light — the smoke is lit from above
+- Red vignette #D93333 20% at edges
+- Vertical composition: brush at center, smoke to top
+
+[Style DNA]
+- Background: warm dark #1A1408 (slightly warmer than standard #0D2619 — unique exception for this card only)
+- Flat bold illustration, thick black ink outlines
+- Hanji paper visible at bottom 25% of frame
+
+Negative: pen/ballpoint, fountain pen, Western calligraphy, Chinese dragon,
+anime, photorealistic, legible text in smoke, numbers, card borders
+</code></pre>
+<hr>
+<h2>10. 진척 체크리스트</h2>
+<h3>Common (49종)</h3>
+<pre><code>[ ] 풍운아의 직감      [ ] 운수의 봉투       [ ] 손맛             [ ] 빠른 손 ★앵커
+[ ] 한 잔의 술         [ ] 작은 행운         [ ] 떨림             [ ] 따뜻한 손
+[ ] 끈기의 띠          [ ] 화로의 불씨 ★앵커  [ ] 매화의 인내      [ ] 작은 발걸음
+[ ] 솔잎의 기운        [ ] 학의 침착         [ ] 등불의 의지      [ ] 풀잎의 끈기
+[ ] 봄의 인내          [ ] 거친 손마디       [ ] 흘낏 ★앵커       [ ] 직감의 떨림
+[ ] 손가락 끝의 감각   [ ] 가벼운 손길       [ ] 작은 주머니      [ ] 나그네의 노자
+[ ] 인색한 손          [ ] 엽전의 소리 ★앵커 [ ] 푼돈의 모음      [ ] 막걸리 한 사발
+[ ] 손때 묻은 엽전     [ ] 절약의 미덕       [ ] 허세의 불꽃 ★앵커 [ ] 담대한 기운
+[ ] 허세의 맛          [ ] 거짓의 기개       [ ] 손빠르기         [ ] 패 바워
+[ ] 손 발림            [ ] 행운의 패         [ ] 땡의 기쁨        [ ] 눈치의 팜
+[ ] 냉정한 침착        [ ] 화투 절기         [ ] 땡 돌파          [ ] 승자의 주머니
+[ ] 행복 주머니        [ ] 노름 주머니       [ ] 승자의 기        [ ] 운수의 불
+[ ] 눈치 배수
+</code></pre>
+<h3>Uncommon (36종)</h3>
+<pre><code>[ ] 패 읽는 눈         [ ] 광꾼의 시선       [ ] 승부사의 미소    [ ] 차가운 손
+[ ] 얼굴마담           [ ] 광의 누적         [ ] 땡의 누적        [ ] 호랑이의 의지
+[ ] 거북의 인내        [ ] 봉황의 자취       [ ] 호기심의 길      [ ] 도전자의 기상
+[ ] 천리안             [ ] 마음 읽기         [ ] 점쟁이의 속삭임  [ ] 시장 정찰병
+[ ] 역지의 눈          [ ] 내부 청보         [ ] 청보대           [ ] 패의 재편 ★앵커
+[ ] 신중한 손          [ ] 카드 마법사       [ ] 조심스러운 손    [ ] 검토의 손
+[ ] 패 순배            [ ] 큰 주머니         [ ] 시장의 친구      [ ] 시장 뜬 주머니
+[ ] 도승 뜸            [ ] 누름 눈빛         [ ] 내심 대전        [ ] 마패 기개
+[ ] 광의 빛            [ ] 금파 시선         [ ] 땡의 의지        [ ] 열승의 불
+</code></pre>
+<h3>Rare (22종)</h3>
+<pre><code>[ ] 광땡 사냥꾼        [ ] 승부의 기         [ ] 땡 새벽          [ ] 싸늘한 눈
+[ ] 신의 눈            [ ] 우주의 비밀       [ ] 마패 마음 읽기   [ ] 운명의 패
+[ ] 신의 손길          [ ] 단계별 손길       [ ] 명약의 손        [ ] 보물의 길
+[ ] 단계 보상          [ ] 운명의 끈         [ ] 전설의 손(rare)  [ ] 강철의 의지
+[ ] 무한의 길          [ ] 광땡의 불꽃       [ ] 불연의 파        [ ] 구라쟁이
+[ ] 마패의 웃음        [ ] 그림자 마패
+</code></pre>
+<h3>Legendary (7종)</h3>
+<pre><code>[ ] 전설의 마패        [ ] 무한 배수         [ ] 천기누설         [ ] 광의 신
+[ ] 황금의 길          [ ] 천의 마패         [ ] 불사의 손
+</code></pre>
+<h3>Boss (6종)</h3>
+<pre><code>[ ] 염주의 인내        [ ] 정보의 안경       [ ] 양반탈의 가면    [ ] 각시탈의 미소 ★앵커
+[ ] 전설의 손(boss)    [ ] 묵향의 호흡
+</code></pre>
+<p><strong>★앵커</strong> = 해당 effect_type 첫 생성 목표 / <strong>총 진척: 0 / 120</strong></p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>mapa-cards.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 게임쇼 / 데모 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 게임쇼 / 데모 가이드</h1>
+<blockquote>
+<p>BIC (부산인디게임페스티벌) / PAX / TGS / 한국 인디 모임 등 행사 부스 디자인 + 데모 빌드 + 사용자 응대 + 굿즈 워크플로우.</p>
+</blockquote>
+<hr>
+<h2>0. 게임쇼 전략</h2>
+<h3>0-1. 주요 행사 (한국 + 글로벌)</h3>
+<table>
+<thead>
+<tr>
+<th>행사</th>
+<th>시기</th>
+<th>지역</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>BIC (부산인디게임페스티벌)</strong></td>
+<td>매년 9월</td>
+<td>부산</td>
+<td>🔴 한국 인디 최대</td>
+</tr>
+<tr>
+<td><strong>G-STAR</strong></td>
+<td>매년 11월</td>
+<td>부산</td>
+<td>🟡 큰 규모, 인디 부스</td>
+</tr>
+<tr>
+<td><strong>인디 게임 모임</strong> (월/분기)</td>
+<td>비정기</td>
+<td>서울 / 부산</td>
+<td>🟢 작은 모임</td>
+</tr>
+<tr>
+<td><strong>GDC</strong></td>
+<td>매년 3월</td>
+<td>샌프란시스코</td>
+<td>🟡 글로벌 게임 개발자</td>
+</tr>
+<tr>
+<td><strong>PAX East / West</strong></td>
+<td>봄 / 가을</td>
+<td>보스턴 / 시애틀</td>
+<td>🟡 인디 부스</td>
+</tr>
+<tr>
+<td><strong>Gamescom</strong></td>
+<td>매년 8월</td>
+<td>독일 쾰른</td>
+<td>🟢 유럽 최대</td>
+</tr>
+<tr>
+<td><strong>TGS</strong> (도쿄게임쇼)</td>
+<td>매년 9월</td>
+<td>도쿄</td>
+<td>🟢 일본 진출 시</td>
+</tr>
+</tbody></table>
+<h3>0-2. 참가 결정 기준</h3>
+<pre><code>- 인디 부스 비용 (한국 100~300만원, 글로벌 $500~3000)
+- 여행 / 숙박 비용 (글로벌 $2000~5000)
+- 노출 / 데모 사용자 수 (수백~수천)
+- 미디어 / 인플루언서 컨택 가능
+- 다른 인디 개발자 네트워킹
+
+→ 베타 전 1~2회 (한국), 정식 출시 직전 1회 (한국 + 글로벌 1)
+</code></pre>
+<hr>
+<h2>1. 부스 디자인</h2>
+<h3>1-1. 부스 사이즈</h3>
+<table>
+<thead>
+<tr>
+<th>사이즈</th>
+<th>활용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>소형</strong> (1.5 × 1.5m)</td>
+<td>BIC / 인디 모임 일반</td>
+</tr>
+<tr>
+<td><strong>중형</strong> (3 × 3m)</td>
+<td>BIC 메인 / PAX 인디</td>
+</tr>
+<tr>
+<td><strong>대형</strong> (6 × 6m)</td>
+<td>G-STAR / Gamescom (옵션)</td>
+</tr>
+</tbody></table>
+<p>→ K-Sutda 는 인디 게임 = <strong>소형~중형</strong> 부스 적합.</p>
+<h3>1-2. 중형 (3 × 3m) 부스 구성</h3>
+<pre><code>┌─────────────────────────────────────┐  3m × 3m
+│                                     │
+│  [큰 포스터 A2 — 뒷벽 중앙]          │
+│  K-Sutda 로고 + 키 비주얼            │
+│                                     │
+│  ┌───────────┐  ┌───────────┐       │
+│  │ PC 데모 1 │  │ PC 데모 2 │       │  ← 사용자 2명 동시 플레이
+│  │ (의자 X)  │  │ (의자 X)  │       │
+│  └───────────┘  └───────────┘       │
+│                                     │
+│  [테이블 — 굿즈 / 명함]              │
+│  스티커, 명함, 굿즈 카탈로그         │
+│                                     │
+└─────────────────────────────────────┘
+       ↑ 통로 (사용자 입장)
+</code></pre>
+<h3>1-3. 시각 디자인</h3>
+<ul>
+<li>부스 배경 = 짙은 먹 (#0D2619) — 한국 도박판 톤</li>
+<li>큰 포스터 — 메인 키 비주얼 (광패 + 무명)</li>
+<li>테이블 천 = 한지 베이지 / 황금</li>
+<li>조명 = 따뜻한 노란빛 (시장 등불 톤)</li>
+</ul>
+<h3>1-4. 부스 소품</h3>
+<table>
+<thead>
+<tr>
+<th>소품</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>롤업 배너</strong> (850 × 2000mm)</td>
+<td>부스 옆 강조</td>
+</tr>
+<tr>
+<td><strong>테이블 톱 카드</strong> (100×150mm)</td>
+<td>게임 정보 짧게</td>
+</tr>
+<tr>
+<td><strong>명함 거치대</strong></td>
+<td>명함 100매 (행사용)</td>
+</tr>
+<tr>
+<td><strong>스티커 거치대</strong></td>
+<td>무료 / 굿즈 판매</td>
+</tr>
+<tr>
+<td><strong>태블릿 / 모바일</strong></td>
+<td>모바일 버전 데모 (Phase 4)</td>
+</tr>
+<tr>
+<td><strong>PC × 2</strong></td>
+<td>메인 데모</td>
+</tr>
+<tr>
+<td><strong>헤드폰</strong></td>
+<td>사운드 들을 수 있게 (시끄러운 행사)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 데모 빌드 (Demo Build)</h2>
+<h3>2-1. 데모 빌드 사양</h3>
+<pre><code>[게임쇼 데모 빌드]
+
+내용:
+- 단계 1 ~ 2 만 (전체 8 단계 X)
+- 튜토리얼 강화 (17-in-game-help)
+- 자동 세이브 X (행사 PC 공용)
+- 메인 메뉴 단순 (시드 옵션 / 이어하기 X)
+
+길이: 10~15분 (1인 플레이 시간)
+
+대화: 가능 (사용자가 직접)
+
+비고:
+- 매 사용자 종료 시 자동 리셋 (다음 사용자 처음부터)
+- 첫 화면에 큰 안내 (&quot;새 사용자 — 튜토리얼 시작&quot;)
+</code></pre>
+<h3>2-2. 데모 일러스트 / 비주얼</h3>
+<ul>
+<li>데모 빌드 진입 시 큰 로고 (3초)</li>
+<li>단계 1 클리어 시 — &quot;감사합니다! 정식 출시 시 더 깊은 게임을!&quot;</li>
+<li>Steam 위시리스트 QR 코드 표시</li>
+</ul>
+<h3>2-3. 모바일 데모 (Phase 4 후)</h3>
+<ul>
+<li>모바일 데모 = 단계 1 만 (5분)</li>
+<li>태블릿에 설치 + 헤드폰</li>
+<li>한 손 플레이 검증</li>
+</ul>
+<hr>
+<h2>3. 사용자 응대 가이드</h2>
+<h3>3-1. 첫 인사 (5초)</h3>
+<pre><code>[부스 입장 사용자에게]
+
+&quot;안녕하세요!
+K-Sutda — 한국 화투를 활용한 로그라이크 카드 게임입니다.
+한 번 해보시겠어요? (5~10분 정도면 충분합니다)&quot;
+
+[영문]
+&quot;Hi! This is K-Sutda — a Korean roguelike card game.
+Want to give it a try? (5~10 minutes)&quot;
+</code></pre>
+<h3>3-2. 게임 안내 (사용자 플레이 중)</h3>
+<pre><code>[사용자가 플레이 중일 때]
+
+- 첫 30초: 옆에서 조용히 관찰 (간섭 X)
+- 헤매면: 짧게 안내
+  - &quot;위에 카드 1장 보이시죠? 그게 첫 카드입니다.&quot;
+  - &quot;콜이나 다이 중 선택하세요.&quot;
+- 단계 1 클리어: 박수 + &quot;잘 하셨어요! 다음 단계 진행하세요&quot;
+- 단계 2 진입: 자유 플레이 (자기 페이스)
+</code></pre>
+<h3>3-3. 응대 톤</h3>
+<ul>
+<li>✅ 친근하지만 진중함</li>
+<li>✅ 한국어 / 영어 즉시 전환 가능</li>
+<li>✅ 사용자 페이스 존중 (시간 강요 X)</li>
+<li>❌ 게임 자랑 과한 (홍보 톤)</li>
+<li>❌ 발라트로 비교 강요</li>
+</ul>
+<h3>3-4. 자주 묻는 질문 (FAQ) 응답 준비</h3>
+<table>
+<thead>
+<tr>
+<th>질문</th>
+<th>응답</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&quot;발라트로랑 어떻게 다르나요?&quot;</td>
+<td>&quot;발라트로의 빌딩 + 한국 섯다의 2단계 베팅 + 블러프.&quot;</td>
+</tr>
+<tr>
+<td>&quot;한국 화투 안 해본데도 할 수 있나요?&quot;</td>
+<td>&quot;네, 튜토리얼이 친절하게 안내합니다.&quot;</td>
+</tr>
+<tr>
+<td>&quot;언제 출시되나요?&quot;</td>
+<td>&quot;[정확한 출시일 또는 &#39;X월 예정&#39;]&quot;</td>
+</tr>
+<tr>
+<td>&quot;가격은요?&quot;</td>
+<td>&quot;$14.99 / 18,000원, 인앱결제·광고 없음.&quot;</td>
+</tr>
+<tr>
+<td>&quot;모바일 출시는?&quot;</td>
+<td>&quot;PC 출시 후 6개월 후 모바일 예정.&quot;</td>
+</tr>
+<tr>
+<td>&quot;다인 플레이 있나요?&quot;</td>
+<td>&quot;출시 후 6개월 추가 예정.&quot;</td>
+</tr>
+<tr>
+<td>&quot;한국 게임인가요?&quot;</td>
+<td>&quot;네, 한국 개발자 + 한국 정체성.&quot;</td>
+</tr>
+</tbody></table>
+<p>→ 응답 카드를 부스에 준비 (사용자에게 보여줄 수 있게).</p>
+<hr>
+<h2>4. 굿즈 / 명함 워크플로우</h2>
+<h3>4-1. 무료 배포</h3>
+<table>
+<thead>
+<tr>
+<th>굿즈</th>
+<th>수량</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>명함</strong></td>
+<td>100~200매</td>
+</tr>
+<tr>
+<td><strong>스티커 1팩 (5종)</strong></td>
+<td>50~100팩</td>
+</tr>
+<tr>
+<td><strong>굿즈 카탈로그</strong></td>
+<td>50매</td>
+</tr>
+</tbody></table>
+<p>→ 사용자 게임 후 감사 굿즈로 무료 배포.</p>
+<h3>4-2. 유료 판매 (옵션)</h3>
+<table>
+<thead>
+<tr>
+<th>굿즈</th>
+<th>가격</th>
+<th>수량</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>티셔츠</strong></td>
+<td>25,000원</td>
+<td>10~20매</td>
+</tr>
+<tr>
+<td><strong>머그컵</strong></td>
+<td>15,000원</td>
+<td>10~20개</td>
+</tr>
+<tr>
+<td><strong>카드 덱 한정판</strong></td>
+<td>40,000원</td>
+<td>20~50세트</td>
+</tr>
+</tbody></table>
+<p>→ 결제 = 현장 카드 / 모바일 페이 (한국) / 카드 / Apple Pay (글로벌).</p>
+<h3>4-3. 명함 응대 워크플로우</h3>
+<pre><code>[사용자 → 부스 도착]
+   ↓
+[게임 데모 5~10분]
+   ↓
+[감사 + 명함 + 스티커 1팩]
+   ↓
+[Steam 위시리스트 QR 안내]
+   ↓
+[Discord 가입 안내]
+   ↓
+[사용자 떠남]
+
+→ 한 사용자 당 약 10~15분
+</code></pre>
+<h3>4-4. 사용자 정보 수집 (옵션, GDPR / 개보법 준수)</h3>
+<pre><code>[선택 — 베타 키 받고 싶은 분 위주]
+
+종이 폼 또는 태블릿 폼:
+- 이메일 (베타 키 발송용)
+- 한국어 / 영어 선택
+- 디바이스 (PC / 모바일)
+
+→ 행사 후 베타 키 일괄 발송
+→ 동의 후에만 수집
+</code></pre>
+<hr>
+<h2>5. 행사 준비 체크리스트</h2>
+<h3>5-1. 행사 4주 전</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 부스 등록 / 결제</li>
+<li><input disabled="" type="checkbox"> 부스 디자인 시안 완성 (포스터 / 배너)</li>
+<li><input disabled="" type="checkbox"> 데모 빌드 준비 (단계 1~2 freeze)</li>
+<li><input disabled="" type="checkbox"> 명함 / 스티커 인쇄 발주</li>
+<li><input disabled="" type="checkbox"> 굿즈 발주 (티셔츠 / 머그컵 옵션)</li>
+<li><input disabled="" type="checkbox"> 여행 / 숙박 예약 (글로벌)</li>
+</ul>
+<h3>5-2. 행사 2주 전</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 굿즈 / 명함 수령 + 검증</li>
+<li><input disabled="" type="checkbox"> 데모 빌드 최종 테스트 (행사 PC 환경)</li>
+<li><input disabled="" type="checkbox"> 부스 소품 정리 (롤업 / 헤드폰 / 카드 등)</li>
+<li><input disabled="" type="checkbox"> FAQ 응답 카드 인쇄</li>
+<li><input disabled="" type="checkbox"> Steam 위시리스트 QR 인쇄</li>
+<li><input disabled="" type="checkbox"> Discord QR 인쇄</li>
+</ul>
+<h3>5-3. 행사 1주 전</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 인디 미디어 / 기자 컨택 (행사 부스 방문 요청)</li>
+<li><input disabled="" type="checkbox"> 인플루언서 (현장 방문 가능자) 컨택</li>
+<li><input disabled="" type="checkbox"> SNS 사전 알림 (&quot;BIC 부스 X에서 만나요!&quot;)</li>
+<li><input disabled="" type="checkbox"> 모든 짐 패키지 + 배송 (글로벌)</li>
+</ul>
+<h3>5-4. 행사 당일</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 부스 설치 (1~2시간)</li>
+<li><input disabled="" type="checkbox"> PC / 데모 빌드 점검</li>
+<li><input disabled="" type="checkbox"> 사진 / 영상 촬영 (SNS 용)</li>
+<li><input disabled="" type="checkbox"> 사용자 응대 (8~10시간)</li>
+<li><input disabled="" type="checkbox"> 미디어 / 기자 인터뷰 (방문 시)</li>
+<li><input disabled="" type="checkbox"> 굿즈 / 명함 재고 관리</li>
+</ul>
+<h3>5-5. 행사 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 사진 / 영상 SNS 공유</li>
+<li><input disabled="" type="checkbox"> 사용자 폼 정리 → 베타 키 발송</li>
+<li><input disabled="" type="checkbox"> 미디어 / 인터뷰 정리 → 기사 모니터링</li>
+<li><input disabled="" type="checkbox"> 인플루언서 컨택 (개인 메시지)</li>
+<li><input disabled="" type="checkbox"> 다음 행사 평가 + 결정</li>
+</ul>
+<hr>
+<h2>6. 비용 / 예산</h2>
+<h3>6-1. 한국 행사 (BIC / G-STAR)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>부스 등록</td>
+<td>100~300만원</td>
+</tr>
+<tr>
+<td>디자인 / 인쇄 (포스터 / 명함)</td>
+<td>30~50만원</td>
+</tr>
+<tr>
+<td>굿즈 (스티커 / 일부 티셔츠)</td>
+<td>50~100만원</td>
+</tr>
+<tr>
+<td>부스 소품 (테이블 천 / 헤드폰 / PC)</td>
+<td>20~50만원</td>
+</tr>
+<tr>
+<td>여행 / 숙박 (부산)</td>
+<td>30~50만원</td>
+</tr>
+<tr>
+<td><strong>총</strong></td>
+<td><strong>230~550만원</strong></td>
+</tr>
+</tbody></table>
+<h3>6-2. 글로벌 행사 (PAX / GDC / Gamescom)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>비용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>부스 등록</td>
+<td>$500~3,000</td>
+</tr>
+<tr>
+<td>항공 / 숙박 (1주)</td>
+<td>$2,000~5,000</td>
+</tr>
+<tr>
+<td>디자인 / 인쇄 (글로벌 배송)</td>
+<td>$500~1,000</td>
+</tr>
+<tr>
+<td>굿즈</td>
+<td>$500~1,000</td>
+</tr>
+<tr>
+<td><strong>총</strong></td>
+<td><strong>$3,500~10,000</strong> (약 500~1,500만원)</td>
+</tr>
+</tbody></table>
+<p>→ 글로벌은 ROI 신중 검토. 한국 우선.</p>
+<hr>
+<h2>7. 인디 모임 / 작은 이벤트</h2>
+<h3>7-1. 한국 인디 모임</h3>
+<ul>
+<li><strong>인디ZIP</strong> (서울 / 부산) — 월별 인디 게임 모임</li>
+<li><strong>NEXON 인디 데이</strong> — 분기별</li>
+<li><strong>인디 게임 커뮤니티 미팅</strong> — 비정기</li>
+</ul>
+<p>→ 작은 부스 (테이블 1개) + 데모 PC 1대. 비용 낮음.</p>
+<h3>7-2. 글로벌 인디 모임</h3>
+<ul>
+<li><strong>Indie Game Pavilion</strong> (PAX 등) — 작은 부스 공유</li>
+<li><strong>Indie Game Showcase</strong> (자체 페스티벌)</li>
+<li><strong>Discord 인디 데이</strong> (온라인)</li>
+</ul>
+<h3>7-3. 온라인 데모 / 이벤트</h3>
+<ul>
+<li><strong>Steam Next Fest</strong> — 연 2~3회 (봄 / 여름 / 가을)</li>
+<li><strong>itch.io</strong> 무료 데모</li>
+<li><strong>YouTube / Twitch 인디 데이</strong> — 인플루언서 공동 방송</li>
+</ul>
+<p>→ 비용 0 + 큰 노출.</p>
+<hr>
+<h2>8. 미디어 / 인플루언서 행사 응대</h2>
+<h3>8-1. 기자 / 미디어 방문 시</h3>
+<pre><code>[기자 인터뷰 — 5~10분]
+
+1. 정중한 인사
+2. 게임 짧은 데모 (직접 플레이 또는 영상)
+3. 핵심 질문 응답 (26-press-kit §7)
+4. 명함 + Press Kit USB / QR
+5. 추후 인터뷰 가능 시 일정 조율
+</code></pre>
+<h3>8-2. 인플루언서 방문 시</h3>
+<pre><code>[스트리머 / 영상 작가]
+
+1. 영상 / 채널 확인 (사전 리서치)
+2. 베타 키 제공 (현장)
+3. 게임 짧은 데모 + 인터뷰 (영상 촬영 OK)
+4. 굿즈 무료 증정
+5. Discord 채널 안내 (영상 공유)
+</code></pre>
+<h3>8-3. 사진 / 영상 권리</h3>
+<ul>
+<li>부스 / 사용자 사진 SNS 공유 OK (사용자 동의 후)</li>
+<li>기자 / 인플루언서 영상 채널 사용 OK (출처 표기)</li>
+<li>모든 자료 라이선스 free (26-press-kit §12)</li>
+</ul>
+<hr>
+<h2>9. 위기 / 사고 대응</h2>
+<h3>9-1. 기술 사고</h3>
+<pre><code>[데모 빌드 크래시]
+- 즉시 재시작 (사용자 사과)
+- PC 백업 → 즉시 전환
+- 노트북 백업 (옵션, 비상)
+
+[데모 PC 고장]
+- 백업 노트북 사용
+- 데모 영상 재생 (대체)
+- 사용자에게 사과 + 명함 / 굿즈
+
+[전기 / 인터넷 끊김]
+- 행사 측 보고
+- 오프라인 데모 가능 (인터넷 X)
+</code></pre>
+<h3>9-2. 사용자 사고</h3>
+<pre><code>[사용자 헤맴 / 부정적 반응]
+- 정중히 인내 (&quot;천천히 하세요&quot;)
+- 부정적 의견 — 정중히 인정 + 개선 약속
+- 폭언 / 무례 — 거리 두기, 행사 측 보고 (드물게)
+</code></pre>
+<h3>9-3. 부스 안전</h3>
+<ul>
+<li>굿즈 / 명함 도난 (드물지만 가능) — 자물쇠 / 금고</li>
+<li>PC 도난 — 자물쇠 / 보안 케이블</li>
+<li>무인 시간 X — 항상 1명 이상 부스 지킴</li>
+</ul>
+<hr>
+<h2>10. 회고 / 평가</h2>
+<h3>10-1. 행사 후 1주일 내</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 사진 / 영상 정리</li>
+<li><input disabled="" type="checkbox"> 사용자 폼 → 베타 키 발송</li>
+<li><input disabled="" type="checkbox"> 미디어 기사 / 인플루언서 영상 모니터링</li>
+<li><input disabled="" type="checkbox"> SNS 후기 정리</li>
+<li><input disabled="" type="checkbox"> 비용 / ROI 계산</li>
+</ul>
+<h3>10-2. 측정 지표</h3>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>목표 (중형 부스)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>데모 사용자 수</td>
+<td>100~300명</td>
+</tr>
+<tr>
+<td>명함 / 굿즈 배포</td>
+<td>100~200매</td>
+</tr>
+<tr>
+<td>Steam 위시리스트 추가</td>
+<td>50~150</td>
+</tr>
+<tr>
+<td>Discord 가입자</td>
+<td>20~50</td>
+</tr>
+<tr>
+<td>미디어 / 기자 컨택</td>
+<td>1~5</td>
+</tr>
+<tr>
+<td>인플루언서 영상 / 스트림</td>
+<td>2~10</td>
+</tr>
+<tr>
+<td>굿즈 판매 (옵션)</td>
+<td>$200~1,000</td>
+</tr>
+</tbody></table>
+<h3>10-3. 다음 행사 결정</h3>
+<pre><code>[행사 ROI 평가]
+
+| ROI 기준 | 합격 |
+|---|---|
+| Steam 위시리스트 100+ | ✅ |
+| 미디어 기사 1개+ | ✅ |
+| 인플루언서 영상 2개+ | ✅ |
+| 비용 &lt; 매출 (3년 누적) | 평가 |
+
+→ 모두 합격이면 다음 해 재참가 권장.
+</code></pre>
+<hr>
+<h2>11. 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전 (BIC 등 한국 행사)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 데모 빌드 (단계 1~2, 자동 리셋)</li>
+<li><input disabled="" type="checkbox"> 명함 (200매)</li>
+<li><input disabled="" type="checkbox"> 스티커 5종 (200팩)</li>
+<li><input disabled="" type="checkbox"> 부스 포스터 A2</li>
+<li><input disabled="" type="checkbox"> FAQ 응답 카드</li>
+</ul>
+<h3>Tier 2 — 정식 출시 전후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 한국 G-STAR (옵션)</li>
+<li><input disabled="" type="checkbox"> 글로벌 행사 1개 (PAX East 또는 Gamescom)</li>
+<li><input disabled="" type="checkbox"> 큰 굿즈 (티셔츠 / 카드 덱)</li>
+<li><input disabled="" type="checkbox"> 다국어 응대 자료 (한+영)</li>
+</ul>
+<h3>Tier 3 — 출시 후 1년</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 한국 + 글로벌 행사 정기 참가</li>
+<li><input disabled="" type="checkbox"> 모바일 데모 추가</li>
+<li><input disabled="" type="checkbox"> 다인 모드 데모 (Phase 4 후)</li>
+</ul>
+<hr>
+<h2>12. 결론</h2>
+<pre><code>게임쇼 / 행사 = 사용자와 직접 만나는 자리.
+
+K-Sutda 의 행사 전략:
+1. 한국 행사 우선 (BIC / G-STAR)
+2. 작은 부스 + 따뜻한 응대
+3. 데모 + 굿즈 + 명함 패키지
+4. 미디어 / 인플루언서 컨택 부스
+5. Steam 위시리스트 / Discord 가입 유도
+6. ROI 기반 다음 행사 결정
+
+행사 = 마케팅 + 네트워킹 + 직접 피드백.
+인디 게임 개발자의 가장 강력한 도구.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>27-event-demo.md</code>
+</div>
+</body>
+</html>

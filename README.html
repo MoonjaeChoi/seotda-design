@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Design Handoff — K-Sutda</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>Design Handoff — K-Sutda</h1>
+<blockquote>
+<p>디자이너 전용 자료실. 디자인 작업 시작 시 이 폴더만 받으면 됩니다.</p>
+</blockquote>
+<hr>
+<h2>📂 자료 목록</h2>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><a href="01-brief.md">01-brief.md</a></strong></td>
+<td>마스터 안내서 — 게임 톤, 디자인 시스템, 우선순위</td>
+<td>🔴 먼저 읽기</td>
+</tr>
+<tr>
+<td><strong><a href="02-asset-spec.md">02-asset-spec.md</a></strong></td>
+<td>상세 에셋 사양서 — 카드/UI/사운드/와이어프레임</td>
+<td>🟡 작업 중 참고</td>
+</tr>
+<tr>
+<td><strong><a href="03-characters.md">03-characters.md</a></strong></td>
+<td>캐릭터 시나리오 — 플레이어 + 8 보스 + 일반 AI</td>
+<td>🟡 캐릭터 일러스트 작업 시</td>
+</tr>
+<tr>
+<td><strong><a href="04-motion-spec.md">04-motion-spec.md</a></strong></td>
+<td>모션 명세 — 17종 애니메이션 timing/easing 표</td>
+<td>🟡 모션 / AE / Lottie 작업 시</td>
+</tr>
+<tr>
+<td><strong><a href="05-card-art-style.md">05-card-art-style.md</a></strong></td>
+<td>화투 아트 스타일 — 한국화 톤, 월별 모티프, 광패 강조</td>
+<td>🔴 화투 40장 작업 시 필수</td>
+</tr>
+<tr>
+<td><strong><a href="06-music-direction.md">06-music-direction.md</a></strong></td>
+<td>음악 방향 — BGM 3개 + SE 8개, 한국 전통 악기 톤</td>
+<td>🟡 작곡가 / 사운드 디자이너용</td>
+</tr>
+<tr>
+<td><strong><a href="07-marketing-assets.md">07-marketing-assets.md</a></strong></td>
+<td>마케팅 에셋 — Steam/모바일/SNS/트레일러</td>
+<td>🟢 베타 후 정식 출시 준비</td>
+</tr>
+<tr>
+<td><strong><a href="08-ui-ux-guidelines.md">08-ui-ux-guidelines.md</a></strong></td>
+<td>UI/UX 패턴 — 버튼/입력/토스트/마이크로카피</td>
+<td>🔴 모든 화면 시안 작업 시</td>
+</tr>
+<tr>
+<td><strong><a href="09-accessibility.md">09-accessibility.md</a></strong></td>
+<td>접근성 — 색맹/명도대비/자막/모션 옵션</td>
+<td>🟡 글로벌 출시 / 컴플라이언스</td>
+</tr>
+<tr>
+<td><strong><a href="10-localization.md">10-localization.md</a></strong></td>
+<td>i18n — 한↔영 번역표 + 톤·길이·폰트 fallback</td>
+<td>🟡 글로벌 출시</td>
+</tr>
+<tr>
+<td><strong><a href="11-component-library.md">11-component-library.md</a></strong></td>
+<td>컴포넌트 spec — Atoms/Molecules/Organisms + Figma 가이드</td>
+<td>🔴 디자인 시스템 구축 시</td>
+</tr>
+<tr>
+<td><strong><a href="12-mobile-ui.md">12-mobile-ui.md</a></strong></td>
+<td>모바일 UI 적응 — 세로 화면/터치/안전영역/iOS·Android</td>
+<td>🟡 Phase 4 모바일 출시</td>
+</tr>
+<tr>
+<td><strong><a href="13-visual-effects.md">13-visual-effects.md</a></strong></td>
+<td>비주얼 이펙트 — 광패 글로우/파티클/블러프 가면/위험 비네팅</td>
+<td>🟡 이펙트 디자이너 작업 시</td>
+</tr>
+<tr>
+<td><strong><a href="14-cultural-guide.md">14-cultural-guide.md</a></strong></td>
+<td>한국 문화 가이드 — 화투 역사/도박판/한국 미술·음악 레퍼런스</td>
+<td>🟡 외국 디자이너 / 컬처럴 깊이</td>
+</tr>
+<tr>
+<td><strong><a href="15-brand-identity.md">15-brand-identity.md</a></strong></td>
+<td>브랜드 아이덴티티 — 로고/컬러/슬로건/Do&amp;Don&#39;t</td>
+<td>🔴 모든 마케팅 / 디자인 기준</td>
+</tr>
+<tr>
+<td><strong><a href="16-user-personas.md">16-user-personas.md</a></strong></td>
+<td>사용자 페르소나 6명 — 디자인 결정 기준</td>
+<td>🟡 모든 화면 / 카피 결정 시</td>
+</tr>
+<tr>
+<td><strong><a href="17-in-game-help.md">17-in-game-help.md</a></strong></td>
+<td>인앱 도움말 / 튜토리얼 — 3-layer 도움말 시스템</td>
+<td>🟡 튜토리얼 일러스트 / 카피</td>
+</tr>
+<tr>
+<td><strong><a href="18-data-viz.md">18-data-viz.md</a></strong></td>
+<td>데이터 시각화 — 차트 컴포넌트 + 통계 화면</td>
+<td>🟢 DailyActivity / 통계 화면</td>
+</tr>
+<tr>
+<td><strong><a href="19-design-governance.md">19-design-governance.md</a></strong></td>
+<td>디자인 거버넌스 — 변경 관리/버전/PR/협업 규칙</td>
+<td>🟡 외부 협업자 온보딩 시</td>
+</tr>
+<tr>
+<td><strong><a href="20-collateral-merch.md">20-collateral-merch.md</a></strong></td>
+<td>콜라테랄/굿즈 — 명함/포스터/스티커/티셔츠/카드덱</td>
+<td>🟢 베타 후 / 정식 출시</td>
+</tr>
+<tr>
+<td><strong><a href="21-qa-testing.md">21-qa-testing.md</a></strong></td>
+<td>QA/테스트 — 시각 회귀/사용성/디바이스 매트릭스/베타 피드백</td>
+<td>🟡 베타 운영 + 출시 직전</td>
+</tr>
+<tr>
+<td><strong><a href="22-community.md">22-community.md</a></strong></td>
+<td>커뮤니티/Discord — 서버 구조/모더레이션/이벤트/인플루언서</td>
+<td>🟡 베타 모집 + 출시</td>
+</tr>
+<tr>
+<td><strong><a href="23-analytics-kpi.md">23-analytics-kpi.md</a></strong></td>
+<td>분석/KPI — 추적 이벤트/대시보드/퍼널/세그먼트</td>
+<td>🟡 베타 운영 + 결정 검증</td>
+</tr>
+<tr>
+<td><strong><a href="24-storytelling.md">24-storytelling.md</a></strong></td>
+<td>스토리텔링/백스토리 — 8 보스 깊은 사연/메타 서사/컷신 시나리오</td>
+<td>🟡 작가/일러스트레이터</td>
+</tr>
+<tr>
+<td><strong><a href="25-future-vision.md">25-future-vision.md</a></strong></td>
+<td>후속작/확장 비전 — Phase 4+ 다인/DLC/IP 확장</td>
+<td>🟢 장기 의사결정</td>
+</tr>
+<tr>
+<td><strong><a href="26-press-kit.md">26-press-kit.md</a></strong></td>
+<td>PR/미디어 키트 — 보도자료 한/영, 인용 카피, 개발자 Q&amp;A</td>
+<td>🟡 미디어 / 인플루언서</td>
+</tr>
+<tr>
+<td><strong><a href="27-event-demo.md">27-event-demo.md</a></strong></td>
+<td>게임쇼/데모 — BIC/PAX 부스 디자인, 데모 빌드, 응대 가이드</td>
+<td>🟡 베타 + 정식 출시</td>
+</tr>
+</tbody></table>
+<p>각 파일은 <strong>마크다운 원본 (.md)</strong> + <strong>배포용 HTML (.html)</strong> 한 쌍으로 제공됩니다.</p>
+<ul>
+<li>마크다운: GitHub / VSCode / Typora 등에서 편집</li>
+<li>HTML: 브라우저에서 바로 열어 가독성 좋게 확인 (외부 의존 0, 다크모드 자동 대응)</li>
+</ul>
+<hr>
+<h2>🎯 작업 시작 순서</h2>
+<ol>
+<li><strong>01-brief.html</strong> 브라우저에서 열기 (또는 .md 를 GitHub 에서 보기)</li>
+<li>게임 톤 + 디자인 시스템 + 9개 화면 우선순위 파악 (5~10분)</li>
+<li><strong>02-asset-spec.html</strong> 의 와이어프레임 + 화투 40장 / 마패 67종 사양 확인</li>
+<li><strong>킥오프 미팅</strong> (개발자 ↔ 디자이너) — 톤 합의</li>
+<li><strong>샘플 1~2장 → 톤 확정 → 양산</strong></li>
+</ol>
+<hr>
+<h2>📋 부속 자료 (이 폴더 외부)</h2>
+<p>게임 시스템 상세는 상위 폴더 <code>docs/</code> 참조 — 디자이너는 필수 정독 권장:</p>
+<table>
+<thead>
+<tr>
+<th>파일</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>../docs/01-overview.md</code></td>
+<td>게임 개요 + 발라트로 / 한게임 섯다 레퍼런스</td>
+</tr>
+<tr>
+<td><code>../docs/02-legal.md</code></td>
+<td>법적 제약 (사행성 모사 회피 원칙)</td>
+</tr>
+<tr>
+<td><code>../docs/03-game-design.md</code></td>
+<td>게임 시스템 상세 (족보 / 효과 / 점수 공식)</td>
+</tr>
+<tr>
+<td><code>../scripts/ui/Palette.gd</code></td>
+<td>확정 컬러 팔레트 (코드)</td>
+</tr>
+<tr>
+<td><code>../data/mapa_cards.json</code></td>
+<td>마패 67종 전체 목록</td>
+</tr>
+<tr>
+<td><code>../data/card_effects.json</code></td>
+<td>화투 40장 내재 효과</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>🔄 마크다운 → HTML 변환 (개발자용)</h2>
+<p>새 .md 파일 추가하거나 기존 파일 갱신 시:</p>
+<pre><code class="language-bash">scripts/tools/md_to_html.sh design-handoff/01-brief.md
+# 결과: design-handoff/01-brief.html 생성
+</code></pre>
+<p>요구: node + npx (marked 패키지는 npx 가 자동 캐시).</p>
+<p><strong>원칙: .md 와 .html 은 항상 한 쌍.</strong> 새 자료 추가 시 .md 작성 → 위 스크립트로 .html 동시 생성 → commit.</p>
+<hr>
+<h2>📤 디자이너에게 전달 방법</h2>
+<ul>
+<li><strong>GitHub 공유</strong>: <code>design-handoff/</code> 폴더 link</li>
+<li><strong>ZIP 전달</strong>: <code>zip -r design-handoff.zip design-handoff/</code> 후 메일/Slack</li>
+<li><strong>Google Drive</strong>: 폴더 통째로 업로드 (HTML 직접 열기 가능)</li>
+</ul>
+<hr>
+<h2>💬 피드백 채널</h2>
+<ul>
+<li>디자인 시안 리뷰 / 톤 합의: 별도 협의</li>
+<li>에셋 납품 시 <code>assets/cards/</code>, <code>assets/mapa/</code>, <code>assets/ui/</code>, <code>assets/audio/</code> 폴더에 배치</li>
+<li>라이선스 / 저작권 명시 필수 (자세히는 02-asset-spec §9)</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>README.md</code>
+</div>
+</body>
+</html>

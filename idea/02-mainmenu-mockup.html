@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — MainMenu Mockup</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 40px;
+    background: #0D2619;
+    color: #F2F2F2;
+    line-height: 1.6;
+  }
+  h1 { font-size: 32px; margin-top: 0; border-bottom: 2px solid #F3C72E; padding-bottom: 16px; color: #F3C72E; }
+  h2 { font-size: 20px; margin-top: 32px; color: #F5EBD1; }
+  .container { max-width: 1300px; margin: 0 auto; }
+  .intro { color: #A6A6B2; margin-bottom: 32px; }
+
+  /* Mockup container */
+  .mockups { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 24px; margin-top: 24px; }
+  .mockup {
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .mockup-label {
+    background: #1a3526;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .mockup-desc {
+    background: rgba(245, 235, 209, 0.04);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #A6A6B2;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .mockup-screen {
+    height: 580px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== 옵션 A — 현재 코드 톤 (BG_EARTH) ===== */
+  .opt-a {
+    background: #131313;
+    color: #F2F2F2;
+  }
+  .opt-a .menu-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #F3C72E;
+    text-align: center;
+    padding-top: 60px;
+    margin: 0;
+  }
+  .opt-a .menu-sub {
+    text-align: center;
+    color: #A6A6B2;
+    margin-top: 4px;
+    font-size: 14px;
+  }
+  .opt-a .nickname-row {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .opt-a .nickname-input {
+    padding: 10px 14px;
+    width: 280px;
+    background: #F5EBD1;
+    border: 1px solid #666673;
+    color: #0D2619;
+    font-size: 14px;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .opt-a .nickname-status {
+    margin-top: 6px;
+    color: #A6A6B2;
+    font-size: 12px;
+  }
+  .opt-a .btn-stack { text-align: center; margin-top: 32px; }
+  .opt-a .menu-btn {
+    display: block;
+    width: 240px;
+    padding: 12px 0;
+    margin: 8px auto;
+    background: #F5EBD1;
+    color: #0D2619;
+    border: none;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .opt-a .btn-row { text-align: center; margin-top: 8px; }
+  .opt-a .menu-btn-small {
+    display: inline-block;
+    width: 115px;
+    padding: 10px 0;
+    margin: 4px;
+    background: transparent;
+    color: #A6A6B2;
+    border: 1px solid #A6A6B2;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  /* ===== 옵션 B — 한지 카드 + 도장 배경 ===== */
+  .opt-b {
+    background: linear-gradient(135deg, #131313 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .opt-b::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(243, 199, 46, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(217, 51, 51, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .opt-b .menu-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #F3C72E;
+    text-align: center;
+    padding-top: 50px;
+    margin: 0;
+    text-shadow: 0 0 30px rgba(243, 199, 46, 0.3);
+  }
+  .opt-b .menu-hanja {
+    text-align: center;
+    color: #D93333;
+    font-size: 20px;
+    font-family: 'Noto Serif KR', serif;
+    margin-top: 8px;
+  }
+  .opt-b .menu-sub {
+    text-align: center;
+    color: #A6A6B2;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  .opt-b .menu-card {
+    background: #F5EBD1;
+    color: #0D2619;
+    border-radius: 8px;
+    margin: 40px 60px 0;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .opt-b .nickname-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #C5BC9A;
+    color: #0D2619;
+    font-size: 14px;
+    border-radius: 4px;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+  .opt-b .nickname-status {
+    text-align: center;
+    color: #8C8470;
+    font-size: 11px;
+    margin-top: 6px;
+  }
+  .opt-b .menu-btn-primary {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    margin-top: 16px;
+    background: #0D2619;
+    color: #F3C72E;
+    border: 2px solid #F3C72E;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+  }
+  .opt-b .menu-btn {
+    display: block;
+    width: 100%;
+    padding: 11px 0;
+    margin-top: 8px;
+    background: transparent;
+    color: #0D2619;
+    border: 1px solid #666673;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .opt-b .btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  .opt-b .btn-row .menu-btn { flex: 1; margin-top: 0; }
+
+  /* ===== 옵션 C — 풀스크린 일러스트 + 미니멀 UI ===== */
+  .opt-c {
+    background: #0D2619;
+    position: relative;
+    overflow: hidden;
+  }
+  .opt-c::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse at center top, rgba(243, 199, 46, 0.08) 0%, transparent 60%),
+      linear-gradient(180deg, transparent 0%, rgba(13, 38, 25, 0.7) 100%);
+    pointer-events: none;
+  }
+  .opt-c .menu-art-area {
+    height: 200px;
+    text-align: center;
+    padding-top: 50px;
+    position: relative;
+  }
+  /* 화투 카드 미니 (광패 2장) */
+  .opt-c .menu-cards {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .opt-c .mini-card {
+    width: 70px;
+    height: 110px;
+    background: #F5EBD1;
+    border: 3px solid #F3C72E;
+    border-radius: 6px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(243, 199, 46, 0.3);
+  }
+  .opt-c .mini-card::before {
+    content: '光';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #D93333;
+  }
+  .opt-c .menu-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: #F3C72E;
+    text-align: center;
+    margin: 30px 0 0;
+    text-shadow: 0 4px 20px rgba(243, 199, 46, 0.5);
+  }
+  .opt-c .menu-slogan {
+    text-align: center;
+    color: #F5EBD1;
+    font-style: italic;
+    margin-top: 12px;
+    font-size: 16px;
+    font-family: 'Noto Serif KR', serif;
+  }
+  .opt-c .menu-controls {
+    position: absolute;
+    bottom: 40px;
+    left: 0; right: 0;
+    text-align: center;
+  }
+  .opt-c .nickname-input {
+    padding: 10px 14px;
+    width: 280px;
+    background: rgba(245, 235, 209, 0.95);
+    border: none;
+    color: #0D2619;
+    font-size: 14px;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .opt-c .menu-btn-cta {
+    display: block;
+    width: 320px;
+    padding: 16px 0;
+    margin: 20px auto;
+    background: #F3C72E;
+    color: #0D2619;
+    border: none;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 18px;
+    box-shadow: 0 4px 16px rgba(243, 199, 46, 0.4);
+  }
+  .opt-c .menu-links { font-size: 13px; color: #A6A6B2; margin-top: 16px; }
+  .opt-c .menu-links a { color: #F3C72E; margin: 0 8px; text-decoration: none; }
+
+  /* 결정 박스 */
+  .decision-box {
+    background: linear-gradient(135deg, rgba(243, 199, 46, 0.1), rgba(217, 51, 51, 0.05));
+    border: 1px solid #F3C72E;
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 32px;
+  }
+  .decision-box h3 { color: #F3C72E; margin-top: 0; }
+  .decision-box ul { padding-left: 20px; }
+  .decision-box li { margin: 8px 0; }
+
+  /* Nav */
+  .nav-links { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .nav-links a { color: #F3C72E; text-decoration: none; margin-right: 24px; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🏠 MainMenu Mockup — 3 옵션 비교</h1>
+<p class="intro">첫 미팅 의제 3. 메인 메뉴 레이아웃 + 톤 합의. 디자이너가 옵션 중 선택 또는 새 변형 제안.</p>
+
+<div class="mockups">
+
+  <!-- 옵션 A -->
+  <div class="mockup">
+    <div class="mockup-label">옵션 A — 현재 코드 톤 (Sprint 3.15)</div>
+    <div class="mockup-desc">평범한 메뉴, 흙빛 배경 (BG_EARTH). 기존 코드 구현 그대로.</div>
+    <div class="mockup-screen opt-a">
+      <h2 class="menu-title">K-Sutda</h2>
+      <div class="menu-sub">섯다 × 로그라이크 덱빌딩</div>
+      <div class="nickname-row">
+        <input class="nickname-input" placeholder="닉네임을 입력하세요" value="MoonjaeChoi">
+        <div class="nickname-status">닉네임 저장됨</div>
+      </div>
+      <div class="btn-stack">
+        <button class="menu-btn">새 런 시작</button>
+        <button class="menu-btn">이어하기</button>
+        <button class="menu-btn">리더보드</button>
+      </div>
+      <div class="btn-row">
+        <button class="menu-btn-small">확률 공개</button>
+        <button class="menu-btn-small">📖 게임 규칙</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 옵션 B -->
+  <div class="mockup">
+    <div class="mockup-label">옵션 B — 한지 카드 + 도장 배경 (中)</div>
+    <div class="mockup-desc">한지 베이지 카드형 UI. 도장풍 한자 "韓鬪" 보조. 한국 전통 강조.</div>
+    <div class="mockup-screen opt-b">
+      <h2 class="menu-title">K-Sutda</h2>
+      <div class="menu-hanja">韓 鬪</div>
+      <div class="menu-sub">섯다 × 로그라이크 덱빌딩</div>
+      <div class="menu-card">
+        <input class="nickname-input" placeholder="닉네임을 입력하세요" value="MoonjaeChoi">
+        <div class="nickname-status">닉네임 저장됨</div>
+        <button class="menu-btn-primary">새 런 시작</button>
+        <button class="menu-btn">이어하기</button>
+        <div class="btn-row">
+          <button class="menu-btn">리더보드</button>
+          <button class="menu-btn">확률 공개</button>
+          <button class="menu-btn">📖 규칙</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 옵션 C -->
+  <div class="mockup">
+    <div class="mockup-label">옵션 C — 광패 일러스트 + 슬로건 (영화 포스터 톤)</div>
+    <div class="mockup-desc">상단 광패 2장 + 큰 로고 + 슬로건. 브랜드 첫 인상 가장 강함. 영화 포스터 분위기.</div>
+    <div class="mockup-screen opt-c">
+      <div class="menu-art-area">
+        <div class="menu-cards">
+          <div class="mini-card"></div>
+          <div class="mini-card"></div>
+        </div>
+      </div>
+      <h2 class="menu-title">K-Sutda</h2>
+      <div class="menu-slogan">"광 한 번 보는 데 인생을 건다."</div>
+      <div class="menu-controls">
+        <input class="nickname-input" placeholder="닉네임을 입력하세요" value="MoonjaeChoi">
+        <button class="menu-btn-cta">새 런 시작</button>
+        <div class="menu-links">
+          <a href="#">이어하기</a>·<a href="#">리더보드</a>·<a href="#">확률</a>·<a href="#">📖 규칙</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 결정 박스 -->
+<div class="decision-box" style="background: linear-gradient(135deg, rgba(51, 166, 140, 0.18), rgba(243, 199, 46, 0.08)); border-color: #33A68C;">
+<h3 style="color: #33A68C;">✅ 결정 완료 — MainMenu (2026-05-16 미팅)</h3>
+<p style="font-size: 18px; color: #F3C72E; font-weight: 700; margin: 8px 0;">
+  ▶ 옵션 C — 광패 일러스트 + 슬로건 (영화 포스터 톤) 채택
+</p>
+<ul>
+  <li><strong>구조</strong>: 상단 광패 2장 일러스트 → 큰 로고 → 슬로건 → CTA 버튼 (새 런 시작) → 보조 링크</li>
+  <li><strong>로고 사이즈</strong>: 72px (현재 mockup) 또는 96px (Palette.FONT_TITLE) — 디자이너 시안에서 결정</li>
+  <li><strong>슬로건</strong>: <span style="font-family: 'Noto Serif KR', serif; color: #F5EBD1; font-style: italic;">"광 한 번 보는 데 인생을 건다."</span> — 항상 표시</li>
+  <li><strong>광패 일러스트</strong>: 3월 벚꽃광 + 8월 공산광 (광땡 조합) 권장. 디자이너 일러스트 작업 후 통합</li>
+  <li><strong>버튼 위계</strong>: "새 런 시작" 강조 (큰 CTA 버튼, 금색 채움). 그 외 (이어하기 / 리더보드 / 확률 / 규칙) 작은 텍스트 링크</li>
+  <li><strong>닉네임</strong>: CTA 버튼 위 (옵션 C 그대로)</li>
+  <li><strong>배경</strong>: 짙은 먹 + 가벼운 황금 글로우 / 한지 결 텍스처 (디자이너 결정)</li>
+  <li><strong>폰트</strong>: Title = Noto Serif KR Bold (✅ 결정), Body = Pretendard</li>
+</ul>
+<p style="color: #A6A6B2; font-style: italic; margin-top: 12px;">
+  📌 다음 작업: 디자이너 → MainMenu 영화 포스터 시안 (광패 일러스트 포함). 광패 일러스트는 화투 카드 작업 (Tier 1) 과 병행.
+</p>
+</div>
+
+<details style="margin-top: 16px; color: #A6A6B2;">
+<summary style="cursor: pointer; color: #F5EBD1;">📜 기각된 옵션 보기</summary>
+<ul style="padding-left: 20px; margin-top: 12px;">
+  <li><strong>옵션 A (현재 코드 톤):</strong> 평범한 메뉴, 브랜드 첫 인상 약함 — 기각</li>
+  <li><strong>옵션 B (한지 카드):</strong> 한국 전통 강조하지만 영화 포스터 임팩트 부족 — 기각</li>
+</ul>
+<p style="margin-top: 12px;">
+  옵션 B 의 한지 디테일은 다른 화면 (Market / HelpInfo 등) 에 부분 활용 가능.
+</p>
+</details>
+
+<div class="nav-links">
+<a href="01-color-typography.html">← 01. 컬러+폰트</a>
+<a href="README.md">README</a>
+<a href="03-board-mockup.html">03. Board →</a>
+<a href="04-bettingpanel-mockup.html">04. BettingPanel</a>
+<a href="05-card-mockup.html">05. Card</a>
+</div>
+
+</div>
+</body>
+</html>

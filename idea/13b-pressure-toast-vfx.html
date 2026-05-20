@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>13b — psychological_pressure Toast VFX</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>13b — psychological_pressure Toast VFX</h1>
+<blockquote>
+<p>단계 7 「각시탈의 미소」 심리 압박 토스트 시각 명세.
+docs/17-effect-dispatch-extensions §3-4 Q2 후속 deliverable.</p>
+</blockquote>
+<hr>
+<h2>0. 역할</h2>
+<p><code>psychological_pressure</code> effect는 <strong>score/mult 영향 없음</strong> — UI overlay 만.
+플레이어가 가짜 베팅 위협에 심리적 압박을 느끼도록 설계.</p>
+<p><strong>핵심 원칙:</strong> 실제 점수 폭발 토스트(금색)와 시각적으로 명확히 구분.</p>
+<hr>
+<h2>1. 레이아웃 구조</h2>
+<pre><code>┌──────────────────────────────────┐
+│  🎭 각시탈의 미소                │  ← 마패 이름, font_size 13 뮤트 핑크
+│         ⚠  +500                  │  ← 가짜 칩, font_size 34 선명한 빨강
+└──────────────────────────────────┘
+</code></pre>
+<ul>
+<li><strong>배경 패널</strong>: 어두운 적색 반투명 <code>Color(0.25, 0.02, 0.02, 0.88)</code></li>
+<li><strong>테두리</strong>: 2px 적색 선 <code>Color(0.85, 0.10, 0.10, 0.80)</code></li>
+<li><strong>모서리</strong>: 4px radius</li>
+</ul>
+<hr>
+<h2>2. 색상 코드 (GDScript)</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>Color</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>배경</td>
+<td><code>Color(0.25, 0.02, 0.02, 0.88)</code></td>
+<td>어두운 적색 반투명</td>
+</tr>
+<tr>
+<td>테두리</td>
+<td><code>Color(0.85, 0.10, 0.10, 0.80)</code></td>
+<td>밝은 적색 선</td>
+</tr>
+<tr>
+<td>마패 이름</td>
+<td><code>Color(0.75, 0.45, 0.45)</code></td>
+<td>뮤트 핑크레드</td>
+</tr>
+<tr>
+<td>칩 숫자</td>
+<td><code>Color(1.00, 0.12, 0.12)</code></td>
+<td>선명한 빨강</td>
+</tr>
+</tbody></table>
+<p><strong>구분 근거:</strong> 실제 점수 토스트는 금색(<code>#F3C72E</code>) / 명성치 변화는 연녹색 / 적색은 「경보·가짜」 전용.</p>
+<hr>
+<h2>3. 폰트 크기</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>font_size</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>마패 이름 (<code>🎭 각시탈의 미소</code>)</td>
+<td>13</td>
+<td>부가 정보, 작게</td>
+</tr>
+<tr>
+<td>칩 숫자 (<code>⚠ +500</code>)</td>
+<td>34</td>
+<td>위협적이되 실제 점수보다 작음</td>
+</tr>
+</tbody></table>
+<p>docs/18 점수 폭발: font_size 40 금색 → 이 토스트는 34 적색으로 차등.</p>
+<hr>
+<h2>4. 애니메이션 타임라인</h2>
+<table>
+<thead>
+<tr>
+<th>구간</th>
+<th>시간</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Phase 1 Pop-in</td>
+<td>0 → 0.35s</td>
+<td>scale 0.4 → 1.08, opacity 0 → 1 (TRANS_BACK EASE_OUT)</td>
+</tr>
+<tr>
+<td>Phase 2 Settle</td>
+<td>0.35 → 0.50s</td>
+<td>scale 1.08 → 1.00</td>
+</tr>
+<tr>
+<td>Phase 3 Drift</td>
+<td>0.50 → 2.20s</td>
+<td>position.y −45px 상승 (TRANS_QUAD EASE_OUT)</td>
+</tr>
+<tr>
+<td>Phase 4 Fade</td>
+<td>2.00 → 2.50s</td>
+<td>opacity 1 → 0</td>
+</tr>
+<tr>
+<td>Cleanup</td>
+<td>2.60s</td>
+<td><code>queue_free()</code></td>
+</tr>
+</tbody></table>
+<p>총 지속: <strong>2.6초</strong> (기존 2.1초 → 0.5초 연장, 읽기 시간 확보).</p>
+<hr>
+<h2>5. 위치</h2>
+<ul>
+<li>기준점: <code>ai_card_a.global_position + Vector2(-20, -80)</code></li>
+<li>Phase 3 동안 y 방향으로 −45px 추가 상승</li>
+<li>패널 pivot: <code>panel.size / 2</code> (center — scale 기준점)</li>
+</ul>
+<hr>
+<h2>6. 텍스트 포맷 (<code>_fmt_pressure_chips</code>)</h2>
+<p>칩 숫자는 K/M suffix 약식:</p>
+<table>
+<thead>
+<tr>
+<th>원값</th>
+<th>표시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>500</td>
+<td><code>+500</code></td>
+</tr>
+<tr>
+<td>1200</td>
+<td><code>+1.2K</code></td>
+</tr>
+<tr>
+<td>5000</td>
+<td><code>+5K</code></td>
+</tr>
+<tr>
+<td>1500000</td>
+<td><code>+1.5M</code></td>
+</tr>
+</tbody></table>
+<p><code>Board._fmt_pressure_chips(chips: int) -&gt; String</code> static 헬퍼 담당.</p>
+<hr>
+<h2>7. 학습 정책 (docs/17 §3-5)</h2>
+<ul>
+<li>단계 7 <strong>첫 만남</strong> → 표시 안 함 (<code>SaveManager.was_boss_defeated(7) == false</code> → early return)</li>
+<li>단계 7 패배 후 다음 런부터 정상 표시 (로그라이크 &quot;a-ha 모먼트&quot;)</li>
+</ul>
+<hr>
+<h2>8. 구분 대조표</h2>
+<table>
+<thead>
+<tr>
+<th>토스트 종류</th>
+<th>색</th>
+<th>font_size</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>점수 폭발 (docs/18)</td>
+<td>금색 <code>#F3C72E</code></td>
+<td>40</td>
+<td>실제 점수</td>
+</tr>
+<tr>
+<td>명성치 변화</td>
+<td>연녹 / 적</td>
+<td>24~28</td>
+<td>명성치 갱신</td>
+</tr>
+<tr>
+<td><strong>심리 압박 (이 토스트)</strong></td>
+<td><strong>적색 <code>#FF1F1F</code></strong></td>
+<td><strong>34</strong></td>
+<td><strong>가짜 위협</strong></td>
+</tr>
+<tr>
+<td>올가미 raise 경보</td>
+<td>주황</td>
+<td>20</td>
+<td>AI 베팅 신호</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>9. 구현 위치</h2>
+<ul>
+<li><code>scripts/game/Board.gd</code> — <code>_show_fake_pressure_toast(entry: Dictionary)</code> + <code>_fmt_pressure_chips(chips: int) -&gt; String</code></li>
+<li><code>tests/unit/test_pressure_vfx.gd</code> — <code>_fmt_pressure_chips</code> 포맷 검증</li>
+</ul>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>13b-pressure-toast-vfx.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>

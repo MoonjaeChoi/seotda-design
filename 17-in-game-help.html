@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 인앱 도움말 / 튜토리얼 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 인앱 도움말 / 튜토리얼 가이드</h1>
+<blockquote>
+<p>HelpInfo 화면 강화 + 첫 런 인터랙티브 튜토리얼 + 컨텍스트 hint. 사용자 (특히 P5 캐주얼) 가 5분 안에 게임을 이해하도록.</p>
+</blockquote>
+<hr>
+<h2>0. 도움말 시스템 전략</h2>
+<h3>0-1. 3-layer 도움말 구조</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>발동</th>
+<th>깊이</th>
+<th>대상</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Layer 1</strong> 인터랙티브 튜토리얼</td>
+<td>첫 런 자동</td>
+<td>핵심만</td>
+<td>P5 캐주얼 (필수)</td>
+</tr>
+<tr>
+<td><strong>Layer 2</strong> 컨텍스트 hint</td>
+<td>특정 상황 첫 발생</td>
+<td>보통</td>
+<td>P2 / P4 / P5</td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong> HelpInfo 정적 화면</td>
+<td>사용자 명시 요청</td>
+<td>모든 정보</td>
+<td>P1 / P3 / P6 (학습 의지)</td>
+</tr>
+</tbody></table>
+<p>각 Layer 는 <strong>선택적</strong> — 스킵 가능 + 다시 보기 가능.</p>
+<h3>0-2. 디자인 원칙</h3>
+<ul>
+<li><strong>방해 최소</strong> — 튜토리얼 강제 X, 스킵 가능</li>
+<li><strong>인터랙티브</strong> — 읽기보다 실제 행동으로 학습</li>
+<li><strong>점진 노출</strong> — 첫 런에 모든 것 보여주지 X, 단계별 새 기능 만났을 때</li>
+<li><strong>사용자 페이스</strong> — 시간 제한 없음 (P2 / P5 천천히)</li>
+</ul>
+<hr>
+<h2>1. Layer 1 — 첫 런 인터랙티브 튜토리얼</h2>
+<h3>1-1. 발동 조건</h3>
+<ul>
+<li>신규 사용자 (Steam Cloud / 로컬 첫 실행)</li>
+<li>&quot;새 런 시작&quot; 첫 클릭</li>
+<li>또는 MainMenu → &quot;📖 게임 규칙&quot; → &quot;튜토리얼 다시&quot; 버튼</li>
+</ul>
+<h3>1-2. 튜토리얼 단계 (5단계, 각 30초~1분)</h3>
+<h4>단계 T1 — 화투 카드 인지</h4>
+<pre><code>[화면 어두워짐 + spotlight on player 카드 1장]
+
+[중앙 안내]
+&quot;안녕하세요! K-Sutda 에 오신 걸 환영합니다.
+
+여기는 화투입니다. 한 판에 카드 2장으로 점수를 겨룹니다.
+오른쪽 카드는 1월 송학광 — 빛나는 광패입니다.&quot;
+
+[하단]
+   [다음 →]
+</code></pre>
+<p><strong>비주얼</strong>: spotlight 효과 (어두운 overlay + 카드 영역만 밝게). 모션 M-09 토스트 톤.</p>
+<h4>단계 T2 — 1차 베팅 시스템</h4>
+<pre><code>[BettingPanel 1차 모드 spotlight]
+
+&quot;K-Sutda 의 핵심은 2단계 베팅입니다.
+
+1차: 첫 카드 1장만 보고 결정.
+  • 콜 — 두 번째 카드 보기 (5명성치)
+  • 1차 레이즈 — 상대 압박 (+5)
+  • 다이 — 빠르게 빠짐 (-5만 손실)
+
+지금 [콜] 을 눌러 보세요.&quot;
+
+[BettingPanel 의 콜 버튼만 활성화, 나머지 비활성]
+</code></pre>
+<p><strong>비주얼</strong>: 콜 버튼 화살표 표시 + 펄스. 다른 버튼 grayscale.</p>
+<h4>단계 T3 — 두 번째 카드 + 2차 베팅</h4>
+<pre><code>[두 번째 카드 등장 (M-03 슬라이드인)]
+
+&quot;두 번째 카드 받았습니다! 이제 패가 완성되었습니다.
+
+당신의 패: [족보 이름]
+
+2차 베팅에서는:
+  • 콜 / 레이즈 / 올인 / 폴드 가능
+  • 강한 패라면 레이즈로 점수 ↑
+  • 약한 패라면 폴드로 손실 최소
+
+지금 [콜] 을 눌러 결과를 보세요.&quot;
+
+[2차 콜 버튼만 활성화]
+</code></pre>
+<h4>단계 T4 — 결과 + 명성치</h4>
+<pre><code>[결과 표시 후 — 명성치 갱신 카운트업]
+
+&quot;결과! [승리/패배]
+
+승리 시 — final_score = 패 점수 × 마패 배수
+[점수 breakdown 보여줌]
+
+명성치는 게임 내 점수입니다. (실제 환금성 없음)
+음수로 떨어지면 위험 영역, -150 도달 시 게임오버.&quot;
+
+[다음 →]
+</code></pre>
+<h4>단계 T5 — 마패 시장 안내 (단계 1 클리어 후)</h4>
+<pre><code>[Market 진입 자동]
+
+&quot;단계 1 클리어! 마패 시장입니다.
+
+마패 카드를 슬롯 3개에 장착해 빌드를 만드세요.
+희귀도: 회색 (common) → 청 → 자주 → 주황 (legendary)
+
+이제부터는 자유롭게 플레이하세요.
+도움말은 메인 메뉴 → 📖 게임 규칙 에서 언제든 다시 볼 수 있습니다.
+
+좋은 한 판 되시길!&quot;
+
+[튜토리얼 종료]
+</code></pre>
+<h3>1-3. 튜토리얼 UI 컴포넌트</h3>
+<ul>
+<li><strong>Tutorial Overlay</strong>: 검은 alpha 0.6 overlay + 특정 영역 spotlight (cut-out)</li>
+<li><strong>Tutorial Toast</strong>: 화면 중앙 / 하단 카드형 (24px Bold + 본문)</li>
+<li><strong>Skip Button</strong>: 우상단 작은 &quot;튜토리얼 건너뛰기&quot;</li>
+<li><strong>Highlight Pulse</strong>: 활성 영역 (콜 버튼 등) 펄스 (1초 loop)</li>
+</ul>
+<h3>1-4. 튜토리얼 시드 (디자인 결정)</h3>
+<ul>
+<li><p><strong>고정 시드 추천</strong>: 첫 런 튜토리얼은 결정성 보장 시드 (예: seed=0)</p>
+<ul>
+<li>첫 카드 = 1월 송학광 (광패)</li>
+<li>두 번째 카드 = 1월 매조 (1땡)</li>
+<li>AI = 약한 패 (콜 하면 승리)</li>
+<li>→ 사용자 첫 경험 = 승리 (긍정적)</li>
+</ul>
+</li>
+<li><p><strong>두 번째 런부터</strong>: 무작위 시드 (정상 게임)</p>
+</li>
+</ul>
+<hr>
+<h2>2. Layer 2 — 컨텍스트 Hint</h2>
+<h3>2-1. 발동 시점</h3>
+<p>특정 상황 첫 발생 시 한 번만 짧은 안내 (1.5~2초 토스트):</p>
+<table>
+<thead>
+<tr>
+<th>상황</th>
+<th>Hint</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mulligan 첫 가능</strong> (두 번째 카드 받은 직후)</td>
+<td>&quot;💡 카드를 클릭하면 8명성치로 재배분 가능&quot;</td>
+</tr>
+<tr>
+<td><strong>1차 dia 첫 손실</strong></td>
+<td>&quot;💡 1차 다이는 -5만 손실. 약한 첫 카드면 일찍 빠지세요&quot;</td>
+</tr>
+<tr>
+<td><strong>AI 1차 dia 첫 발생</strong></td>
+<td>&quot;💡 AI 가 약하다고 판단해 빠졌습니다. 작은 보상 +5&quot;</td>
+</tr>
+<tr>
+<td><strong>블러프 첫 성공</strong></td>
+<td>&quot;🃏 블러프 성공! 약한 패 + 레이즈 + AI 다이 = 시스템 발동&quot;</td>
+</tr>
+<tr>
+<td><strong>광땡 첫 완성</strong></td>
+<td>&quot;🌟 광땡! K-Sutda 최강 족보 — 점수 ×10&quot;</td>
+</tr>
+<tr>
+<td><strong>명성치 위험 영역 첫 진입</strong></td>
+<td>&quot;⚠ 명성치 &lt; 0. 신중한 베팅 필요&quot;</td>
+</tr>
+<tr>
+<td><strong>명성치 임박 영역</strong></td>
+<td>&quot;⚠️ 게임오버 -50 명성치 남음&quot;</td>
+</tr>
+<tr>
+<td><strong>단계 5 첫 도달</strong></td>
+<td>&quot;🎯 5단계 — DEFENSIVE AI 등장. 신중하게 빠지는 상대&quot;</td>
+</tr>
+<tr>
+<td><strong>단계 7 첫 도달</strong></td>
+<td>&quot;🎭 7단계 — 블러프 마스터 탈춤 영감. 망통으로도 raise 합니다&quot;</td>
+</tr>
+<tr>
+<td><strong>단계 8 첫 도달</strong></td>
+<td>&quot;👑 8단계 — 전설의 마패 남궁천. 마지막 한 판&quot;</td>
+</tr>
+</tbody></table>
+<h3>2-2. Hint 디자인</h3>
+<pre><code>┌──────────────────────────────────────┐
+│ 💡 카드를 클릭하면 8명성치로          │
+│    재배분 가능                        │
+└──────────────────────────────────────┘
+화면 상단 중앙. 1.5~2초 후 자동 사라짐.
+배경: 한지 베이지 + alpha 0.85
+글자: 짙은 먹 16px
+</code></pre>
+<h3>2-3. Hint 빈도 제한</h3>
+<ul>
+<li>같은 hint 는 1회만 표시 (Save 에 기록)</li>
+<li>&quot;Hint 끄기&quot; 옵션 (Settings — 미래)</li>
+<li>매 런 새로 표시할지 / 영구 표시 X 결정 — 영구 (Save) 권장</li>
+</ul>
+<hr>
+<h2>3. Layer 3 — HelpInfo 정적 화면 (현재 구현)</h2>
+<h3>3-1. 현재 (Sprint 3.15)</h3>
+<p><code>scripts/ui/HelpInfo.gd</code> — RichText 정적 안내. 다음 섹션:</p>
+<ul>
+<li>2단계 베팅 흐름</li>
+<li>mulligan</li>
+<li>블러프</li>
+<li>명성치 한도</li>
+<li>점수 공식</li>
+<li>단계 진행</li>
+</ul>
+<h3>3-2. 강화 권장 (베타 후)</h3>
+<h4>3-2-1. 시각 / 일러스트 추가</h4>
+<pre><code>[현재 텍스트만]
+&quot;1차: 카드 1장 받기&quot;
+
+[강화]
+[일러스트: 카드 1장 face_up + 카드 1장 face_down 슬롯]
+&quot;1차: 카드 1장 받기 — 두 번째 카드는 가려져 있음&quot;
+</code></pre>
+<h4>3-2-2. 인터랙티브 데모 (옵션)</h4>
+<pre><code>&quot;콜 / 1차 레이즈 / 다이 의 차이를 직접 시도해 보세요&quot;
+[작은 mini-game 화면 — 가상 카드 + 버튼 3개]
+[클릭 → 결과 미리보기]
+</code></pre>
+<h4>3-2-3. 섹션 분할 (현재 한 페이지 → 탭)</h4>
+<pre><code>HelpInfo (TabContainer):
+├── [기본] — 2단계 베팅, 명성치, 단계
+├── [고급] — 블러프, 마패 시너지, mulligan 전략
+├── [캐릭터] — 8 보스 소개 (가벼운)
+└── [용어집] — 광/땡/끗/망통 등
+</code></pre>
+<h3>3-3. HelpInfo 도달 경로</h3>
+<ul>
+<li>MainMenu → 📖 게임 규칙 (현재)</li>
+<li>Board → 우상단 ? 버튼 (미래)</li>
+<li>Settings → 도움말 (미래)</li>
+<li>인앱 검색 (옵션, 미래)</li>
+</ul>
+<hr>
+<h2>4. 일러스트 / 비주얼 요소</h2>
+<h3>4-1. 튜토리얼 일러스트</h3>
+<p>각 단계 / Hint 옆에 작은 일러스트 (32×32 ~ 80×80):</p>
+<table>
+<thead>
+<tr>
+<th>컨텍스트</th>
+<th>일러스트</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>화투 카드 인지</td>
+<td>카드 1장 + 손가락 가리킴</td>
+</tr>
+<tr>
+<td>1차 베팅</td>
+<td>카드 1장 + 베팅 칩</td>
+</tr>
+<tr>
+<td>2차 베팅</td>
+<td>카드 2장 + 큰 베팅</td>
+</tr>
+<tr>
+<td>결과</td>
+<td>트로피 / 가면 (승/패)</td>
+</tr>
+<tr>
+<td>Mulligan</td>
+<td>카드 ↔ 카드 (교체)</td>
+</tr>
+<tr>
+<td>블러프 성공</td>
+<td>가면</td>
+</tr>
+<tr>
+<td>광땡</td>
+<td>두 광패 + 황금 글로우</td>
+</tr>
+<tr>
+<td>위험</td>
+<td>경고 표시</td>
+</tr>
+</tbody></table>
+<h3>4-2. HelpInfo 본문 일러스트</h3>
+<p>긴 텍스트 사이사이 일러스트 (300×200 정도):</p>
+<ul>
+<li>2단계 베팅 흐름도 (도식)</li>
+<li>점수 공식 (수식 시각화)</li>
+<li>단계 진행 (1~8 진행 도식)</li>
+<li>캐릭터 보스 8명 thumbnails</li>
+</ul>
+<p>→ 디자이너 작업 분량 추정: 일러스트 15~20장 (튜토리얼 + HelpInfo)</p>
+<hr>
+<h2>5. 카피 / 톤 — 도움말 어휘</h2>
+<h3>5-1. 톤</h3>
+<ul>
+<li><strong>친근 + 격조</strong> — &quot;안녕하세요!&quot; + &quot;...좋은 한 판 되시길!&quot;</li>
+<li><strong>명령형 적극</strong> — &quot;지금 [콜] 을 눌러 보세요&quot;</li>
+<li><strong>한국적</strong> — &quot;광 한 번 보세요&quot; / &quot;다이로 빠지세요&quot;</li>
+</ul>
+<h3>5-2. 핵심 어휘 일관 (10-localization §2 참조)</h3>
+<table>
+<thead>
+<tr>
+<th>도움말</th>
+<th>어휘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>베팅 액션</td>
+<td>콜 / 레이즈 / 올인 / 다이 (1차) / 폴드 (2차)</td>
+</tr>
+<tr>
+<td>손실 표현</td>
+<td>&quot;명성치 -5&quot; (정확) &gt; &quot;5 잃기&quot; (모호)</td>
+</tr>
+<tr>
+<td>승리 표현</td>
+<td>&quot;패 점수 × 마패 배수 = final score&quot; &gt; &quot;이긴다!&quot;</td>
+</tr>
+<tr>
+<td>위험 표현</td>
+<td>&quot;위험 영역 / 게임오버 임박&quot; &gt; &quot;조심!&quot;</td>
+</tr>
+</tbody></table>
+<h3>5-3. 한↔영 카피 예시</h3>
+<pre><code>[KO]
+&quot;💡 카드를 클릭하면 8명성치로 재배분 가능&quot;
+
+[EN]
+&quot;💡 Click a card to redraw (costs 8 prestige)&quot;
+</code></pre>
+<p>→ 10-localization 의 i18n 키에 도움말 카피도 포함.</p>
+<hr>
+<h2>6. 도움말 데이터 구조 (구현 제안)</h2>
+<h3>6-1. 튜토리얼 단계 (data/tutorial.json — 신규)</h3>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;T1&quot;,
+    &quot;title&quot;: &quot;화투 카드 인지&quot;,
+    &quot;body&quot;: &quot;안녕하세요! K-Sutda 에 오신 걸 환영합니다...&quot;,
+    &quot;spotlight&quot;: &quot;player_card_a&quot;,
+    &quot;next_action&quot;: &quot;click_next&quot;
+  },
+  {
+    &quot;id&quot;: &quot;T2&quot;,
+    &quot;title&quot;: &quot;1차 베팅&quot;,
+    &quot;body&quot;: &quot;K-Sutda 의 핵심은 2단계 베팅입니다...&quot;,
+    &quot;spotlight&quot;: &quot;betting_panel&quot;,
+    &quot;enable_only&quot;: [&quot;call_button&quot;],
+    &quot;next_action&quot;: &quot;click_call&quot;
+  },
+  ...
+]
+</code></pre>
+<h3>6-2. Hint 트리거 (data/hints.json — 신규)</h3>
+<pre><code class="language-json">{
+  &quot;first_mulligan_available&quot;: {
+    &quot;ko&quot;: &quot;💡 카드를 클릭하면 8명성치로 재배분 가능&quot;,
+    &quot;en&quot;: &quot;💡 Click a card to redraw (costs 8 prestige)&quot;,
+    &quot;icon&quot;: &quot;card_swap&quot;,
+    &quot;duration_s&quot;: 2.0
+  },
+  &quot;first_bluff_success&quot;: {
+    &quot;ko&quot;: &quot;🃏 블러프 성공! 약한 패 + 레이즈 + AI 다이 = 시스템 발동&quot;,
+    &quot;en&quot;: &quot;🃏 Bluff Success! Weak hand + raise + AI fold = bonus&quot;,
+    &quot;icon&quot;: &quot;mask&quot;,
+    &quot;duration_s&quot;: 2.5
+  },
+  ...
+}
+</code></pre>
+<h3>6-3. Hint 발동 기록 (SaveManager)</h3>
+<pre><code class="language-json">// user save:
+{
+  &quot;shown_hints&quot;: [
+    &quot;first_mulligan_available&quot;,
+    &quot;first_bluff_success&quot;
+  ]
+}
+</code></pre>
+<p>같은 hint 재발동 안 함.</p>
+<hr>
+<h2>7. 접근성 (도움말)</h2>
+<p>(09-accessibility 와 일관)</p>
+<ul>
+<li>모든 도움말 텍스트 14px 이상</li>
+<li>명도 대비 4.5:1</li>
+<li>사운드 효과에 시각 대안 (도움말도 시각 위주)</li>
+<li>키보드 네비 (Tab + Enter)</li>
+<li>Reduced Motion 시 spotlight / 펄스 즉시 (모션 X)</li>
+</ul>
+<hr>
+<h2>8. 도움말 작업 우선순위</h2>
+<h3>Tier 1 — 베타 직전</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> HelpInfo 화면 (Sprint 3.15 — 정적 RichText 완성)</li>
+<li><input disabled="" type="checkbox"> 컨텍스트 hint 5종 (필수: mulligan, 블러프, 위험 영역, 광땡, 단계 8)</li>
+<li><input disabled="" type="checkbox"> hint 발동 기록 (SaveManager)</li>
+</ul>
+<h3>Tier 2 — 베타 후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 첫 런 인터랙티브 튜토리얼 (T1~T5)</li>
+<li><input disabled="" type="checkbox"> 튜토리얼 일러스트 (15~20장)</li>
+<li><input disabled="" type="checkbox"> HelpInfo 섹션 분할 (탭)</li>
+<li><input disabled="" type="checkbox"> HelpInfo 일러스트 추가</li>
+</ul>
+<h3>Tier 3 — 폴리시</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 인터랙티브 데모 (HelpInfo 안)</li>
+<li><input disabled="" type="checkbox"> 인앱 검색 (도움말 키워드)</li>
+<li><input disabled="" type="checkbox"> 비디오 가이드 (옵션, 영상 작가)</li>
+</ul>
+<hr>
+<h2>9. 도움말 텍스트 단어 수 가이드</h2>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>단어 수</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>튜토리얼 단계 본문</td>
+<td>30<del>60자 (1</del>2 문장)</td>
+</tr>
+<tr>
+<td>컨텍스트 hint</td>
+<td>20자 이내</td>
+</tr>
+<tr>
+<td>HelpInfo 섹션</td>
+<td>200~400자 (1 화면)</td>
+</tr>
+<tr>
+<td>Hint 사운드</td>
+<td>0 (시각만)</td>
+</tr>
+</tbody></table>
+<p>→ 짧고 명확. 긴 설명 ❌.</p>
+<hr>
+<h2>10. 디자이너 ↔ 카피라이터 협업</h2>
+<h3>10-1. 카피라이터 작업 분량</h3>
+<ul>
+<li>튜토리얼 5단계 × 30<del>60자 = 150</del>300자</li>
+<li>Hint 10개 × 20자 = 200자</li>
+<li>HelpInfo 강화 본문 600~1200자</li>
+</ul>
+<p>→ 총 1000~1700자 정도 (한국어 + 영어 양쪽)</p>
+<h3>10-2. 디자이너 작업 분량</h3>
+<ul>
+<li>튜토리얼 일러스트 15~20장</li>
+<li>HelpInfo 일러스트 8~10장</li>
+<li>Tutorial Overlay / Spotlight 디자인 (1 컴포넌트)</li>
+</ul>
+<h3>10-3. 검증</h3>
+<ul>
+<li>P5 (캐주얼) 사용자 베타 — 튜토리얼 후 5분 안에 첫 라운드 완료?</li>
+<li>P2 (화투 친숙) — 추가 정보 없이 즐길 수 있나?</li>
+<li>P3 (글로벌) — 영문 자연스러운가?</li>
+</ul>
+<hr>
+<h2>11. 결론</h2>
+<pre><code>좋은 도움말 = 사용자가 도움말이 있다는 사실을 잊고 게임에 몰입.
+
+3-layer 구조:
+1. 첫 만남 — 인터랙티브 튜토리얼 (5분)
+2. 상황별 — 컨텍스트 hint (한 번씩 짧게)
+3. 학습 의지 — HelpInfo 화면 (언제든)
+
+목표: P5 (캐주얼) 가 5분 안에 첫 라운드 완료.
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>17-in-game-help.md</code>
+</div>
+</body>
+</html>

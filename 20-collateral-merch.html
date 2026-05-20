@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>K-Sutda — 콜라테랄 / 굿즈 가이드</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>K-Sutda — 콜라테랄 / 굿즈 가이드</h1>
+<blockquote>
+<p>인쇄물 / 굿즈 / 머천다이즈 / 명함 / 포스터. Steam Capsule 외 물리 마케팅 자산.</p>
+</blockquote>
+<hr>
+<h2>0. 콜라테랄 전략</h2>
+<h3>0-1. 우선순위</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>우선순위</th>
+<th>타이밍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>명함</strong></td>
+<td>🔴 즉시</td>
+<td>베타 전 — 컨퍼런스 / 외주 미팅</td>
+</tr>
+<tr>
+<td><strong>포스터 / 배너</strong></td>
+<td>🟡 베타</td>
+<td>게임쇼 / 인디 모임</td>
+</tr>
+<tr>
+<td><strong>스티커</strong></td>
+<td>🟡 베타</td>
+<td>인디 행사 / 굿즈</td>
+</tr>
+<tr>
+<td><strong>티셔츠</strong></td>
+<td>🟢 정식 출시</td>
+<td>굿즈 판매 / 직원·인플루언서</td>
+</tr>
+<tr>
+<td><strong>머그컵</strong></td>
+<td>🟢 정식 출시</td>
+<td>굿즈 / 한정판</td>
+</tr>
+<tr>
+<td><strong>카드 덱 (실물 화투)</strong></td>
+<td>🟢 한정판</td>
+<td>정식 출시 후 굿즈</td>
+</tr>
+<tr>
+<td><strong>아트북</strong></td>
+<td>🟢 장기</td>
+<td>1주년 또는 DLC 출시 시</td>
+</tr>
+<tr>
+<td><strong>사운드트랙 (CD/디지털)</strong></td>
+<td>🟢 장기</td>
+<td>정식 출시 후</td>
+</tr>
+</tbody></table>
+<h3>0-2. 굿즈 전략</h3>
+<ul>
+<li><strong>소량 / 한정판</strong> — 컬렉터 / 코어 사용자 대상</li>
+<li><strong>온라인 판매</strong> (BIGCARTEL / 자체 사이트 / Etsy) — 한국 + 글로벌</li>
+<li><strong>인디 행사 현장 판매</strong> — BIC (부산인디게임페스티벌) / PAX / TGS</li>
+<li><strong>인플루언서 / 스트리머 증정</strong> (P6 페르소나) — 자연 홍보</li>
+</ul>
+<hr>
+<h2>1. 명함 (Business Card)</h2>
+<h3>1-1. 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>사이즈</strong></td>
+<td>90 × 55 mm (한국 표준) / 85 × 55 mm (일본·국제)</td>
+</tr>
+<tr>
+<td><strong>종이</strong></td>
+<td>무광 220~300 g/m² (중급 두께)</td>
+</tr>
+<tr>
+<td><strong>인쇄</strong></td>
+<td>양면 컬러 (디지털 인쇄 또는 오프셋)</td>
+</tr>
+<tr>
+<td><strong>마감</strong></td>
+<td>무광 코팅 권장 (한국 도박판 무게감)</td>
+</tr>
+<tr>
+<td><strong>수량</strong></td>
+<td>100~500매 (외주 미팅 / 행사 대비)</td>
+</tr>
+</tbody></table>
+<h3>1-2. 디자인 — 앞면</h3>
+<pre><code>┌─────────────────────────────────────┐
+│                                     │
+│        K-SUTDA                      │ ← 로고 (금색)
+│        섯다 × 로그라이크 덱빌딩     │ ← 부제 (작게)
+│                                     │
+│        [개발자명] / Developer       │
+│        [이메일]                     │
+│        [Steam 페이지 URL or QR]     │
+│                                     │
+└─────────────────────────────────────┘
+배경: 짙은 먹 (#0D2619) 또는 한지 베이지
+</code></pre>
+<h3>1-3. 디자인 — 뒷면</h3>
+<pre><code>┌─────────────────────────────────────┐
+│                                     │
+│        [화투 카드 1장 일러스트]     │ ← 3월광 또는 8월광
+│                                     │
+│        &quot;광 한 번 보는 데            │
+│         인생을 건다.&quot;                │
+│                                     │
+└─────────────────────────────────────┘
+</code></pre>
+<p>또는 미니멀 — 한국 도장 (붉은 인장) 만.</p>
+<h3>1-4. 한국 / 영문 변형</h3>
+<ul>
+<li>한국 행사: 한글 메인 + 영문 보조</li>
+<li>글로벌 행사 (GDC / PAX): 영문 메인 + 한글 보조</li>
+<li>양면 분리: 앞 한글 / 뒤 영문</li>
+</ul>
+<hr>
+<h2>2. 포스터 / 배너</h2>
+<h3>2-1. A2 포스터 (인디 행사용)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>사이즈</strong></td>
+<td>A2 (420 × 594 mm) — 표준 인디 부스</td>
+</tr>
+<tr>
+<td><strong>해상도</strong></td>
+<td>300 DPI (인쇄 품질) — 디자인 시 4960 × 7016 px</td>
+</tr>
+<tr>
+<td><strong>종이</strong></td>
+<td>무광 200 g/m²</td>
+</tr>
+<tr>
+<td><strong>마감</strong></td>
+<td>무광 / 약간 두꺼움</td>
+</tr>
+</tbody></table>
+<h3>2-2. 디자인 — A2 포스터</h3>
+<pre><code>┌────────────────────────────────┐
+│                                │
+│        K-SUTDA                 │ ← 큰 로고 (200pt+)
+│                                │
+│                                │
+│   [메인 키 비주얼 일러스트]   │ ← 무명 + 광땡 (3월 + 8월 광)
+│   (60% 영역)                   │
+│                                │
+│                                │
+│   &quot;광 한 번 보는 데             │ ← 카피 (큰 사이즈)
+│    인생을 건다.&quot;                │
+│                                │
+│   섯다 × 로그라이크 덱빌딩      │
+│                                │
+│   [Steam] [App Store] [Google] │
+│   [QR 코드 — 게임 페이지]      │
+└────────────────────────────────┘
+</code></pre>
+<h3>2-3. 작은 배너 / 롤업 배너</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>사이즈</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>롤업 배너</strong> (행사 부스)</td>
+<td>850 × 2000 mm</td>
+</tr>
+<tr>
+<td><strong>테이블 톱 카드</strong></td>
+<td>100 × 150 mm</td>
+</tr>
+<tr>
+<td><strong>명함 사이즈 광고지</strong></td>
+<td>90 × 55 mm</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 스티커 (Sticker)</h2>
+<h3>3-1. 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>사이즈</strong></td>
+<td>75 × 75 mm (정사각) / 50 × 50 mm (작은)</td>
+</tr>
+<tr>
+<td><strong>모양</strong></td>
+<td>다이컷 (Die-cut) — 일러스트 윤곽</td>
+</tr>
+<tr>
+<td><strong>소재</strong></td>
+<td>PVC 비닐 (방수) 또는 유포지</td>
+</tr>
+<tr>
+<td><strong>수량</strong></td>
+<td>100~500매</td>
+</tr>
+</tbody></table>
+<h3>3-2. 디자인 — 5종 시리즈 (제안)</h3>
+<pre><code>1. K-Sutda 로고 (정사각, 50×50)
+2. 3월광 (벚꽃 + 만막)
+3. 8월광 (보름달 + 기러기)
+4. 광땡 (3월 + 8월 광 함께)
+5. 탈춤 영감 (양반탈, 가장 인기 예상 캐릭터)
+</code></pre>
+<p>→ 5종 1 세트, 인디 행사 / 굿즈로 판매 또는 무료 배포.</p>
+<h3>3-3. 디자인 원칙</h3>
+<ul>
+<li>단순 + 강한 시각 (작은 사이즈)</li>
+<li>흰색 외곽선 (대비 ↑)</li>
+<li>굿즈 패키지 — 5종 1팩 (브랜드 봉투)</li>
+</ul>
+<hr>
+<h2>4. 티셔츠 (T-shirt)</h2>
+<h3>4-1. 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>소재</strong></td>
+<td>100% 면 (16수 면, 두께감) — 한국 도박판 톤</td>
+</tr>
+<tr>
+<td><strong>색</strong></td>
+<td>검은색 메인 (먹 #0D2619 유사) + 한지 베이지 (옵션)</td>
+</tr>
+<tr>
+<td><strong>사이즈</strong></td>
+<td>S / M / L / XL / XXL</td>
+</tr>
+<tr>
+<td><strong>인쇄</strong></td>
+<td>실크스크린 또는 DTG (Direct to Garment)</td>
+</tr>
+<tr>
+<td><strong>위치</strong></td>
+<td>앞면 중앙 또는 가슴 작은 로고</td>
+</tr>
+</tbody></table>
+<h3>4-2. 디자인 — 4종 변형</h3>
+<pre><code>1. [클래식] 가슴 중앙 K-Sutda 로고 (금색)
+2. [캐릭터] 앞면 큰 탈춤 영감 / 남궁천 일러스트
+3. [카피] &quot;광 한 번&quot; 큰 텍스트 (서예 톤)
+4. [미니멀] 가슴 작은 로고 + 등 뒤 큰 카피
+</code></pre>
+<h3>4-3. 수량 / 가격</h3>
+<table>
+<thead>
+<tr>
+<th>수량</th>
+<th>단가 (예상, 한국 인쇄소)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100매</td>
+<td>12,000 원/매</td>
+</tr>
+<tr>
+<td>500매</td>
+<td>9,000 원/매</td>
+</tr>
+<tr>
+<td>1,000매</td>
+<td>7,500 원/매</td>
+</tr>
+</tbody></table>
+<p>→ 베타 직후 100매 (인플루언서 / 직원), 정식 출시 후 500매 (굿즈 판매).</p>
+<hr>
+<h2>5. 머그컵 / 머천다이즈</h2>
+<h3>5-1. 머그컵</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>종류</strong></td>
+<td>일반 머그 (350ml) / 한국 도자기 (옵션, 고급)</td>
+</tr>
+<tr>
+<td><strong>디자인</strong></td>
+<td>360도 둘러싸는 카드 흩어진 모티프 / 또는 큰 로고</td>
+</tr>
+<tr>
+<td><strong>수량</strong></td>
+<td>50~200개</td>
+</tr>
+</tbody></table>
+<h3>5-2. 한정판 머천다이즈 (정식 출시 / 1주년)</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>실물 화투 덱</strong></td>
+<td>40장 + 보스 8명 캐릭터 카드 — 컬렉터 한정판</td>
+</tr>
+<tr>
+<td><strong>아트북</strong></td>
+<td>40~80 페이지, 캐릭터 일러스트 + 개발 스토리</td>
+</tr>
+<tr>
+<td><strong>사운드트랙 LP</strong></td>
+<td>(드물게) 한국 인디 LP — 진짜 굿즈</td>
+</tr>
+<tr>
+<td><strong>OST USB</strong></td>
+<td>디지털 음원 + 케이스</td>
+</tr>
+<tr>
+<td><strong>포스터 + 스티커 세트</strong></td>
+<td>인디 행사 굿즈</td>
+</tr>
+</tbody></table>
+<h3>5-3. 가격 / 마진</h3>
+<ul>
+<li>굿즈는 적자도 OK (마케팅 측면)</li>
+<li>인디 게임은 굿즈로 큰 수익 X — 브랜드 인지도 / 충성도 강화 목적</li>
+</ul>
+<hr>
+<h2>6. 카드 덱 (실물 화투) — 한정판</h2>
+<h3>6-1. 컨셉</h3>
+<p>K-Sutda 의 화투 일러스트를 <strong>실물 화투 덱</strong> 으로 제작. 컬렉터 / 코어 사용자 한정판.</p>
+<h3>6-2. 사양</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>사양</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>카드 수</strong></td>
+<td>40장 (화투) + 8장 (보스 캐릭터 카드) = 48장</td>
+</tr>
+<tr>
+<td><strong>사이즈</strong></td>
+<td>표준 화투 사이즈 (50 × 75 mm)</td>
+</tr>
+<tr>
+<td><strong>소재</strong></td>
+<td>두꺼운 카드보드 + 무광 코팅</td>
+</tr>
+<tr>
+<td><strong>케이스</strong></td>
+<td>박스 (전통 화투 케이스 톤)</td>
+</tr>
+<tr>
+<td><strong>수량</strong></td>
+<td>100~500세트 (한정판)</td>
+</tr>
+</tbody></table>
+<h3>6-3. 가격</h3>
+<ul>
+<li>30,000~50,000원 / 세트 (한국)</li>
+<li>$30~50 USD (글로벌)</li>
+</ul>
+<h3>6-4. 판매</h3>
+<ul>
+<li>자체 사이트 (BIGCARTEL / Shopify)</li>
+<li>Steam 게임 페이지 링크</li>
+<li>인디 행사 (BIC 등)</li>
+<li>한정 → 매진 시 굿즈 가치 ↑</li>
+</ul>
+<hr>
+<h2>7. 디지털 굿즈 / 콘텐츠</h2>
+<h3>7-1. 데스크탑 배경 (Wallpaper)</h3>
+<pre><code>무료 다운로드 — 게임 페이지 / Discord:
+- 1920 × 1080 (Full HD)
+- 2560 × 1440 (QHD)
+- 3840 × 2160 (4K)
+- 모바일 1080 × 2400 (세로)
+
+이미지: 메인 키 비주얼 + 보스 8명 (8장)
+</code></pre>
+<h3>7-2. Discord / SNS 아이콘 / 배너</h3>
+<pre><code>무료 다운로드 / 자동 적용 가능:
+- Discord 프로필 아이콘 (512×512)
+- Discord 서버 부스트 아이콘
+- Twitter / X 프로필 아이콘 + 배너
+- Instagram / Threads 아이콘
+</code></pre>
+<h3>7-3. 사운드트랙 디지털 (Bandcamp / Spotify)</h3>
+<ul>
+<li>정식 출시 후 OST 디지털 발매</li>
+<li>12~15 트랙 (BGM 3 + 추가 편곡)</li>
+<li>가격: $5~10 USD</li>
+<li>무료 디지털 굿즈 (Steam 패키지 포함 가능)</li>
+</ul>
+<hr>
+<h2>8. 인쇄 / 제작 업체 (한국)</h2>
+<h3>8-1. 추천 업체</h3>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>업체</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>명함 / 포스터</strong></td>
+<td>인쇄나라 / 비즈하우스 / 컨버스카드</td>
+</tr>
+<tr>
+<td><strong>스티커</strong></td>
+<td>스티커몰 / 럭키프린트</td>
+</tr>
+<tr>
+<td><strong>티셔츠</strong></td>
+<td>슈프림 / TPSPRINT / 마플</td>
+</tr>
+<tr>
+<td><strong>머그컵 / 굿즈</strong></td>
+<td>마플 / 스냅스 / 굿즈마트</td>
+</tr>
+<tr>
+<td><strong>카드 덱</strong></td>
+<td>한국카드 / 일본 BICYCLE 외주</td>
+</tr>
+</tbody></table>
+<h3>8-2. 견적 / 납기</h3>
+<ul>
+<li>명함: 1주</li>
+<li>포스터: 1주</li>
+<li>스티커: 2주</li>
+<li>티셔츠: 2~3주</li>
+<li>카드 덱: 4<del>6주 (한국) / 8</del>12주 (외주)</li>
+</ul>
+<hr>
+<h2>9. 디자인 — 콜라테랄 공통</h2>
+<h3>9-1. 브랜드 일관성 (15-brand-identity)</h3>
+<ul>
+<li>로고 / 컬러 / 폰트 모두 brand-identity 준수</li>
+<li>한국 도박판 톤 유지 (가벼움 ❌)</li>
+<li>&quot;광 한 번 보는 데 인생을 건다&quot; 또는 짧은 카피</li>
+</ul>
+<h3>9-2. 인쇄 색 변환 (RGB → CMYK)</h3>
+<ul>
+<li>디지털 RGB (게임 내) → 인쇄 CMYK (콜라테랄)</li>
+<li>색이 다르게 보일 수 있음 — 실물 샘플로 검증</li>
+<li>금색 (#F3C72E) → CMYK 변환 시 약간 탁해짐 — Pantone 별색 옵션 (비싸짐)</li>
+</ul>
+<h3>9-3. 폰트 라이선스 (인쇄 사용)</h3>
+<ul>
+<li>Pretendard / KoPub바탕체 — 상업 인쇄 가능 (라이선스 확인)</li>
+<li>일부 폰트는 디지털만 가능 / 인쇄는 별도 라이선스</li>
+</ul>
+<hr>
+<h2>10. 굿즈 패키지 (디자이너 작업)</h2>
+<h3>10-1. 굿즈 봉투 / 박스</h3>
+<pre><code>[K-Sutda 굿즈 봉투]
+사이즈: 200 × 250 mm
+디자인:
+- 앞면: 로고 + 카드 흩어진 패턴
+- 뒷면: &quot;광 한 번&quot; 카피 + 게임 페이지 URL
+- 안쪽: 스티커 5장 + 카드 1~2장 (무료 증정용)
+</code></pre>
+<h3>10-2. 카드 덱 케이스</h3>
+<pre><code>[실물 화투 덱 박스]
+사이즈: 60 × 90 × 25 mm
+소재: 두꺼운 박스보드
+디자인:
+- 앞면: K-Sutda 로고 (금박)
+- 뒷면: 카피 + 발매 정보
+- 안쪽: 카드 48장 + 룰 설명서 (작은 책자)
+</code></pre>
+<h3>10-3. 가격표 / 라벨</h3>
+<pre><code>[굿즈 가격표]
+- 명함: 무료 (행사 배포)
+- 포스터: 5,000 ~ 10,000 원
+- 스티커 1팩 (5종): 5,000 원
+- 티셔츠: 25,000 원
+- 머그컵: 15,000 원
+- 카드 덱 한정판: 40,000 원
+- 아트북: 30,000 원
+</code></pre>
+<hr>
+<h2>11. 글로벌 굿즈 (영문권)</h2>
+<h3>11-1. 영문 패키지</h3>
+<ul>
+<li>카피 영문 변환 (&quot;One last hand&quot;)</li>
+<li>USD 가격</li>
+<li>영문 발송 라벨</li>
+<li>국제 배송 (FedEx / DHL)</li>
+</ul>
+<h3>11-2. 글로벌 굿즈 플랫폼</h3>
+<ul>
+<li><strong>Etsy</strong> — 인디 게임 굿즈 적합</li>
+<li><strong>BIGCARTEL</strong> — 인디 자체 사이트</li>
+<li><strong>Fangamer</strong> — 인디 게임 굿즈 전문 (수수료 있음, 큰 도달)</li>
+</ul>
+<h3>11-3. 한정판 / 글로벌</h3>
+<ul>
+<li>카드 덱 한정판 — 한국 100세트 + 글로벌 100세트</li>
+<li>한정판 일련번호 (#001 / 200 등) 새겨 가치 ↑</li>
+<li>사인본 (개발자 사인) 옵션</li>
+</ul>
+<hr>
+<h2>12. 디지털 / 물리 자산 통합</h2>
+<h3>12-1. Steam DLC — 사운드트랙 + 디지털 굿즈</h3>
+<pre><code>[Steam DLC: K-Sutda Soundtrack &amp; Art Pack]
+$9.99 USD / 12,000 원
+
+포함:
+- OST 디지털 (12 트랙 .mp3 / .flac)
+- 아트북 PDF (40 페이지)
+- Wallpaper 5종 (4K)
+- Steam 프로필 아바타 / 배지
+</code></pre>
+<p>→ 정식 출시 후 DLC.</p>
+<h3>12-2. 실물 굿즈 + 게임 코드 번들</h3>
+<pre><code>[K-Sutda Collector&#39;s Edition — 한정판]
+80,000 원 / $70 USD
+
+포함:
+- Steam 게임 코드
+- 실물 화투 덱 (48장 + 케이스)
+- 아트북 (40p)
+- 스티커 1팩
+- 캐릭터 일러스트 카드 (8 보스, A6)
+- 일련번호 사인
+</code></pre>
+<p>→ 정식 출시 1주년 / 한정 100세트.</p>
+<hr>
+<h2>13. 작업 우선순위</h2>
+<h3>Tier 1 — 즉시 (베타 직전)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 명함 (100매, 한국 인쇄)</li>
+<li><input disabled="" type="checkbox"> A2 포스터 시안 (행사 대비)</li>
+<li><input disabled="" type="checkbox"> 스티커 시안 (5종)</li>
+</ul>
+<h3>Tier 2 — 베타 직후</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 스티커 인쇄 (200매, 5종)</li>
+<li><input disabled="" type="checkbox"> 티셔츠 시안 (4종)</li>
+<li><input disabled="" type="checkbox"> 인디 행사 굿즈 패키지</li>
+</ul>
+<h3>Tier 3 — 정식 출시</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 티셔츠 인쇄 (100매)</li>
+<li><input disabled="" type="checkbox"> 머그컵 (50개)</li>
+<li><input disabled="" type="checkbox"> OST 디지털 발매 (Bandcamp / Spotify)</li>
+</ul>
+<h3>Tier 4 — 1주년 / 한정판</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 실물 화투 덱 (100세트 한정)</li>
+<li><input disabled="" type="checkbox"> 아트북 (200권)</li>
+<li><input disabled="" type="checkbox"> Collector&#39;s Edition (100세트)</li>
+</ul>
+<hr>
+<h2>14. 디자이너 협업</h2>
+<h3>14-1. 디자이너 작업 분량</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>시안</th>
+<th>양산</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>명함</td>
+<td>1 시안</td>
+<td>—</td>
+</tr>
+<tr>
+<td>포스터</td>
+<td>1~2 시안</td>
+<td>—</td>
+</tr>
+<tr>
+<td>스티커 5종</td>
+<td>5 시안</td>
+<td>—</td>
+</tr>
+<tr>
+<td>티셔츠 4종</td>
+<td>4 시안</td>
+<td>—</td>
+</tr>
+<tr>
+<td>머그컵 1~2종</td>
+<td>2 시안</td>
+<td>—</td>
+</tr>
+<tr>
+<td>카드 덱</td>
+<td>8 캐릭터 카드 + 케이스</td>
+<td>—</td>
+</tr>
+<tr>
+<td>굿즈 패키지</td>
+<td>봉투 / 박스 1 시안</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p>→ 총 25~30 시안 (모든 콜라테랄)</p>
+<h3>14-2. 인쇄 견적 / 발주</h3>
+<ul>
+<li>디자이너 → 인쇄 적합한 파일 형식 (PDF / AI / 300 DPI / CMYK)</li>
+<li>개발자 → 인쇄소 발주 / 결재 / 수령</li>
+</ul>
+<h3>14-3. 검증</h3>
+<ul>
+<li>실물 샘플 1~2개 받아 색 / 품질 확인</li>
+<li>양산 전 인쇄 PDF 최종 합의</li>
+</ul>
+<hr>
+<h2>15. 라이선스 / 저작권</h2>
+<ul>
+<li>모든 콜라테랄 디자인 = 게임 측 저작권 (work-for-hire)</li>
+<li>인쇄 시 폰트 라이선스 동봉 / 확인</li>
+<li>굿즈 판매 시 한국 사업자 등록 / 부가세 신고 필요</li>
+</ul>
+<hr>
+<h2>16. 결론</h2>
+<pre><code>콜라테랄 / 굿즈 = 디지털 게임을 물리 세계로 확장.
+
+K-Sutda 의 한국 정체성 + 도박판 톤이
+실물 굿즈에서 더 깊이 느껴짐.
+
+특히 실물 화투 덱은 한정판으로 가치 있는 굿즈.
+
+베타 직전: 명함 + 행사 대비 자료
+정식 출시 후: 본격 굿즈 판매
+1주년: 한정판 컬렉터 에디션
+</code></pre>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>20-collateral-merch.md</code>
+</div>
+</body>
+</html>
