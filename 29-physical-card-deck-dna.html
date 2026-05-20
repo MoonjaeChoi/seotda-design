@@ -1280,9 +1280,9 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>1</td>
-<td>마패 큐레이션 85장 최종 확정 (밸런스 검토 포함)</td>
-<td>기획</td>
+<td><del>1</del></td>
+<td><del>마패 큐레이션 85장 최종 확정</del></td>
+<td>✅ Part 5 확정</td>
 </tr>
 <tr>
 <td>2</td>
@@ -1317,6 +1317,638 @@
 </tbody></table>
 <hr>
 <p><em>방향 확정 완료 — <code>design-handoff/02-asset-spec.md</code> 에 물리 인쇄 사양 반영 필요</em></p>
+<hr>
+<h2>Part 5. 마패 큐레이션 확정 — 45장</h2>
+<blockquote>
+<p>화투 40장 + 마패 45장 = <strong>총 85장</strong><br>기준일: 2026-05-20</p>
+</blockquote>
+<h3>5-1. 큐레이션 원칙</h3>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>대표성</td>
+<td>8가지 effect_type 모두 포함</td>
+</tr>
+<tr>
+<td>교육 순서</td>
+<td>Common(단순) → Uncommon(조건) → Rare(강력한 조건) → Legendary(런 단위)</td>
+</tr>
+<tr>
+<td>조건 다양성</td>
+<td>무조건 / 승리 조건 / 족보 조건 / 행동 조건 / 주기 조건 고루 배치</td>
+</tr>
+<tr>
+<td>타이밍 분산</td>
+<td>T1~T6 모든 타이밍 포함</td>
+</tr>
+<tr>
+<td>보드게임 가독성</td>
+<td>효과 텍스트가 물리 카드 하단 밴드에서 읽힐 수 있는 복잡도 기준</td>
+</tr>
+</tbody></table>
+<p><strong>덱 구조:</strong></p>
+<ul>
+<li><strong>플레이어 획득 가능 덱</strong> (시장에서 구매): Common 14 + Uncommon 10 + Rare 8 + Legendary 7 = <strong>39장</strong></li>
+<li><strong>보스 전용 덱</strong> (보스가 사용, 플레이어 획득 불가): Boss 6장 = <strong>6장</strong></li>
+</ul>
+<hr>
+<h3>5-2. Common 14장</h3>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>ID</th>
+<th>타이밍</th>
+<th>effect_type</th>
+<th>인쇄 텍스트</th>
+<th>선정 이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>빠른 손</td>
+<td>ppareun_son</td>
+<td>T1</td>
+<td>mult_immediate</td>
+<td>매 판 시작 시 +1 배수</td>
+<td>앵커 카드 · 기본 배율 입문</td>
+</tr>
+<tr>
+<td>운수의 봉투</td>
+<td>unsoo_bongtu</td>
+<td>T1</td>
+<td>mult_immediate</td>
+<td>앤티 단계에서 패 점수 +3</td>
+<td>무조건 고배율 · 직관적</td>
+</tr>
+<tr>
+<td>행운의 패</td>
+<td>haeng_un_pae</td>
+<td>T2</td>
+<td>mult_immediate</td>
+<td>이긴 판 +3 배수</td>
+<td>승리 조건 배율 · 승리 개념 소개</td>
+</tr>
+<tr>
+<td>화로의 불씨</td>
+<td>hwaro_bulssi</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>매 판 승리 시 +0.5 누적</td>
+<td>앵커 카드 · 누적 배율 입문</td>
+</tr>
+<tr>
+<td>끈기의 띠</td>
+<td>kkeungi_tti</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>끗패로 이길 때마다 +1 배수 누적</td>
+<td>족보 조건 · 끗 전략 연결</td>
+</tr>
+<tr>
+<td>솔잎의 기운</td>
+<td>soljipe_giun</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>망통으로 이길 시 +2 누적</td>
+<td>망통 특화 · 특수 족보 시너지</td>
+</tr>
+<tr>
+<td>거친 손마디</td>
+<td>geochin_sonmadi</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>7끗 이상 승리 시 +1 누적</td>
+<td>고끗 전략 · 끗 분화</td>
+</tr>
+<tr>
+<td>직감의 떨림</td>
+<td>jikgame_tteollim</td>
+<td>T2</td>
+<td>info_reveal</td>
+<td>매 판 상대가 강패인지 약패인지 힌트</td>
+<td>단순 정보 공개 · 입문</td>
+</tr>
+<tr>
+<td>흘낏</td>
+<td>heulkkit</td>
+<td>T2</td>
+<td>info_reveal</td>
+<td>매 5판마다 상대 패 한 장 노출</td>
+<td>앵커 카드 · 주기 효과 소개</td>
+</tr>
+<tr>
+<td>손가락 끝의 감각</td>
+<td>songarakkkeut_gamgak</td>
+<td>T1</td>
+<td>deck_manipulation</td>
+<td>매 판 시작 시 카드 한 장 다시 뽑기 가능</td>
+<td>덱 조작 첫 소개</td>
+</tr>
+<tr>
+<td>나그네의 노자</td>
+<td>noroomggun_pundon</td>
+<td>T1</td>
+<td>economy</td>
+<td>매 판 시작 시 명성치 +2</td>
+<td>단순 명성 획득 · 경제 입문</td>
+</tr>
+<tr>
+<td>인색한 손</td>
+<td>insaek_han_son</td>
+<td>T3</td>
+<td>economy</td>
+<td>다이 시 명성치 +3</td>
+<td>폴드 경제 · 폴드 전략 소개</td>
+</tr>
+<tr>
+<td>허세의 불꽃</td>
+<td>heomchi_bul</td>
+<td>T3</td>
+<td>bluff_synergy</td>
+<td>허세 성공 시 그 판 +0.5 배수</td>
+<td>앵커 카드 · 블러프 시스템 소개</td>
+</tr>
+<tr>
+<td>눈치 배수</td>
+<td>nunchi_baesu</td>
+<td>T3</td>
+<td>info_reveal_and_mult</td>
+<td>2차 베팅에서 상대 패 1장 공개 + +0.4 배수</td>
+<td>복합 타입 유일 Common</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5-3. Uncommon 10장</h3>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>ID</th>
+<th>타이밍</th>
+<th>effect_type</th>
+<th>인쇄 텍스트</th>
+<th>선정 이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>패 읽는 눈</td>
+<td>pae_iknun</td>
+<td>T2</td>
+<td>mult_immediate</td>
+<td>내 패 확인 직후 +5 배수</td>
+<td>강력한 단순 배율 · 무조건</td>
+</tr>
+<tr>
+<td>승부사의 미소</td>
+<td>seungbusa_misso</td>
+<td>T3</td>
+<td>mult_immediate</td>
+<td>올인 후 +8 배수</td>
+<td>올인 전략 · 고위험 고보상</td>
+</tr>
+<tr>
+<td>봉황의 자취</td>
+<td>bonghwang_jachui</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>5판 연속 승리 시 +3 누적</td>
+<td>연승 도전 · 장기 보상</td>
+</tr>
+<tr>
+<td>광의 누적</td>
+<td>gwange_nujeok</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>광패로 이길 시 +2 누적</td>
+<td>광 전략 특화</td>
+</tr>
+<tr>
+<td>도전자의 기상</td>
+<td>dojeonja_gisang</td>
+<td>T1</td>
+<td>mult_accumulate</td>
+<td>단계 진입 시 +2 누적</td>
+<td>스테이지 구조 이해 유도</td>
+</tr>
+<tr>
+<td>천리안</td>
+<td>cheonrian</td>
+<td>T2</td>
+<td>info_reveal</td>
+<td>매 판 상대 패의 끗수 노출</td>
+<td>강화 정보 공개 · 전략 깊이</td>
+</tr>
+<tr>
+<td>패의 재편</td>
+<td>paee_jaepyeon</td>
+<td>T1</td>
+<td>deck_manipulation</td>
+<td>매 판 시작 시 덱 셔플 + 1장 교체</td>
+<td>앵커 카드 · 핵심 덱 조작</td>
+</tr>
+<tr>
+<td>큰 주머니</td>
+<td>keun_jumoni</td>
+<td>T6</td>
+<td>economy</td>
+<td>단계 클리어 시 명성치 +15</td>
+<td>스테이지 클리어 대형 보상</td>
+</tr>
+<tr>
+<td>누름 눈빛</td>
+<td>nureum_nunbit</td>
+<td>T2</td>
+<td>bluff_synergy</td>
+<td>허세 성공 시 그 판 +1.2 배수</td>
+<td>블러프 누적 강화</td>
+</tr>
+<tr>
+<td>청보대</td>
+<td>cheong_bo_dae</td>
+<td>T4</td>
+<td>info_reveal_and_mult</td>
+<td>2차 베팅 이후 상대 패 1장 공개 + +0.7 배수</td>
+<td>복합 타입 Uncommon</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5-4. Rare 8장</h3>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>ID</th>
+<th>타이밍</th>
+<th>effect_type</th>
+<th>인쇄 텍스트</th>
+<th>선정 이유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>승부의 기</td>
+<td>seungbu_ui_gi</td>
+<td>T4</td>
+<td>mult_immediate</td>
+<td>이긴 판 +10 배수</td>
+<td>강력 승리 배율 · Rare 임팩트</td>
+</tr>
+<tr>
+<td>땡 새벽</td>
+<td>ddaeng_saebyeok</td>
+<td>T5</td>
+<td>mult_immediate</td>
+<td>쇼다운에서 땡으로 승리 시 +8 배수</td>
+<td>땡 전문화 · 족보 특화 최고봉</td>
+</tr>
+<tr>
+<td>운명의 끈</td>
+<td>unmyeong_kkeun</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>매 판 후 +3 누적 (무조건)</td>
+<td>무조건 누적 · Rare 핵심</td>
+</tr>
+<tr>
+<td>전설의 손</td>
+<td>jeonseolui_son</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>광땡 승리 시 +10 누적</td>
+<td>최고 족보 payoff</td>
+</tr>
+<tr>
+<td>신의 눈</td>
+<td>sini_nun</td>
+<td>T2</td>
+<td>info_reveal</td>
+<td>매 판 상대 패 두 장 모두 노출</td>
+<td>완전 정보 · info_reveal 정점</td>
+</tr>
+<tr>
+<td>보물의 길</td>
+<td>bomulgi_gil</td>
+<td>T1</td>
+<td>economy</td>
+<td>1회/단계: 명성치 +50</td>
+<td>경제 핵심 · 단계별 대형 인컴</td>
+</tr>
+<tr>
+<td>마패의 웃음</td>
+<td>mapa_useum</td>
+<td>T3</td>
+<td>bluff_synergy</td>
+<td>허세 성공 시 그 판 +2.5 배수</td>
+<td>블러프 빌드 완성 카드</td>
+</tr>
+<tr>
+<td>운명의 패</td>
+<td>unmyeongui_pae</td>
+<td>T4</td>
+<td>deck_manipulation</td>
+<td>1회/런: 최하 족보가 최상 족보로 변환</td>
+<td>런 단위 덱 변환 · 극적 역전</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5-5. Legendary 7장 (전량)</h3>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>ID</th>
+<th>타이밍</th>
+<th>effect_type</th>
+<th>인쇄 텍스트</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>전설의 마패</td>
+<td>jeonseolui_mapa</td>
+<td>T1</td>
+<td>mult_accumulate</td>
+<td>이번 런 전체 모든 내재 효과 ×2</td>
+</tr>
+<tr>
+<td>무한 배수</td>
+<td>muhan_baesu</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>매 판 후 누적 배수 ×1.05 (영구 복리)</td>
+</tr>
+<tr>
+<td>천기누설</td>
+<td>cheongi_nuseol</td>
+<td>T1</td>
+<td>info_reveal</td>
+<td>이번 런 모든 정보 노출 (상대 패·시장·다음 패)</td>
+</tr>
+<tr>
+<td>광의 신</td>
+<td>gwange_sin</td>
+<td>T1</td>
+<td>deck_manipulation</td>
+<td>이번 런 모든 패가 광 효과 부여</td>
+</tr>
+<tr>
+<td>황금의 길</td>
+<td>hwangeumui_gil</td>
+<td>T1</td>
+<td>economy</td>
+<td>획득 시 1회: 명성치 +200</td>
+</tr>
+<tr>
+<td>천의 마패</td>
+<td>cheon_ui_mapa</td>
+<td>T4</td>
+<td>mult_immediate</td>
+<td>2차 베팅 이후 땡으로 승리 시 +18 배수</td>
+</tr>
+<tr>
+<td>불사의 손</td>
+<td>bulsaui_son</td>
+<td>T5</td>
+<td>mult_accumulate</td>
+<td>쇼다운 승리 후 +3.0 배수 영구 적립</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5-6. Boss 6장 (보스 전용 덱 — 플레이어 획득 불가)</h3>
+<table>
+<thead>
+<tr>
+<th>카드명</th>
+<th>ID</th>
+<th>타이밍</th>
+<th>effect_type</th>
+<th>인쇄 텍스트</th>
+<th>대응 보스</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>염주의 인내</td>
+<td>yeomju_inrye</td>
+<td>T2</td>
+<td>mult_immediate</td>
+<td>약패(망통~3끗) 시 ×2, 강패(장땡 이상) 시 ×3</td>
+<td>보스 1</td>
+</tr>
+<tr>
+<td>정보의 안경</td>
+<td>jeongbo_angyeong</td>
+<td>T2</td>
+<td>info_reveal_and_mult</td>
+<td>매 판 시작 시 상대 패 1장 정보 획득 + 자신 ×3.0</td>
+<td>보스 6</td>
+</tr>
+<tr>
+<td>양반탈의 가면</td>
+<td>yangban_tal</td>
+<td>T3</td>
+<td>mult_immediate</td>
+<td>베팅 시 망통/1끗이면 ×5 (블러프 일발)</td>
+<td>보스 5</td>
+</tr>
+<tr>
+<td>각시탈의 미소</td>
+<td>gakshi_tal</td>
+<td>T3</td>
+<td>psychological_pressure</td>
+<td>보스 raise 시 플레이어에게 칩 압박 표시 (실제 피해 없음)</td>
+<td>보스 7</td>
+</tr>
+<tr>
+<td>전설의 손†</td>
+<td>jeonseol_son</td>
+<td>T5</td>
+<td>mult_immediate</td>
+<td>패 공개 시 자신 최종 점수 ×2.5</td>
+<td>보스 8</td>
+</tr>
+<tr>
+<td>묵향의 호흡</td>
+<td>mukhyang_hohup</td>
+<td>T6</td>
+<td>mult_accumulate</td>
+<td>매 판 종료 후 자신 영구 +×0.5 누적</td>
+<td>보스 2</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>†주의: Rare 카드 &quot;전설의 손 (jeonseolui_son)&quot;과 동명이인. 인쇄 시 보스 카드에 <code>†</code> 표기 또는 부제 추가 필요.</p>
+</blockquote>
+<hr>
+<h3>5-7. 타이밍 분포</h3>
+<table>
+<thead>
+<tr>
+<th>타이밍</th>
+<th>수량</th>
+<th>포함 카드 예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1 (판 시작)</td>
+<td>11장</td>
+<td>빠른 손, 운수의 봉투, 나그네의 노자, 패의 재편, 보물의 길, 전설의 마패 외</td>
+</tr>
+<tr>
+<td>T2 (패 확인)</td>
+<td>9장</td>
+<td>행운의 패, 직감의 떨림, 흘낏, 패 읽는 눈, 천리안, 신의 눈 외</td>
+</tr>
+<tr>
+<td>T3 (베팅)</td>
+<td>7장</td>
+<td>인색한 손, 허세의 불꽃, 눈치 배수, 승부사의 미소, 마패의 웃음 외</td>
+</tr>
+<tr>
+<td>T4 (공개 전)</td>
+<td>4장</td>
+<td>승부의 기, 운명의 패, 청보대, 천의 마패</td>
+</tr>
+<tr>
+<td>T5 (족보 조건)</td>
+<td>3장</td>
+<td>땡 새벽, 불사의 손, 전설의 손(보스)</td>
+</tr>
+<tr>
+<td>T6 (판 종료)</td>
+<td>11장</td>
+<td>화로의 불씨, 끈기의 띠, 솔잎의 기운, 운명의 끈, 전설의 손(Rare), 큰 주머니 외</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5-8. effect_type 분포</h3>
+<table>
+<thead>
+<tr>
+<th>effect_type</th>
+<th>Common</th>
+<th>Uncommon</th>
+<th>Rare</th>
+<th>Legendary</th>
+<th>Boss</th>
+<th>합계</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mult_immediate</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td>mult_accumulate</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>4</td>
+<td>1</td>
+<td><strong>14</strong></td>
+</tr>
+<tr>
+<td>info_reveal</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td>deck_manipulation</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><strong>4</strong></td>
+</tr>
+<tr>
+<td>economy</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>bluff_synergy</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>info_reveal_and_mult</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>psychological_pressure</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>14</strong></td>
+<td><strong>10</strong></td>
+<td><strong>8</strong></td>
+<td><strong>7</strong></td>
+<td><strong>6</strong></td>
+<td><strong>45</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>psychological_pressure는 보스 전용 타입. 플레이어는 이 타입 카드를 획득 불가 — 보스전 긴장감 연출 전담.</p>
+</blockquote>
+<hr>
+<h3>5-9. 제외 카드 주요 사유</h3>
+<table>
+<thead>
+<tr>
+<th>제외 이유</th>
+<th>해당 카드 예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>동일 타입 중복 (더 대표적인 카드 선택)</td>
+<td>maehwa_innae, bom_innae, haki_chimchak, seungja_gi 등</td>
+</tr>
+<tr>
+<td>디지털 전용 조건 (물리 추적 어려움)</td>
+<td>puljipe_kkeungi (stage_clear 횟수 추적 필요), muhane_gil (10판 카운팅)</td>
+</tr>
+<tr>
+<td>보드게임 입문 복잡도 초과</td>
+<td>son_bbaelgi (덱 구조 깊은 이해 필요), dan_gye_songil</td>
+</tr>
+<tr>
+<td>동일 등급 내 유사 기능 포화</td>
+<td>gwanggun_sison, gwang_ui_bit (광 mult_immediate 중복)</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>Part 5 확정 완료 — 디자이너 작업 시 ID 기준으로 카드명 매핑할 것</em></p>
 <div class="doc-footer">
   K-Sutda — Design Handoff &middot; 원본 마크다운: <code>29-physical-card-deck-dna.md</code>
 </div>
