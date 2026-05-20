@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>30. 보스 8인 재설계 — 이름 · 원형 · 디자인</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #24292f;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --code-bg: #f6f8fa;
+    --table-stripe: #f6f8fa;
+    --quote-fg: #57606a;
+    --quote-border: #d0d7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #8b949e;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --code-bg: #161b22;
+      --table-stripe: #161b22;
+      --quote-fg: #8b949e;
+      --quote-border: #30363d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Segoe UI', 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--fg);
+    background: var(--bg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    font-size: 16px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.6em 0 0.6em;
+  }
+  h1 { font-size: 2em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.05em; color: var(--muted); }
+  p { margin: 0 0 1em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.6em; margin-bottom: 1em; }
+  li { margin-bottom: 0.3em; }
+  blockquote {
+    border-left: 4px solid var(--quote-border);
+    color: var(--quote-fg);
+    padding: 0.4em 1em;
+    margin: 0 0 1em;
+  }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+  code {
+    font-family: 'JetBrains Mono', 'D2Coding', SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.5;
+    position: relative;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.88em;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: opacity 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .copy-btn:hover { opacity: 1; }
+  .copy-btn.copied { background: #2da44e; }
+  table {
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--code-bg); font-weight: 700; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  img { max-width: 100%; height: auto; }
+  .doc-footer {
+    margin-top: 4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>30. 보스 8인 재설계 — 이름 · 원형 · 디자인</h1>
+<blockquote>
+<p>작성일: 2026-05-20<br>목적: 카드덱 게임에 어울리는 보스 8인 이름 및 디자인 전면 재구성<br>상태: <strong>확정</strong><br>관련 문서: <code>design-handoff/03-characters.md</code> (기존 보스), <code>design-handoff/29-physical-card-deck-dna.md</code> (물리 카드 DNA)</p>
+</blockquote>
+<hr>
+<h2>재설계 원칙</h2>
+<ol>
+<li><strong>타로 원형 × 한국 전통 신분</strong> 의 교점에서 각 보스를 정의한다.  </li>
+<li><strong>이름의 한자 의미가 게임 메커닉을 암시</strong>한다 — 이름을 보면 어떤 싸움인지 짐작할 수 있어야 한다.  </li>
+<li><strong>Stage 1→8 = 바보의 여정(Fool&#39;s Journey)</strong> — 플레이어는 8명을 꺾으며 단순한 노름꾼에서 전설이 된다.</li>
+</ol>
+<hr>
+<h2>진행 서사 아크</h2>
+<pre><code>[Stage 1–2]  세상의 시작
+  들쇠 → 나삼
+  무지한 힘 → 보이지 않는 지혜
+  &quot;강한 자가 이긴다&quot; → &quot;힘만으론 안 된다&quot;
+
+[Stage 3–4]  힘의 충돌
+  박황우 → 최치수
+  개인의 폭력 → 구조의 폭력
+  &quot;나를 이겨라&quot; → &quot;시스템을 이겨라&quot;
+
+[Stage 5–6]  지혜와 덫
+  묵언 선사 → 홍련
+  초월적 방어 → 정보의 함정
+  &quot;인내로 누른다&quot; → &quot;알고 있어서 이긴다&quot;
+
+[Stage 7]    혼돈의 연옥
+  오유
+  진짜와 가짜의 구분이 사라진다
+  여기까지 통한 전략이 모두 무의미해지는 순간
+
+[Stage 8]    운명의 완성
+  남궁천
+  Stage 1–7의 모든 것이 집약된 자
+  &quot;이기는 것이 진짜 시작&quot;
+</code></pre>
+<hr>
+<h2>보스 8인 상세</h2>
+<hr>
+<h3>Stage 1 — 들쇠 <em>동네 패왕</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>들쇠</strong> (野牛)</td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>들(野) + 쇠(鐵) — 들판의 거친 쇠붙이. 아직 제련되지 않은 힘.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>광대(0, The Fool)</strong> — 아무것도 모르면서 뛰어드는 순수한 도전자</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>한량</strong> — 부잣집 망나니, 이 동네에서 진 적 없는 자</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>BASIC</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>염주의 인내</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>20대 후반, 빛바랜 모시 도포</li>
+<li>허리춤에 노름돈 주머니가 축 늘어져 있음</li>
+<li>지푸라기를 입에 물고 있음 — 여유로운 척하지만 눈이 빠르다</li>
+<li>패를 볼 때만 지푸라기를 뱉음</li>
+</ul>
+<p><strong>성격:</strong> 자신감 넘치는 아마추어. 이 동네에서만 통하는 강함. 처음으로 지는 법을 모른다.</p>
+<p><strong>게임 메커닉:</strong> 특별한 방해 없음 — 플레이어가 기본 루프를 익히게 하는 교습형 보스.</p>
+<blockquote>
+<p><em>&quot;내가 이 판에서 진 적이 없어.&quot;</em><br><em>(패배 시)</em> <em>&quot;야이… 내가 왜 졌지?&quot;</em></p>
+</blockquote>
+<hr>
+<h3>Stage 2 — 나삼(羅三) <em>장터의 눈</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>나삼 (羅三)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>羅三 — &quot;세 겹의 그물&quot;. 어떤 패도 그물처럼 읽어낸다.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>여교황(2, The High Priestess)</strong> — 드러나지 않는 진리, 정보의 문지기</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>시장 점쟁이</strong> — 장터에서 물건도 팔고 패도 보는 정보의 중심</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>BASIC (정보 특화)</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>묵향의 호흡</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>50대 후반 여성, 노점 좌판 앞에 앉아 있음</li>
+<li>접힌 부채로 얼굴 반쯤 가림 — 표정을 읽을 수 없다</li>
+<li>손에 패물(貝物)이 가득 — 각각 노름판에서 딴 것들</li>
+<li>말수가 극히 적고 웃음도 없음</li>
+</ul>
+<p><strong>성격:</strong> 과묵하지만 한 마디 할 때마다 상대의 핵심을 찌른다. 플레이어의 패 패턴을 가장 먼저 파악하는 자.</p>
+<p><strong>게임 메커닉:</strong> 플레이어의 베팅 패턴을 분석해 약점을 공략. 처음으로 &quot;정보가 힘&quot;임을 체감하게 하는 보스.</p>
+<blockquote>
+<p><em>&quot;당신 패, 다 보여요.&quot;</em><br><em>(패배 시)</em> <em>&quot;허허… 오랜만에 내 그물이 뚫렸구나.&quot;</em></p>
+</blockquote>
+<hr>
+<h3>Stage 3 — 박황우(朴皇牛) <em>철패 타짜</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>박황우 (朴皇牛)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>朴(소박한 성씨) + 皇牛(황소) — 스스로를 황제라 여기는 황소. 직진뿐.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>전차(7, The Chariot)</strong> — 브레이크 없는 의지, 압박의 전진</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>전직 포졸</strong> — 심리전 없이 몸으로 굴복시키는 자</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>AGGRESSIVE</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>(없음 — 패턴 자체가 압박)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>30대, 단단한 체격, 짧게 자른 상투</li>
+<li>소매를 걷어올린 저고리 — 항상 싸울 준비</li>
+<li>주먹이 비정상적으로 크다 — 패를 잡는 것이 아니라 쥐는 것처럼 보임</li>
+<li>앉아도 위압감이 있다</li>
+</ul>
+<p><strong>성격:</strong> 분석하지 않는다. 압박한다. 생각할 시간을 주지 않는 것이 전략의 전부.</p>
+<p><strong>게임 메커닉:</strong> 쉬지 않고 raise, 올인 유도. 플레이어가 처음으로 &quot;시간 압박&quot;을 느끼게 함.</p>
+<blockquote>
+<p><em>&quot;생각 같은 거 필요 없어. 한 번에 끝내면 돼.&quot;</em><br><em>(패배 시)</em> <em>&quot;이게… 어떻게 된 거야.&quot;</em></p>
+</blockquote>
+<hr>
+<h3>Stage 4 — 최치수(崔治手) <em>사또 나리</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>최치수 (崔治手)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>崔(위엄 있는 성씨) + 治手 — &quot;다스리는 손&quot;. 판 자체를 장악하는 자.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>황제(4, The Emperor)</strong> — 절대 권력, 시스템 자체가 보스</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>탐관오리 사또</strong> — 법을 집행하지만 법 위에 있는 자</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>AGGRESSIVE (권력형)</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>(없음 — 패턴 자체가 구조적 압박)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>40대 초반, 관복(官服)과 관모(官帽) 착용</li>
+<li>손에 부채 — 펼치면 판단, 접으면 결정</li>
+<li>표정은 항상 지루하고 오만한 미소 — 이미 결과를 알고 있다는 표정</li>
+<li>뒤에는 항상 아랫사람(호위 또는 하인)이 대기</li>
+</ul>
+<p><strong>성격:</strong> 개인의 힘이 아니라 &quot;구조&quot;로 누른다. &quot;나를 이기는 것이 곧 질서에 대한 반항&quot;이라는 압박감.</p>
+<p><strong>게임 메커닉:</strong> 박황우보다 더 조직적인 올인 압박. 처음으로 &quot;개인 vs 시스템&quot;의 무게감을 체감하게 함.</p>
+<blockquote>
+<p><em>&quot;법이 나야. 내 판에선 내 규칙이 진리다.&quot;</em><br><em>(패배 시)</em> <em>&quot;감히… 이 몸을.&quot;</em></p>
+</blockquote>
+<hr>
+<h3>Stage 5 — 묵언 선사(默言 禪師) <em>침묵의 선사</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>묵언 선사 (默言 禪師)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>默言 — &quot;침묵이 곧 말이다&quot;. 선사(禪師)는 선불교 고승의 칭호. 말 없이 누르는 자.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>은둔자(9, The Hermit)</strong> + <strong>교황(5, The Hierophant)</strong> — 영적 권위, 침묵의 강함</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>선불교 고승</strong> — 움직이지 않아서 이기는 자</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>DEFENSIVE</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>양반탈의 가면 (Stage 5)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>60대, 해진 회색 가사(袈裟)</li>
+<li>닳고 닳은 흑단 염주 — 몇 겁을 살았는지 모를 광택</li>
+<li>눈을 반쯤 감고 있음 — 자고 있는지 깨어 있는지 모름</li>
+<li>손은 항상 무릎 위에 가지런히</li>
+<li>절대 서두르지 않음 — 숨소리조차 들리지 않는다</li>
+</ul>
+<p><strong>성격:</strong> 먼저 올인하지 않는다. 플레이어가 실수할 때까지 무한정 기다린다. 실수가 없으면 끝없이 기다린다.</p>
+<p><strong>게임 메커닉:</strong> 완벽한 수비. 플레이어가 &quot;방어가 최고의 공격&quot;임을 처음으로 뼈저리게 느끼게 함. 급하면 진다.</p>
+<blockquote>
+<p><em>&quot;기다림도 수행이다.&quot;</em><br><em>(패배 시)</em> <em>&quot;…잘 싸웠네.&quot;</em> (담담하게, 짧게)</p>
+</blockquote>
+<hr>
+<h3>Stage 6 — 홍련(紅蓮) <em>정보상</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>홍련 (紅蓮)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>紅蓮 — 붉은 연꽃. 진흙 속에서 피어나 아름답지만, 뿌리는 보이지 않는 곳에 있다.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>여교황(2) 역방위</strong> + <strong>악마(15, The Devil)</strong> — 정보 독점, 욕망의 구조화</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>기방 밀정</strong> — 기생 출신 정보 브로커. 판이 시작되기 전 패를 이미 안다.</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>DEFENSIVE (정보형)</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>정보의 안경 (Stage 6)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>30대 초반, 화려한 비단 저고리와 치마</li>
+<li>접힌 부채를 손에 들고 있음 — 펼치지 않는다</li>
+<li>눈화장이 짙고 눈매가 길다</li>
+<li>항상 미소를 짓고 있지만 눈은 끊임없이 계산 중</li>
+<li>손가락에 패물 반지 — 각 노름판에서 얻은 것들</li>
+</ul>
+<p><strong>성격:</strong> 나삼(Stage 2)보다 차원이 다른 정보전. 플레이어의 패를 일부 파악한 상태로 게임을 시작한다. &quot;불공정한 싸움&quot;을 처음 직면하게 하는 보스.</p>
+<p><strong>게임 메커닉:</strong> 정보의 안경으로 플레이어 패 일부 노출. &quot;완전한 정보 비대칭&quot;과 싸우는 법을 강제로 배우게 함.</p>
+<blockquote>
+<p><em>&quot;당신 패는 제가 이미 보고 있어요. 그래도 해보시겠어요?&quot;</em><br><em>(패배 시)</em> <em>&quot;…어머. 처음 있는 일이네요.&quot;</em></p>
+</blockquote>
+<hr>
+<h3>Stage 7 — 오유(烏遊) <em>백탈 광대</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>오유 (烏遊)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>烏遊 — &quot;까마귀처럼 노닌다&quot;. 까마귀는 죽음의 새이자 지혜의 새. 놀이처럼 심리전을 즐김.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>달(18, The Moon)</strong> — 환상과 불안, 진실과 거짓의 경계 붕괴</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>탈춤꾼</strong> — 진짜 얼굴을 아무도 본 적 없는 자</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>PSYCHOLOGICAL</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>각시탈의 미소 (Stage 7)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>나이 불명 — 볼 때마다 다르게 느껴진다</li>
+<li>흰 탈(白脫)을 항상 쓰고 있음 — 가장 표정 없는 탈이 가장 무섭다</li>
+<li>탈 아래 얼굴을 본 사람이 없다</li>
+<li>움직임이 춤추는 것 같다 — 앉아 있어도 흔들린다</li>
+<li>옷은 낡고 방랑자 같지만 패를 다루는 손은 정교하다</li>
+</ul>
+<p><strong>성격:</strong> 예측 불가. 강패일 때 fold하고 약패일 때 올인한다. &quot;가면이 진짜인가, 가면 뒤가 진짜인가&quot;를 끝까지 모르게 한다.</p>
+<p><strong>게임 메커닉:</strong> 각시탈의 미소로 심리적 압박. Stage 1–6까지 통한 모든 전략이 여기서 무의미해진다. 가장 예측 불가능한 보스.</p>
+<blockquote>
+<p><em>&quot;내가 진짜냐, 탈이 진짜냐. 넌 어느 쪽이랑 싸우고 싶냐?&quot;</em><br><em>(패배 시)</em> <em>(웃음 소리 — 탈 뒤에서)</em></p>
+</blockquote>
+<hr>
+<h3>Stage 8 — 남궁천(南宮天) <em>천하의 마패</em></h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>이름</td>
+<td><strong>남궁천 (南宮天)</strong></td>
+</tr>
+<tr>
+<td>이름 의미</td>
+<td>南宮天 — 남궁(南宮)은 도교에서 불사(不死)를 관장하는 곳. 天(하늘)처럼 거스를 수 없는 존재.</td>
+</tr>
+<tr>
+<td>타로 원형</td>
+<td><strong>세계(21, The World)</strong> + <strong>탑(16, The Tower)</strong> — 완성의 순환과 피할 수 없는 붕괴</td>
+</tr>
+<tr>
+<td>한국 원형</td>
+<td><strong>전설적 타짜</strong> — 살아있는 전설. 진 사람이 없다. 본 사람도 거의 없다.</td>
+</tr>
+<tr>
+<td>AI 패턴</td>
+<td>COMPLEX</td>
+</tr>
+<tr>
+<td>보스 마패</td>
+<td>전설의 손† (Stage 8)</td>
+</tr>
+</tbody></table>
+<p><strong>외형 디자인:</strong></p>
+<ul>
+<li>나이 불명 — 40대 같기도, 60대 같기도. 볼 때마다 다르게 느껴진다</li>
+<li>검은 두루마기, 백발</li>
+<li>눈이 금빛처럼 빛난다 — 패를 볼 때만 살짝 눈이 좁아진다</li>
+<li>움직임이 극도로 느리고 여유로움 — 서두른 적이 없는 사람</li>
+<li>패를 잡는 방식이 아름답다 — 마치 의식(儀式)처럼</li>
+</ul>
+<p><strong>성격:</strong> Stage 1–7의 모든 패턴이 하나로 합쳐진 자. 어느 판에서는 들쇠처럼, 어느 판에서는 오유처럼 행동한다. &quot;이 사람의 진짜 패턴이 무엇인지&quot; 끝까지 알 수 없다.</p>
+<p><strong>게임 메커닉:</strong> 각 판마다 이전 7보스의 패턴 중 하나를 무작위 구사. 판을 거듭할수록 전설의 손†의 배수가 쌓인다. 모든 것의 집약체.</p>
+<blockquote>
+<p><em>&quot;이미 끝난 일을 자네가 모를 뿐이야.&quot;</em><br><em>(패배 시)</em> <em>&quot;…오래 기다렸네. 자네 같은 사람을.&quot;</em></p>
+</blockquote>
+<hr>
+<h2>전체 비교표</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>신규 이름</th>
+<th>칭호</th>
+<th>타로 원형</th>
+<th>한국 원형</th>
+<th>AI 패턴</th>
+<th>핵심 대사</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>들쇠</strong></td>
+<td>동네 패왕</td>
+<td>광대(0)</td>
+<td>한량</td>
+<td>BASIC</td>
+<td>&quot;진 적이 없어&quot;</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>나삼(羅三)</strong></td>
+<td>장터의 눈</td>
+<td>여교황(2)</td>
+<td>시장 점쟁이</td>
+<td>BASIC+</td>
+<td>&quot;다 보여요&quot;</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>박황우(朴皇牛)</strong></td>
+<td>철패 타짜</td>
+<td>전차(7)</td>
+<td>전직 포졸</td>
+<td>AGGRESSIVE</td>
+<td>&quot;한 번에 끝내면 돼&quot;</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>최치수(崔治手)</strong></td>
+<td>사또 나리</td>
+<td>황제(4)</td>
+<td>탐관오리</td>
+<td>AGGRESSIVE+</td>
+<td>&quot;법이 나야&quot;</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>묵언 선사(默言 禪師)</strong></td>
+<td>침묵의 선사</td>
+<td>은둔자(9)+교황(5)</td>
+<td>선불교 고승</td>
+<td>DEFENSIVE</td>
+<td>&quot;기다림도 수행이다&quot;</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>홍련(紅蓮)</strong></td>
+<td>정보상</td>
+<td>여교황역+악마(15)</td>
+<td>기방 밀정</td>
+<td>DEFENSIVE+</td>
+<td>&quot;이미 보고 있어요&quot;</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>오유(烏遊)</strong></td>
+<td>백탈 광대</td>
+<td>달(18)</td>
+<td>탈춤꾼</td>
+<td>PSYCHOLOGICAL</td>
+<td>&quot;어느 쪽이랑 싸우고 싶냐&quot;</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>남궁천(南宮天)</strong></td>
+<td>천하의 마패</td>
+<td>세계(21)+탑(16)</td>
+<td>전설적 타짜</td>
+<td>COMPLEX</td>
+<td>&quot;이미 끝난 일이야&quot;</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>기존 vs 신규 변경 요약</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>기존</th>
+<th>신규</th>
+<th>핵심 변화</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>달삼이</td>
+<td><strong>들쇠</strong></td>
+<td>타로 광대 원형 → 순수한 도전자 서사 강화</td>
+</tr>
+<tr>
+<td>2</td>
+<td>오영자</td>
+<td><strong>나삼(羅三)</strong></td>
+<td>한자 이름으로 &quot;세 겹 그물&quot; 정보 상징 명확화</td>
+</tr>
+<tr>
+<td>3</td>
+<td>강도진</td>
+<td><strong>박황우(朴皇牛)</strong></td>
+<td>&quot;황소&quot; 이미지로 AGGRESSIVE 패턴 시각화</td>
+</tr>
+<tr>
+<td>4</td>
+<td>최강수</td>
+<td><strong>최치수(崔治手)</strong></td>
+<td>개인 강자 → 구조적 권력으로 격상</td>
+</tr>
+<tr>
+<td>5</td>
+<td>현묵 스님</td>
+<td><strong>묵언 선사(默言 禪師)</strong></td>
+<td>묵언(默言) 개념 — 침묵 자체가 무기</td>
+</tr>
+<tr>
+<td>6</td>
+<td>한채린</td>
+<td><strong>홍련(紅蓮)</strong></td>
+<td>기방 밀정 원형 + 진흙 속 연꽃 이중성</td>
+</tr>
+<tr>
+<td>7</td>
+<td>탈춤 영감</td>
+<td><strong>오유(烏遊)</strong></td>
+<td>까마귀+탈 이미지, 미지(未知)의 극대화</td>
+</tr>
+<tr>
+<td>8</td>
+<td>남궁천</td>
+<td><strong>남궁천</strong> <em>(개념 재정의)</em></td>
+<td>이름 유지, 도교 불사궁+전설 원형 강화</td>
+</tr>
+</tbody></table>
+<hr>
+<blockquote>
+<p>†주의: Rare 카드 &quot;전설의 손 (jeonseolui_son)&quot;과 Boss 카드 &quot;전설의 손 (jeonseol_son)&quot; 동명이인.<br>인쇄 또는 게임 표시 시 Boss 카드에 <code>†</code> 또는 부제 추가 필요.</p>
+</blockquote>
+<hr>
+<p><em>관련 작업: <code>design-handoff/03-characters.md</code> 외형 상세 · 대사 · 일러스트 스펙 업데이트 필요</em></p>
+<div class="doc-footer">
+  K-Sutda — Design Handoff &middot; 원본 마크다운: <code>30-boss-redesign.md</code>
+</div>
+<script>
+  // 영문 프롬프트 코드 블록에만 복사 버튼 부착
+  // 휴리스틱: [Motif] / Korean traditional Hwatu / Negative: 키워드 들어간 블록
+  (function() {
+    const PROMPT_MARKERS = ['[Motif]', 'Korean traditional Hwatu', 'Negative:'];
+    const isPrompt = (text) => PROMPT_MARKERS.some(m => text.includes(m));
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext !== false) {
+        try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      }
+      // fallback: execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      const text = (code ? code.textContent : pre.textContent) || '';
+      if (!isPrompt(text)) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = '📋 프롬프트 복사';
+      btn.addEventListener('click', async () => {
+        const ok = await copyToClipboard(text);
+        btn.textContent = ok ? '✅ 복사 완료' : '❌ 복사 실패';
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          btn.textContent = '📋 프롬프트 복사';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+</body>
+</html>
